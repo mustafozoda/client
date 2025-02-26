@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import logo from "../assets/ELTE.png";
 import Search from "../components/Search";
+import NotificationBox from "../components/NotificationBox";
+import UserInfo from "../components/UserInfo";
 const DropdownMenu = ({ isOpen, options, onClose }) => {
   return (
     isOpen && (
@@ -113,7 +115,10 @@ const Navbar = () => {
         <Search />
       </div>
 
-      <div className="flex-1 flex justify-end">sth</div>
+      <div className="flex-1 hover:maou items-center space-x-[20px] flex justify-end">
+        <NotificationBox />
+        <UserInfo size={22} style={{ color: "#6366f1" }} />
+      </div>
     </nav>
   );
 };

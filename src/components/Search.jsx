@@ -37,7 +37,7 @@ const Search = () => {
             recentSearches.map((item, index) => (
               <div
                 key={index}
-                className="p-2 rounded-lg hover:bg-[#2B2B2B] cursor-pointer"
+                className="p-2 rounded-lg  hover:bg-[#2B2B2B] cursor-pointer"
               >
                 {item}
               </div>
