@@ -5,6 +5,7 @@ const MachineList = () => {
     data: machines,
     isLoading: loading,
     isError: error,
+    refetch,
   } = useGetProducts();
 
   if (loading) return <p className="text-center mt-4">Loading machines...</p>;

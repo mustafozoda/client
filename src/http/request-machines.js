@@ -1,23 +1,25 @@
 import axios from "axios";
 
 export async function getMachines() {
+  console.log("hello");
+
   try {
-    const response = await axios.get(import.meta.env.VITE_BASE_ULR);
+    const response = await axios.get("http://localhost:3000/machines");
     return response.data;
   } catch (error) {
     if (error.response) {
       const { status } = error.response;
       if (status === 400) {
-        toast.error("Error: Invalid request. Please try again!");
+        console.error("Error: Invalid request. Please try again!");
       } else if (status === 404) {
-        toast.error("Error: Product not found. Please check again!");
+        console.error("Error: Product not found. Please check again!");
       } else if (status === 500) {
-        toast.error("Error: Server issue. Please try again later.");
+        console.error("Error: Server issue. Please try again later.");
       } else {
-        toast.error(`Error occurred: ${error.message}`);
+        console.error(`Error occurred: ${error.message}`);
       }
     } else {
-      toast.error("Network error: Please check your internet connection!");
+      console.error("Network error: Please check your internet connection!");
     }
 
     return [];
