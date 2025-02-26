@@ -61,7 +61,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[40px]  bg-[#171717] backdrop-blur-md text-gray-300 border-b border-[#2D2D2D]  z-50 flex items-center  space-x-[15px]">
+    <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[50px]  bg-[#171717] backdrop-blur-md text-gray-300 border-b border-[#2D2D2D]  z-50 flex items-center  space-x-[15px]">
       <div
         className="flex justify-start items-center flex-1 space-x-[10px]"
         ref={dropdownRef}

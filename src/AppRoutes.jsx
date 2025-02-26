@@ -12,7 +12,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Dashboard />} />
-      <Route path="/machines" element={<Machines />} />
+      {/* <Route path="/machines" element={<Machines />} /> */}
       <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
       <Route path="/issue-reports" element={<IssueReports />} />
       <Route path="/user-management" element={<UserManagement />} />

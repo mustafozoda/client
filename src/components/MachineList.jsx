@@ -1,7 +1,11 @@
 import React from "react";
-import { useMachines } from "../context/MachineContext";
+import { useGetProducts } from "../hooks/use-get-machines";
 const MachineList = () => {
-  const { machines, loading, error, refetch } = useMachines();
+  const {
+    data: machines,
+    isLoading: loading,
+    isError: error,
+  } = useGetProducts();
 
   if (loading) return <p className="text-center mt-4">Loading machines...</p>;
   if (error)
