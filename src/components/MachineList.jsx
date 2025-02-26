@@ -45,14 +45,13 @@ const MachineList = () => {
                   <td className="py-2 px-4">{machine.machine_id}</td>
                   <td className="py-2 px-4">{machine.name}</td>
                   <td className="py-2 px-4">{machine.status}</td>
-                  <td className="py-2 px-4    ">{machine.type}</td>
-                  <td className="py-2 px-4    ">{machine.last_maintenance}</td>
-                  <td className="py-2 px-4    ">
-                    {machine.next_maintenance_due}
+                  <td className="py-2 px-4">{machine.type}</td>
+                  <td className="py-2 px-4">{machine.last_maintenance}</td>
+                  <td className="py-2 px-4">{machine.next_maintenance}</td>
+                  <td className="py-2 px-4">
+                    {calculateDaysLeft(machine.next_maintenance)}
                   </td>
-                  <td className="py-2 px-4    ">
-                    {calculateDaysLeft(machine.next_maintenance_due)}
-                  </td>
+                  {console.log(machine.status)}
                 </tr>
               ))}
             </tbody>

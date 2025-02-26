@@ -43,7 +43,7 @@ export default function SkeletonLoader() {
             subheader={<Skeleton animation="wave" height={10} width="40%" />}
           />
           <Skeleton
-            sx={{ height: 150 }}
+            sx={{ height: 130 }}
             animation="wave"
             variant="rectangular"
           />

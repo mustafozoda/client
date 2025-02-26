@@ -3,6 +3,8 @@ import logo from "../assets/ELTE.png";
 import Search from "../components/Search";
 import NotificationBox from "../components/NotificationBox";
 import UserInfo from "../components/UserInfo";
+import Help from "../components/Help";
+import Setting from "../components/Setting";
 const DropdownMenu = ({ isOpen, options, onClose }) => {
   return (
     isOpen && (
@@ -61,7 +63,7 @@ const Navbar = () => {
   return (
     <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[40px]  bg-[#171717] backdrop-blur-md text-gray-300 border-b border-[#2D2D2D]  z-50 flex items-center  space-x-[15px]">
       <div
-        className="flex justify-start items-center flex-1 space-x-[5px]"
+        className="flex justify-start items-center flex-1 space-x-[10px]"
         ref={dropdownRef}
       >
         <div className="flex w-[30px] items-center space-x-[10px]">
@@ -69,7 +71,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className="bg- hover:bg-[#3B3B3B]  py-[2px] px-[10px] rounded transition"
+            className=" hover:bg-[#3B3B3B] bg-[#212121] py-[2px] px-[20px] rounded transition"
             onClick={() => toggleDropdown(1)}
             onMouseEnter={() => hasClicked && handleMouseEnter(1)}
           >
@@ -83,7 +85,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] py-[2px] px-[10px] rounded transition"
+            className=" hover:bg-[#3B3B3B] bg-[#212121] py-[2px] px-[20px]  rounded transition"
             onClick={() => toggleDropdown(2)}
             onMouseEnter={() => hasClicked && handleMouseEnter(2)}
           >
@@ -97,7 +99,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] py-[2px] px-[10px] rounded transition"
+            className=" hover:bg-[#3B3B3B] bg-[#212121] py-[2px] px-[20px]  rounded transition"
             onClick={() => toggleDropdown(3)}
             onMouseEnter={() => hasClicked && handleMouseEnter(3)}
           >
@@ -115,9 +117,11 @@ const Navbar = () => {
         <Search />
       </div>
 
-      <div className="flex-1 hover:maou items-center space-x-[20px] flex justify-end">
+      <div className="flex-1 hover:maou items-center space-x-[10px] flex justify-end">
         <NotificationBox />
-        <UserInfo size={22} style={{ color: "#6366f1" }} />
+        <Help />
+        <Setting />
+        <UserInfo />
       </div>
     </nav>
   );
