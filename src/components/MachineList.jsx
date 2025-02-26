@@ -2,7 +2,7 @@ import React from "react";
 import { useMachines } from "../context/MachineContext";
 
 const MachineList = () => {
-  const { machines, loading, error } = useMachines();
+  const { machines, loading, error, refetch } = useMachines();
 
   if (loading) return <p className="text-center mt-4">Loading machines...</p>;
   if (error)
@@ -22,6 +22,7 @@ const MachineList = () => {
           className="overflow-auto hide-scrollbar"
           style={{ maxHeight: "55vh" }}
         >
+          <button onClick={refetch}>Reload Machines</button>
           <table className="min-w-full bg-gray-800 text-white">
             <thead className="">
               <tr className="text-left">

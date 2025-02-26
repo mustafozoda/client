@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 
 export const MachineContext = createContext();
 
@@ -7,21 +14,35 @@ export const MachineProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch("http://192.168.200.171:3000/machines")
-      .then((res) => res.json())
-      .then((data) => {
-        setMachines(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+  const fetchMachines = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("http://localhost:3000/machines");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setMachines(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
+  useEffect(() => {
+    fetchMachines();
+  }, [fetchMachines]);
+
+  const contextValue = useMemo(
+    () => ({ machines, loading, error, refetch: fetchMachines }),
+    [machines, loading, error, fetchMachines]
+  );
+
   return (
-    <MachineContext.Provider value={{ machines, loading, error }}>
+    <MachineContext.Provider value={contextValue}>
       {children}
     </MachineContext.Provider>
   );
