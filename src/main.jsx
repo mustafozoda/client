@@ -7,9 +7,11 @@ import { BrowserRouter } from "react-router-dom";
 import { queryClient } from "./utils/reactQuery.js";
 
 createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </QueryClientProvider>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </QueryClientProvider>
+  </React.StrictMode>
 );
