@@ -1,10 +1,9 @@
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_BASE_URL;
 export async function getMachines() {
-  console.log("hello");
 
   try {
-    const response = await axios.get("http://localhost:3000/machines");
+    const response = await axios.get(API_URL + "/machines");
     return response.data;
   } catch (error) {
     if (error.response) {

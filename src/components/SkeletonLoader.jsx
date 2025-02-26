@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
+
 import CardMedia from "@mui/material/CardMedia";
 import PropTypes from "prop-types";
 import Avatar from "@mui/material/Avatar";
@@ -47,8 +48,8 @@ export default function SkeletonLoader() {
             animation="wave"
             variant="rectangular"
           />
-          <CardContent animation="wave">
-            <React.Fragment animation="wave">
+          <CardContent>
+            <React.Fragment>
               <Skeleton
                 animation="wave"
                 height={10}

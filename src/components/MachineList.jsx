@@ -56,7 +56,6 @@ const MachineList = () => {
                   <td className="py-2 px-4">
                     {calculateDaysLeft(machine.next_maintenance)}
                   </td>
-                  {console.log(machine.status)}
                 </tr>
               ))}
             </tbody>
