@@ -4,9 +4,9 @@ const Search = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [recentSearches] = useState([
-    "Equipment 1 Searched",
-    "Equipment 2 Searched",
-    "Equipment 3 Searched",
+    // "Equipment 1 Searched",
+    // "Equipment 2 Searched",
+    // "Equipment 3 Searched",
   ]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Search = () => {
       <input
         type="text"
         placeholder="Search equipment, work orders, & more"
-        className={`p-[5px] h-[30px] bg-[#212121] rounded-md transition-all duration-500 focus:outline-none focus:ring-[1px] focus:ring-[#2B2B2B] ${
+        className={`p-[10px] h-[30px] bg-[#212121] rounded-md transition-all duration-500 focus:outline-none focus:ring-[1px] focus:ring-[#2B2B2B] ${
           isFocused ? "w-[600px]" : "w-[400px]"
         }`}
         onFocus={() => setIsFocused(true)}

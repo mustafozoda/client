@@ -1,6 +1,5 @@
 import React from "react";
 import { useMachines } from "../context/MachineContext";
-
 const MachineList = () => {
   const { machines, loading, error, refetch } = useMachines();
 
@@ -16,14 +15,19 @@ const MachineList = () => {
     return daysLeft >= 0 ? daysLeft : 0;
   };
   return (
-    <div>
+    <div className="text-gray-300">
+      <button
+        className="bg-[#171717] py-[5px] px-[10px] rounded-md hover:bg-[#3B3B3B] mb-[10px]"
+        onClick={refetch}
+      >
+        Reload Machines
+      </button>
       {machines && machines.length > 0 ? (
         <div
           className="overflow-auto hide-scrollbar"
           style={{ maxHeight: "55vh" }}
         >
-          <button onClick={refetch}>Reload Machines</button>
-          <table className="min-w-full bg-gray-800 text-white">
+          <table className="min-w-full bg-gray-800 ">
             <thead className="">
               <tr className="text-left">
                 <th className="py-2  px-4   ">Machine ID</th>
@@ -55,7 +59,7 @@ const MachineList = () => {
           </table>
         </div>
       ) : (
-        <p className="text-gray-500">No machines available.</p>
+        <p className="text-center mt-4">No machines available</p>
       )}
     </div>
   );
