@@ -1,28 +1,26 @@
 import React from "react";
-
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
-
 import CardMedia from "@mui/material/CardMedia";
-import PropTypes from "prop-types";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
+// Update SkeletonLoader to accept `dark` as a prop
+export default function SkeletonLoader({ dark }) {
+  const theme = createTheme({
+    palette: {
+      mode: dark ? "dark" : "light",
+    },
+  });
 
-export default function SkeletonLoader() {
   return (
     <div className="w-[290px]">
-      <ThemeProvider theme={darkTheme} style={{}}>
+      <ThemeProvider theme={theme}>
         <Card sx={{ maxWidth: 300, m: 2 }}>
           <CardHeader
             avatar={

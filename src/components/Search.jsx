@@ -4,9 +4,9 @@ const Search = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [recentSearches] = useState([
-    // "Equipment 1 Searched",
-    // "Equipment 2 Searched",
-    // "Equipment 3 Searched",
+    "Equipment 1 Searched",
+    "Equipment 2 Searched",
+    "Equipment 3 Searched",
   ]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Search = () => {
             recentSearches.map((item, index) => (
               <div
                 key={index}
-                className="p-2 rounded-lg  hover:bg-[#2B2B2B] cursor-pointer"
+                className="p-1 rounded-lg  hover:bg-[#2B2B2B] cursor-pointer"
               >
                 {item}
               </div>

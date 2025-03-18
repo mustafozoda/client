@@ -63,7 +63,7 @@ const Navbar = () => {
   return (
     <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[50px]  bg-[#171717] backdrop-blur-md text-gray-300 border-b border-[#2D2D2D]  z-50 flex items-center  space-x-[15px]">
       <div
-        className="flex justify-start items-center flex-1 space-x-[10px]"
+        className="flex justify-start items-center p-0 m-0 flex-1 space-x-[10px]"
         ref={dropdownRef}
       >
         <div className="flex w-[30px] items-center space-x-[10px]">
@@ -71,11 +71,11 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] bg-[#212121] py-[2px] px-[20px] rounded transition"
+            className=" hover:bg-[#3B3B3B]  bg-[#212121] py-[2px] px-[20px] rounded transition"
             onClick={() => toggleDropdown(1)}
             onMouseEnter={() => hasClicked && handleMouseEnter(1)}
           >
-            Button 1
+            Button
           </button>
           <DropdownMenu
             isOpen={activeDropdown === 1}
@@ -89,7 +89,7 @@ const Navbar = () => {
             onClick={() => toggleDropdown(2)}
             onMouseEnter={() => hasClicked && handleMouseEnter(2)}
           >
-            Button 2
+            Button
           </button>
           <DropdownMenu
             isOpen={activeDropdown === 2}
@@ -103,7 +103,7 @@ const Navbar = () => {
             onClick={() => toggleDropdown(3)}
             onMouseEnter={() => hasClicked && handleMouseEnter(3)}
           >
-            Button 3
+            Button
           </button>
           <DropdownMenu
             isOpen={activeDropdown === 3}
