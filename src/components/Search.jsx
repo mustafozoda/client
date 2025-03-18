@@ -21,29 +21,29 @@ const Search = () => {
   }, [isFocused]);
 
   return (
-    <div className="relative text-gray-300">
+    <div className="relative">
       <input
         type="text"
         placeholder="Search equipment, work orders, & more"
-        className={`p-[10px] h-[30px] bg-[#212121] rounded-md transition-all duration-500 focus:outline-none focus:ring-[1px] focus:ring-[#2B2B2B] ${
+        className={`p-[10px] h-[30px] bg-[#FFFFFF] text-black dark:bg-[#212121] rounded-md transition-all duration-500 focus:outline-none focus:ring-[1px] focus:ring-black dark:focus:ring-[#2B2B2B] ${
           isFocused ? "w-[600px]" : "w-[400px]"
         }`}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
       {showDropdown && (
-        <div className="absolute left-0 mt-1 p-1 w-[600px] bg-[#212121]  rounded-b-md shadow-lg">
+        <div className="absolute left-0 mt-1 p-1 w-[600px] dark:bg-[#212121] bg-[#a1abae] rounded-b-md shadow-lg">
           {recentSearches.length > 0 ? (
             recentSearches.map((item, index) => (
               <div
                 key={index}
-                className="p-1 rounded-lg  hover:bg-[#2B2B2B] cursor-pointer"
+                className="p-1 rounded-lg  dark:hover:bg-[#2B2B2B] hover:bg-slate-300 cursor-pointer"
               >
                 {item}
               </div>
             ))
           ) : (
-            <div className="p-2 text-gray-500">No recent searches</div>
+            <div className="p-2 ">No recent searches</div>
           )}
         </div>
       )}

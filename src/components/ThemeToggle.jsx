@@ -18,7 +18,7 @@ const ThemeToggle = ({ setDark }) => {
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="p-2 flex items-center justify-center"
     >
-      {theme === "dark" ? <Sun color="gold" /> : <Moon color="white" />}
+      {theme === "dark" ? <Sun color="gold" /> : <Moon color="black" />}
     </button>
   );
 };

@@ -7,12 +7,6 @@ import Navbar from "./layout/Navbar";
 
 const App = () => {
   const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
-  console.log(dark);
-
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const isLoginPage = location.pathname === "/login";
 
   useEffect(() => {
     // Prevent Zooming
@@ -24,13 +18,11 @@ const App = () => {
         event.preventDefault();
       }
     };
-
     const preventScrollZoom = (event) => {
       if (event.ctrlKey) {
         event.preventDefault();
       }
     };
-
     document.addEventListener("keydown", preventZoomKeys);
     document.addEventListener("wheel", preventScrollZoom, { passive: false });
 
@@ -41,7 +33,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-[#F5F5F5] dark:bg-[#212121] overflow-hidden">
+    <div className="h-screen flex flex-col dark:text-gray-300  bg-[#a1abae] dark:bg-[#212121] overflow-hidden">
       <Navbar />
       <main className="flex flex-1">
         <Sidebar setDark={setDark} />

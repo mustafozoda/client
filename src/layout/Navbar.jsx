@@ -8,7 +8,7 @@ import Setting from "../components/Setting";
 const DropdownMenu = ({ isOpen, options, onClose }) => {
   return (
     isOpen && (
-      <div className="absolute p-[5px] left-0 mt-2 w-40 bg-[#212121] text-[#D1D5DB] rounded shadow-lg z-10">
+      <div className="absolute p-[5px] left-0 mt-2 w-40 dark:bg-[#212121] bg-[#a1abae]  rounded shadow-lg z-10">
         {options.map((option, index) => (
           <div>
             <div
@@ -61,7 +61,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[50px]  bg-[#171717] backdrop-blur-md text-gray-300 border-b border-[#2D2D2D]  z-50 flex items-center  space-x-[15px]">
+    <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[50px]  dark:bg-[#171717] bg-[#a1abae]  backdrop-blur-md  border-b border-[#d8d8d8] dark:border-[#2B2B2B]  z-50 flex items-center  space-x-[15px]">
       <div
         className="flex justify-start items-center p-0 m-0 flex-1 space-x-[10px]"
         ref={dropdownRef}
@@ -71,7 +71,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B]  bg-[#212121] py-[2px] px-[20px] rounded transition"
+            className=" hover:bg-[#3B3B3B] bg-[#FFFFFF] dark:bg-[#212121] py-[2px] px-[20px] rounded transition"
             onClick={() => toggleDropdown(1)}
             onMouseEnter={() => hasClicked && handleMouseEnter(1)}
           >
@@ -85,7 +85,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] bg-[#212121] py-[2px] px-[20px]  rounded transition"
+            className=" hover:bg-[#3B3B3B] bg-[#FFFFFF] dark:bg-[#212121] py-[2px] px-[20px]  rounded transition"
             onClick={() => toggleDropdown(2)}
             onMouseEnter={() => hasClicked && handleMouseEnter(2)}
           >
@@ -99,7 +99,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] bg-[#212121] py-[2px] px-[20px]  rounded transition"
+            className=" hover:bg-[#3B3B3B] bg-[#FFFFFF] dark:bg-[#212121] py-[2px] px-[20px]  rounded transition"
             onClick={() => toggleDropdown(3)}
             onMouseEnter={() => hasClicked && handleMouseEnter(3)}
           >
@@ -117,7 +117,7 @@ const Navbar = () => {
         <Search />
       </div>
 
-      <div className="flex-1 hover:maou items-center space-x-[10px] flex justify-end">
+      <div className="flex-1 hover:maou items-center  space-x-[10px] flex justify-end">
         <NotificationBox />
         <Help />
         <Setting />
