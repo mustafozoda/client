@@ -2,6 +2,8 @@ import { apiClient } from "./apiClient";
 
 export const fetchTasks = () => apiClient("/tasks");
 
+export const fetchTaskById = (id) => apiClient(`/tasks/${id}`);
+
 export const addTask = (task) =>
   apiClient("/tasks", { method: "POST", body: JSON.stringify(task) });
 
