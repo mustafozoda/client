@@ -25,7 +25,7 @@ const UserInfo = () => {
     <div className="relative" ref={dropdownRef}>
       {/* User Button */}
       <div
-        className="py-[2px]  px-[20px] rounded-md space-x-1 text-[18px] flex items-center justify-center h-[30px] bg-[#FFFFFF] dark:bg-[#212121] cursor-pointer text-green-600"
+        className="flex h-[30px] cursor-pointer items-center justify-center space-x-1 rounded-md bg-[#FFFFFF] px-[20px] py-[2px] text-[18px] text-green-600 transition-colors duration-300 ease-in-out dark:bg-[#212121]"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
         <UserRoundCog size={20} style={{ color: "#16a34a" }} />
@@ -34,9 +34,9 @@ const UserInfo = () => {
 
       {/* Dropdown Menu */}
       {isDropdownOpen && (
-        <div className="absolute right-0 p-[5px] mt-2 w-40 bg-[#a1abae] dark:bg-[#212121]  rounded shadow-lg z-10">
+        <div className="absolute right-0 z-10 mt-2 w-40 rounded bg-[#a1abae] p-[5px] shadow-lg dark:bg-[#212121]">
           <div
-            className="flex items-center py-[2px] px-[10px] rounded-sm hover:bg-[#0078D4] cursor-pointer"
+            className="flex cursor-pointer items-center rounded-sm px-[10px] py-[2px] hover:bg-[#0078D4]"
             onClick={() => navigate("/profile")}
           >
             <UserRoundCog size={16} className="mr-2 text-white" />
@@ -44,14 +44,14 @@ const UserInfo = () => {
           </div>
           <hr className="border-[#2D2D2D]" />
           <div
-            className="flex items-center py-[2px] px-[10px] rounded-sm hover:bg-[#0078D4] cursor-pointer"
+            className="flex cursor-pointer items-center rounded-sm px-[10px] py-[2px] hover:bg-[#0078D4]"
             onClick={() => navigate("/settings")}
           >
             <Settings size={16} className="mr-2 text-white" />
             Settings
           </div>
           <hr className="border-[#2D2D2D]" />
-          <div className="flex items-center py-[2px] px-[10px] rounded-sm hover:bg-[#EF4444] cursor-pointer">
+          <div className="flex cursor-pointer items-center rounded-sm px-[10px] py-[2px] hover:bg-[#EF4444]">
             <LogOut size={16} className="mr-2 text-white" />
             Log Out
           </div>

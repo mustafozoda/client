@@ -3,7 +3,7 @@ import Header from "../layout/Header";
 
 const MaintenanceLogs = () => {
   return (
-    <div className="flex-1 flex overflow-auto flex-col relative z-10">
+    <div className="relative z-10 flex flex-1 flex-col overflow-auto">
       <Header title="Maintenance Logs" />
       <div className="flex-1"></div>
     </div>

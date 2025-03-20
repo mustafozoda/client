@@ -8,10 +8,10 @@ const NotificationBox = ({}) => {
     unreadCount > 99 ? "99+" : unreadCount > 9 ? "9+" : unreadCount;
 
   return (
-    <div className="relative py-[2px] px-[25px] cursor-pointer rounded-md bg-[#FFFFFF] dark:bg-[#212121] h-[30px]   flex justify-center items-center">
-      <Bell size={22} className=" text-[#6366f1]   " />
+    <div className="relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#FFFFFF] px-[25px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]">
+      <Bell size={22} className="text-[#6366f1]" />
       {unreadCount > 0 && (
-        <span className="absolute -top-[9px]  right-[10px] flex items-center justify-center w-[10px] h-[30px] text-xs font-bold text-[#fb3131]  rounded-full">
+        <span className="absolute -top-[9px] right-[10px] flex h-[30px] w-[10px] items-center justify-center rounded-full text-xs font-bold text-[#fb3131]">
           {displayCount}
         </span>
       )}

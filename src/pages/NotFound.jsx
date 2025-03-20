@@ -5,13 +5,13 @@ import NotFoundImage from "../assets/404.png";
 
 const NotFound = () => {
   return (
-    <div className="flex-1 flex flex-col overflow-auto relative z-10 ">
+    <div className="relative z-10 flex flex-1 flex-col overflow-auto">
       <Header style="font-bold " title="404" />
-      <div className="flex flex-1 flex-col items-center justify-center  ">
+      <div className="flex flex-1 flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-gray-800">
           404 - Page Not Found
         </h1>
-        <p className="mt-4 text-lg text-gray-600 text-center">
+        <p className="mt-4 text-center text-lg text-gray-600">
           Oops! It seems that the page you're looking for doesn't exist.
         </p>
         <img
@@ -20,7 +20,7 @@ const NotFound = () => {
           className="mt-4 w-1/2 max-w-md"
         />
         <div className="mt-6 flex flex-col items-center">
-          <Link to="/" className="text-blue-600 hover:underline mb-2">
+          <Link to="/" className="mb-2 text-blue-600 hover:underline">
             Go Back to Homepage
           </Link>
           <Link to="/contact" className="text-blue-600 hover:underline">

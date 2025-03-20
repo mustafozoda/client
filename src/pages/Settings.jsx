@@ -1,11 +1,17 @@
 import React from "react";
 import Header from "../layout/Header";
+import ArticleCard from "../components/ArticleCard";
+import DateCalendarComponent from "../components/DateCalendarComponent";
 
 const Settings = () => {
   return (
-    <div className="flex-1 flex flex-col overflow-auto relative z-10">
+    <div className="relative z-10 flex flex-1 flex-col overflow-auto">
       <Header title="Settings" />
-      <div className="flex-1"></div>
+      <div className="flex flex-1 items-center justify-center">
+        <div className="rounded-[5px] bg-white">
+          <DateCalendarComponent />
+        </div>
+      </div>
     </div>
   );
 };

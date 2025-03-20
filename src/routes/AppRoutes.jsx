@@ -13,7 +13,7 @@ const AppRoutes = ({ dark }) => {
     <Routes>
       <Route path="/" element={<Overview />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/dashboard" element={<Dashboard dark={dark} />} />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/machines" element={<Machines />} />
       <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
       <Route path="/issue-reports" element={<IssueReports />} />

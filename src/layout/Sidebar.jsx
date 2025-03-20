@@ -62,12 +62,12 @@ const Sidebar = ({ setDark }) => {
   return (
     <>
       <motion.div
-        className={`relative z-10 transition-all duration-300 ease-in-out flex-shrink-0 ${
+        className={`relative z-10 flex-shrink-0 transition-all duration-300 ease-in-out ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
         animate={{ width: isSidebarOpen ? 256 : 77 }}
       >
-        <div className="h-full dark:bg-[#171717] bg-[#F9F9F9] backdrop-blur-md p-4 flex flex-col dark:border-r dark:border-[#2B2B2B]">
+        <div className="flex h-full flex-col bg-[#F9F9F9] p-4 backdrop-blur-md transition-colors duration-300 ease-in-out dark:border-r dark:border-[#2B2B2B] dark:bg-[#171717]">
           <nav className="flex-grow">
             {SIDEBAR_ITEMS.map((item) => {
               const isActive = location.pathname === item.href;
@@ -75,16 +75,20 @@ const Sidebar = ({ setDark }) => {
               return (
                 <Link key={item.href} to={item.href}>
                   <motion.div
-                    className={`flex items-center p-3 text-sm font-medium rounded-lg transition-colors mb-2 ${
+                    className={`mb-2 flex items-center rounded-lg p-3 text-[17px] transition-colors ${
                       isActive
-                        ? "bg-[#a1abae] dark:bg-[#212121]"
-                        : "dark:hover:bg-[#212121] hover:bg-[#a1abae]"
+                        ? "bg-[#a1abae] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
+                        : "transition-colors duration-300 ease-in-out hover:bg-[#a1abae] dark:hover:bg-[#212121]"
                     }`}
                     whileHover={{ x: 7 }}
                   >
                     <item.icon
                       size={20}
-                      style={{ color: item.color, minWidth: "20px" }}
+                      style={{
+                        color: item.color,
+                        minWidth: "20px",
+                        marginBottom: "7px",
+                      }}
                     />
                     <AnimatePresence>
                       {isSidebarOpen && (
@@ -93,7 +97,7 @@ const Sidebar = ({ setDark }) => {
                           initial={{ opacity: 0, width: 0 }}
                           animate={{ opacity: 1, width: "auto" }}
                           exit={{ opacity: 0, width: 0 }}
-                          transition={{ duration: 0.2, delay: 0.3 }}
+                          transition={{ duration: 0.3, delay: 0.3 }}
                         >
                           {item.name}
                         </motion.span>
@@ -114,7 +118,7 @@ const Sidebar = ({ setDark }) => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 rounded-full hover:bg-[#212121] transition-colors max-w-fit"
+            className="max-w-fit rounded-full p-2 transition-colors hover:bg-[#212121]"
           >
             {isSidebarOpen ? (
               <PanelLeftClose size={24} color="green" />

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles */
 .hide-scrollbar {
   overflow: auto;
   scrollbar-width: none;
@@ -9,4 +10,7 @@
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+.leaflet-control-attribution {
+  display: none !important;
 }

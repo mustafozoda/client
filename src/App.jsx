@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 
 import AppRoutes from "./routes/AppRoutes";
 import Sidebar from "./layout/Sidebar";
@@ -11,9 +10,14 @@ const App = () => {
   useEffect(() => {
     // Prevent Zooming
     const preventZoomKeys = (event) => {
+      console.log(event.key);
+
       if (
         event.ctrlKey &&
-        (event.key === "=" || event.key === "-" || event.key === "0")
+        (event.key === "=" ||
+          event.key === "-" ||
+          event.key === "0" ||
+          event.key === "+")
       ) {
         event.preventDefault();
       }
@@ -33,11 +37,11 @@ const App = () => {
   }, []);
 
   return (
-    <div className="h-screen flex flex-col dark:text-gray-300  bg-[#a1abae] dark:bg-[#212121] overflow-hidden">
+    <div className="flex h-screen flex-col overflow-hidden bg-[#a1abae] font-mono font-bold transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-gray-300">
       <Navbar />
       <main className="flex flex-1">
         <Sidebar setDark={setDark} />
-        <AppRoutes dark={dark} />
+        <AppRoutes />
       </main>
       {/* Background Effects */}
       <div className="fixed inset-0 -z-10 border border-[#2B2B2B]">

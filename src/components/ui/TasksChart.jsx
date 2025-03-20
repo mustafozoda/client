@@ -22,7 +22,7 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.45;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -74,7 +74,7 @@ const TasksChart = () => {
 
   if (data.length === 0) return <p>No tasks available for the chart</p>;
 
-  console.log("Fetched tasks:", tasks);
+  // console.log("Fetched tasks:", tasks);
 
   return (
     <div style={{ display: "flex", alignItems: "end" }}>
@@ -108,9 +108,9 @@ const TasksChart = () => {
             data={data}
             cx="50%"
             cy="50%"
-            labelLine={false}
+            labelLine={true}
             label={renderCustomizedLabel}
-            outerRadius={70}
+            outerRadius={75}
             fill="#8884d8"
             dataKey="value"
           >

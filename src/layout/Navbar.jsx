@@ -3,17 +3,17 @@ import logo from "../assets/ELTE.png";
 import Search from "../components/Search";
 import NotificationBox from "../components/NotificationBox";
 import UserInfo from "../components/UserInfo";
-import Help from "../components/Help";
 import Setting from "../components/Setting";
+import CalculatorUi from "../components/CalculatorUi";
 const DropdownMenu = ({ isOpen, options, onClose }) => {
   return (
     isOpen && (
-      <div className="absolute p-[5px] left-0 mt-2 w-40 dark:bg-[#212121] bg-[#a1abae]  rounded shadow-lg z-10">
+      <div className="absolute left-0 z-10 mt-2 w-40 rounded bg-[#a1abae] p-[5px] shadow-lg dark:bg-[#212121]">
         {options.map((option, index) => (
           <div>
             <div
               key={index}
-              className="py-[2px] px-[10px] rounded-sm hover:bg-[#0078D4] cursor-pointer"
+              className="cursor-pointer rounded-sm px-[10px] py-[2px] hover:bg-[#0078D4]"
               onClick={onClose}
             >
               {option}
@@ -61,9 +61,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 left-0 px-[22px]  font-mono w-full h-[50px]  dark:bg-[#171717] bg-[#a1abae]  backdrop-blur-md  border-b border-[#d8d8d8] dark:border-[#2B2B2B]  z-50 flex items-center  space-x-[15px]">
+    <nav className="left-0 top-0 z-50 flex h-[50px] w-full items-center space-x-[15px] border-b border-[#d8d8d8] bg-[#a1abae] px-[22px] backdrop-blur-md transition-colors duration-300 ease-in-out dark:border-[#2B2B2B] dark:bg-[#171717]">
       <div
-        className="flex justify-start items-center p-0 m-0 flex-1 space-x-[10px]"
+        className="m-0 flex flex-1 items-center justify-start space-x-[10px] p-0"
         ref={dropdownRef}
       >
         <div className="flex w-[30px] items-center space-x-[10px]">
@@ -71,7 +71,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] bg-[#FFFFFF] dark:bg-[#212121] py-[2px] px-[20px] rounded transition"
+            className="rounded bg-[#FFFFFF] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(1)}
             onMouseEnter={() => hasClicked && handleMouseEnter(1)}
           >
@@ -85,7 +85,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] bg-[#FFFFFF] dark:bg-[#212121] py-[2px] px-[20px]  rounded transition"
+            className="rounded bg-[#FFFFFF] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(2)}
             onMouseEnter={() => hasClicked && handleMouseEnter(2)}
           >
@@ -99,7 +99,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className=" hover:bg-[#3B3B3B] bg-[#FFFFFF] dark:bg-[#212121] py-[2px] px-[20px]  rounded transition"
+            className="rounded bg-[#FFFFFF] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(3)}
             onMouseEnter={() => hasClicked && handleMouseEnter(3)}
           >
@@ -113,13 +113,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex-1 w-full flex justify-center">
+      <div className="flex w-full flex-1 justify-center">
         <Search />
       </div>
 
-      <div className="flex-1 hover:maou items-center  space-x-[10px] flex justify-end">
+      <div className="hover:maou flex flex-1 items-center justify-end space-x-[10px]">
         <NotificationBox />
-        <Help />
+        <CalculatorUi />
         <Setting />
         <UserInfo />
       </div>

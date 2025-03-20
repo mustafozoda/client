@@ -3,10 +3,15 @@ export default {
 	content: [
 		"./index.html",
 		"./src/**/*.{js,ts,jsx,tsx}",
+		"./index.css",
 	],
 	darkMode: 'class',
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+
+			},
+		},
 		screens: {
 			sm: '640px',
 			md: '768px',

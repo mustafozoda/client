@@ -1,12 +1,10 @@
 import React from "react";
 import Header from "../layout/Header";
-import ShadowM from "../components/ShadowM";
 
-const Dashboard = ({ dark }) => {
+const Dashboard = () => {
   return (
-    <div className="flex-1 relative  z-10 flex flex-col">
+    <div className="relative z-10 flex flex-1 flex-col">
       <Header title="Dashboard" />
-      <ShadowM />
     </div>
   );
 };

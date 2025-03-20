@@ -22,7 +22,7 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.15;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -74,7 +74,7 @@ const MachineChart = () => {
 
   if (data.length === 0) return <p>No machines available for the chart</p>;
 
-  console.log("Fetched machines:", machines);
+  // console.log("Fetched machines:", machines);
 
   return (
     <div style={{ display: "flex", alignItems: "end" }}>
@@ -108,11 +108,13 @@ const MachineChart = () => {
             data={data}
             cx="50%"
             cy="50%"
-            labelLine={false}
+            labelLine={true}
             label={renderCustomizedLabel}
-            outerRadius={70}
+            outerRadius={75}
             fill="#8884d8"
             dataKey="value"
+            // blendStroke={true}
+            innerRadius={42}
           >
             {data.map((entry, index) => (
               <Cell

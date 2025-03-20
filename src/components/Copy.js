@@ -1,5 +1,5 @@
-export const handleCopy = (number) => {
-  const textToCopy = `${number}`;
+export const handleCopy = (clipboard) => {
+  const textToCopy = `${clipboard}`;
   navigator.clipboard.writeText(textToCopy)
     .then(() => {
       // alert("Text copied to clipboard!");  

@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
-const ThemeToggle = ({ setDark }) => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+import useThemeStore from "../store/useThemeStore";
 
+const ThemeToggle = () => {
+  const { theme, setTheme } = useThemeStore();
+
+  // Apply the theme change to the document on every theme change
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
-    setDark(theme === "dark");
-  }, [theme, setDark]);
+  }, [theme]);
 
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 flex items-center justify-center"
+      className="flex items-center justify-center p-2"
     >
       {theme === "dark" ? <Sun color="gold" /> : <Moon color="black" />}
     </button>
