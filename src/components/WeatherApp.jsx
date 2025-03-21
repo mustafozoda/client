@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-const APP_API_KEY = "6519c231c5bb4c8713e0e3fe3e709d6b";
-
 import clearr from "../assets/clearr.mp4";
 import clouds from "../assets/cloudy.mp4";
 import rain from "../assets/rainy.mp4";
 import snow from "../assets/snowy.mp4";
+import SkeletonLoader from "./SkeletonLoader";
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 const getBackgroundImage = (weatherMain) => {
   const backgrounds = {
@@ -68,47 +67,72 @@ const WeatherCard = ({ weatherData, forecast }) => {
     </div>
   );
 };
-
 const WeatherApp = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setLoading(true);
+
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         try {
           const { latitude, longitude } = position.coords;
 
-          // Fetch current weather
-          const weatherResponse = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${APP_API_KEY}&units=metric`,
+          const weatherResponse = axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
           );
 
-          // Fetch 5-day forecast
-          const forecastResponse = await axios.get(
-            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${APP_API_KEY}&units=metric`,
+          const forecastResponse = axios.get(
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
           );
 
-          setWeatherData(weatherResponse.data);
+          const [weatherData, forecastData] = await Promise.all([
+            weatherResponse,
+            forecastResponse,
+          ]);
 
-          // Process forecast data to get daily predictions
-          const dailyForecast = processForecast(forecastResponse.data.list);
+          setWeatherData(weatherData.data);
+
+          const dailyForecast = processForecast(forecastData.data.list);
           setForecast(dailyForecast);
+
+          setTimeout(() => {
+            setLoading(false);
+          });
         } catch (err) {
           setError("Failed to fetch weather data.");
+          setTimeout(() => {
+            setLoading(true);
+          });
         }
       },
-      () => setError("Location access denied."),
+      () => {
+        setError("Location access denied.");
+        setTimeout(() => {
+          setLoading(true);
+        });
+      },
     );
   }, []);
 
   return (
-    <div className="">
-      {weatherData ? (
+    <div className="h-full w-full">
+      {loading ? (
+        <div className="h-full w-full rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+          <SkeletonLoader
+            hideAvatar={false}
+            hideTitle={false}
+            hideSubheader={false}
+            hideContent={false}
+            hideRect={true}
+          />
+        </div>
+      ) : weatherData ? (
         <WeatherCard weatherData={weatherData} forecast={forecast} />
       ) : (
-        <p className="text-center text-red-600">{error || "Loading..."}</p>
+        <p className="text-center text-red-600">{error}</p>
       )}
     </div>
   );

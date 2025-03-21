@@ -4,7 +4,6 @@ import { ArrowBigRightDash, ArrowBigLeftDash } from "lucide-react";
 
 const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 const API_URL = `https://newsapi.org/v2/everything?q=technology+computer+science&apiKey=${API_KEY}`;
-
 const truncateText = (text, limit = 5) => {
   const words = text.split(" ");
   return words.length > limit ? words.slice(0, limit).join(" ") + "..." : text;
@@ -20,8 +19,21 @@ const ArticleCard = () => {
       setLoading(true);
 
       try {
-        if (!API_URL) throw new Error("API URL is missing");
+        const cachedData = localStorage.getItem("cachedArticles");
+        const cachedTime = Number(localStorage.getItem("cachedTime")); // Ensure it's a number
 
+        // Check if data exists and is fresh (e.g., within 1 hour)
+        if (
+          cachedData &&
+          cachedTime &&
+          Date.now() - cachedTime < 60 * 60 * 1000
+        ) {
+          setArticles(JSON.parse(cachedData));
+          setLoading(false); // Stop loading since cache is used
+          return;
+        }
+
+        // Fetch fresh data if no valid cache
         const response = await fetch(API_URL);
 
         if (response.status === 429) {
@@ -33,10 +45,13 @@ const ArticleCard = () => {
         const data = await response.json();
         if (data.status === "ok" && data.articles.length > 0) {
           setArticles(data.articles);
-          setLoading(false);
+          localStorage.setItem("cachedArticles", JSON.stringify(data.articles));
+          localStorage.setItem("cachedTime", Date.now().toString());
         } else {
           throw new Error("No articles found");
         }
+
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching articles:", error);
         setArticles([]);
@@ -45,7 +60,7 @@ const ArticleCard = () => {
     };
 
     fetchArticles();
-  }, []); // Empty dependency array makes it run once on mount
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -69,7 +84,7 @@ const ArticleCard = () => {
     <div className="relative mx-auto overflow-hidden">
       <div
         className="flex transition-transform duration-300 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * (100 / 2)}%)` }}
+        style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
       >
         {loading
           ? Array.from({ length: 10 }).map((_, index) => (

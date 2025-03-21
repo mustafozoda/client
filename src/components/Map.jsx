@@ -21,17 +21,14 @@ const Map = () => {
         setUserCoords({ latitude, longitude });
 
         if (!mapRef.current && mapContainerRef.current) {
-          // Initialize Leaflet map without zoom controls
           mapRef.current = L.map(mapContainerRef.current, {
-            zoomControl: false, // Removes + and - zoom controls
+            zoomControl: false,
           }).setView([latitude, longitude], 15);
 
-          // Add OpenStreetMap tiles without attribution
           L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "",
           }).addTo(mapRef.current);
 
-          // Add marker at user's location
           L.marker([latitude, longitude]).addTo(mapRef.current).openPopup();
         }
       },
@@ -54,7 +51,6 @@ const Map = () => {
       id={mapId}
       className="relative h-[15vh] rounded-lg border shadow-lg"
     >
-      {/* External link icon positioned at top-right */}
       <ExternalLink
         color="#0078D4"
         size={24}

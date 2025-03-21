@@ -6,6 +6,7 @@ import WeatherApp from "../components/WeatherApp";
 import ArticleCard from "../components/ArticleCard";
 import Map from "../components/Map";
 import FloatingButton from "../components/FloatingButton";
+import InActiveCnt from "../components/ui/InActiveCnt";
 
 const Overview = () => {
   return (
@@ -16,7 +17,9 @@ const Overview = () => {
         <div className="flex w-full items-center justify-center gap-7 p-[20px] px-[60px]">
           {/* Left section of the layout */}
           <div className="left-side grid h-full w-[45%] grid-cols-2 grid-rows-2">
-            <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
+            <div className="box1 m-[10px] flex items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+              {/* <InActiveCnt />  */}
+            </div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
@@ -35,7 +38,7 @@ const Overview = () => {
           <div className="w-3/4">
             <ArticleCard />
           </div>
-          <div className="flex h-fit w-1/4 flex-col gap-3 px-2 py-[8px]">
+          <div className="flex w-1/4 flex-col gap-3 px-2 py-[8px]">
             <div className="h-full w-full flex-1">
               <WeatherApp />
             </div>

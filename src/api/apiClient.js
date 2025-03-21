@@ -1,7 +1,7 @@
-const API_BASE_URL = "http://localhost:3000";
+const API = import.meta.env.VITE_BASE_API_URL;
 
 export const apiClient = async (endpoint, options = {}) => {
-  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const res = await fetch(`${API}${endpoint}`, {
     headers: { "Content-Type": "application/json" },
     ...options,
   });

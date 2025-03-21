@@ -1,24 +1,29 @@
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
+import useThemeStore from "./store/useThemeStore"; // ✅ Import Zustand store
 import AppRoutes from "./routes/AppRoutes";
 import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar";
 
 const App = () => {
-  const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
+  const { theme, setTheme } = useThemeStore(); // ✅ Zustand theme state
 
   useEffect(() => {
-    // Prevent Zooming
-    const preventZoomKeys = (event) => {
-      console.log(event.key);
+    // ✅ Apply dark mode class dynamically
+    document.documentElement.classList.toggle("dark", theme === "dark");
 
-      if (
-        event.ctrlKey &&
-        (event.key === "=" ||
-          event.key === "-" ||
-          event.key === "0" ||
-          event.key === "+")
-      ) {
+    // ✅ Sync theme with localStorage changes (for multiple tabs)
+    const syncTheme = () => setTheme(localStorage.getItem("theme") || "light");
+    window.addEventListener("storage", syncTheme);
+
+    return () => {
+      window.removeEventListener("storage", syncTheme);
+    };
+  }, [theme, setTheme]);
+
+  useEffect(() => {
+    // ✅ Prevent Zooming
+    const preventZoomKeys = (event) => {
+      if (event.ctrlKey && ["=", "-", "0", "+"].includes(event.key)) {
         event.preventDefault();
       }
     };
@@ -27,6 +32,7 @@ const App = () => {
         event.preventDefault();
       }
     };
+
     document.addEventListener("keydown", preventZoomKeys);
     document.addEventListener("wheel", preventScrollZoom, { passive: false });
 
@@ -40,7 +46,7 @@ const App = () => {
     <div className="flex h-screen flex-col overflow-hidden bg-[#a1abae] font-mono font-bold transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-gray-300">
       <Navbar />
       <main className="flex flex-1">
-        <Sidebar setDark={setDark} />
+        <Sidebar />
         <AppRoutes />
       </main>
       {/* Background Effects */}
