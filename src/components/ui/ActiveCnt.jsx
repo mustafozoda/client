@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "../SkeletonLoader";
 import { Copy } from "lucide-react";
 import { copyToClipboard } from "../../utils/copyUtils";
-const InActiveCnt = () => {
+const ActiveCnt = () => {
   const {
     data: machines,
     isLoading,
@@ -19,11 +19,11 @@ const InActiveCnt = () => {
   }
 
   const totalMachines = machines?.length || 0;
-  const machinesInActiveCnt =
-    machines?.filter((machine) => machine.status === "Inactive").length || 0;
+  const machinesActiveCnt =
+    machines?.filter((machine) => machine.status === "Active").length || 0;
 
-  const inactivePercentage = totalMachines
-    ? ((machinesInActiveCnt / totalMachines) * 100).toFixed(2)
+  const activePercentage = totalMachines
+    ? ((machinesActiveCnt / totalMachines) * 100).toFixed(2)
     : 0;
 
   return (
@@ -42,22 +42,22 @@ const InActiveCnt = () => {
         <div className="flex min-h-full min-w-full flex-col justify-between p-[10px]">
           <div className="flex min-h-full justify-between">
             <div>
-              <h1>Inactive Machines</h1>
+              <h1>Active Machines</h1>
               <span className="text-[42px] text-blue-500">
-                {machinesInActiveCnt}
+                {machinesActiveCnt}
               </span>
             </div>
             <div>
               <span className="cursor-pointer">
                 <Copy
-                  onClick={() => copyToClipboard(machinesInActiveCnt)}
+                  onClick={() => copyToClipboard(machinesActiveCnt)}
                   size={24}
                 />
               </span>
             </div>
           </div>
           <div className="h-full w-full">
-            <span>{inactivePercentage}% Inactive</span>
+            <span>{activePercentage}% Active</span>
           </div>
         </div>
       )}
@@ -65,8 +65,8 @@ const InActiveCnt = () => {
   );
 };
 
-export default InActiveCnt;
+export default ActiveCnt;
 
 // <div>Total Machines: {totalMachines}</div>
-//     <div>Inactive Machines: {machinesInActiveCnt}</div>
+//     <div>Inactive Machines: {machinesActiveCnt}</div>
 //     <div>Inactive Percentage: {inactivePercentage}%</div>

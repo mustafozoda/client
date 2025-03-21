@@ -118,10 +118,11 @@ const WeatherApp = () => {
   }, []);
 
   return (
-    <div className="h-full w-full">
+    <div className="">
       {loading ? (
-        <div className="h-full w-full rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+        <div className="overflow-hidden rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
           <SkeletonLoader
+            num_h={14.85}
             hideAvatar={false}
             hideTitle={false}
             hideSubheader={false}

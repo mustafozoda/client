@@ -3,7 +3,7 @@ import useThemeStore from "./store/useThemeStore"; // ✅ Import Zustand store
 import AppRoutes from "./routes/AppRoutes";
 import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar";
-
+import CopyAlertProvider from "./components/logic/CopyAlertProvider";
 const App = () => {
   const { theme, setTheme } = useThemeStore(); // ✅ Zustand theme state
 
@@ -54,6 +54,7 @@ const App = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-[#171717] via-[#000000] to-[#212121] opacity-20" />
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
+      <CopyAlertProvider />
     </div>
   );
 };

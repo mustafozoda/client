@@ -25,7 +25,7 @@ const UserInfo = () => {
     <div className="relative" ref={dropdownRef}>
       {/* User Button */}
       <div
-        className="flex h-[30px] cursor-pointer items-center justify-center space-x-1 rounded-md bg-[#FFFFFF] px-[20px] py-[2px] text-[18px] text-green-600 transition-colors duration-300 ease-in-out dark:bg-[#212121]"
+        className="flex h-[30px] cursor-pointer items-center justify-center space-x-1 rounded-md bg-[#a1abae] px-[20px] py-[2px] text-[18px] text-green-600 transition-colors duration-300 ease-in-out dark:bg-[#212121]"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
         <UserRoundCog size={20} style={{ color: "#16a34a" }} />

@@ -6,6 +6,7 @@ import { ExternalLink } from "lucide-react";
 const Map = () => {
   const mapRef = useRef(null);
   const mapContainerRef = useRef(null);
+  const markerRef = useRef(null);
   const [userCoords, setUserCoords] = useState(null);
   const mapId = "map-container";
 
@@ -29,7 +30,12 @@ const Map = () => {
             attribution: "",
           }).addTo(mapRef.current);
 
-          L.marker([latitude, longitude]).addTo(mapRef.current).openPopup();
+          markerRef.current = L.marker([latitude, longitude])
+            .addTo(mapRef.current)
+            .openPopup();
+        } else if (mapRef.current && markerRef.current) {
+          markerRef.current.setLatLng([latitude, longitude]);
+          mapRef.current.setView([latitude, longitude], 15);
         }
       },
       () => {

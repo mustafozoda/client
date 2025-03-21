@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TasksChart from "./TasksChart";
 import { fetchTasks } from "../../api/tasksApi";
-import { Copy } from "lucide-react";
-import { handleCopy } from "../../components/Copy";
-import Alert from "@mui/material/Alert";
 import SkeletonLoader from "../../components/SkeletonLoader"; // Make sure to import your SkeletonLoader component
+import { copyToClipboard } from "../../utils/copyUtils";
+import { Copy } from "lucide-react";
 
 const TasksCard = () => {
   const [alertVisible, setAlertVisible] = useState(false);
@@ -35,16 +34,7 @@ const TasksCard = () => {
     Low: tasks.filter((task) => task.priority === "Low").length,
   };
 
-  // Format the copied text
   const copiedText = `Urgent: ${taskCounts.Urgent} tasks\nHigh: ${taskCounts.High} tasks\nNormal: ${taskCounts.Normal} tasks\nLow: ${taskCounts.Low} tasks`;
-
-  const handleCopyAndShowAlert = () => {
-    handleCopy(copiedText);
-    setAlertVisible(true);
-    setTimeout(() => {
-      setAlertVisible(false);
-    }, 3000);
-  };
 
   return (
     <div className="flex h-full flex-col justify-between">
@@ -56,19 +46,7 @@ const TasksCard = () => {
           </span>
         </div>
         <div className="cursor-pointer">
-          <Copy size={30} onClick={handleCopyAndShowAlert} />
-          {alertVisible && (
-            <div
-              style={{
-                position: "fixed",
-                right: "10px",
-                bottom: "10px",
-                zIndex: 9999,
-              }}
-            >
-              <Alert severity="success">Copied to clipboard!</Alert>
-            </div>
-          )}
+          <Copy size={30} onClick={() => copyToClipboard(copiedText)} />
         </div>
       </div>
       <div>

@@ -7,20 +7,22 @@ import ArticleCard from "../components/ArticleCard";
 import Map from "../components/Map";
 import FloatingButton from "../components/FloatingButton";
 import InActiveCnt from "../components/ui/InActiveCnt";
+import ActiveCnt from "../components/ui/ActiveCnt";
 
 const Overview = () => {
   return (
-    <div className="z-10 flex flex-1 flex-col overflow-auto">
+    <div className="z-10 flex w-full flex-col overflow-auto">
       <Header title="Overview" />
       {/* <FloatingButton /> */}
       <div className="mx-auto flex h-screen w-[80vw] flex-1 flex-col items-center justify-start">
         <div className="flex w-full items-center justify-center gap-7 p-[20px] px-[60px]">
-          {/* Left section of the layout */}
           <div className="left-side grid h-full w-[45%] grid-cols-2 grid-rows-2">
-            <div className="box1 m-[10px] flex items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
-              {/* <InActiveCnt />  */}
+            <div className="m-[10px] flex items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+              <InActiveCnt />
             </div>
-            <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
+            <div className="m-[10px] flex items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+              <ActiveCnt />
+            </div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
           </div>
@@ -34,15 +36,15 @@ const Overview = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-full gap-[10px] px-[65px]">
-          <div className="w-3/4">
+        <div className="flex w-full items-center gap-[10px] px-[65px]">
+          <div className="h-full w-3/4">
             <ArticleCard />
           </div>
           <div className="flex w-1/4 flex-col gap-3 px-2 py-[8px]">
-            <div className="h-full w-full flex-1">
+            <div className="w-full flex-1">
               <WeatherApp />
             </div>
-            <div className="h-full w-full flex-1">
+            <div className="w-full flex-1">
               <Map />
             </div>
           </div>

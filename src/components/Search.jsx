@@ -25,7 +25,7 @@ const Search = () => {
       <input
         type="text"
         placeholder="Search equipment, work orders, & more"
-        className={`h-[30px] rounded-md bg-[#FFFFFF] p-[10px] text-black transition-all duration-300 focus:outline-none focus:ring-[1px] focus:ring-black dark:bg-[#212121] dark:focus:ring-[#2B2B2B] ${
+        className={`h-[30px] rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-0 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-[1px] focus:ring-black dark:bg-[#212121] dark:placeholder:text-gray-300 dark:focus:ring-[#2B2B2B] ${
           isFocused ? "w-[600px]" : "w-[400px]"
         }`}
         onFocus={() => setIsFocused(true)}

@@ -22,18 +22,16 @@ const ArticleCard = () => {
         const cachedData = localStorage.getItem("cachedArticles");
         const cachedTime = Number(localStorage.getItem("cachedTime")); // Ensure it's a number
 
-        // Check if data exists and is fresh (e.g., within 1 hour)
         if (
           cachedData &&
           cachedTime &&
           Date.now() - cachedTime < 60 * 60 * 1000
         ) {
           setArticles(JSON.parse(cachedData));
-          setLoading(false); // Stop loading since cache is used
+          setLoading(false);
           return;
         }
 
-        // Fetch fresh data if no valid cache
         const response = await fetch(API_URL);
 
         if (response.status === 429) {
@@ -81,20 +79,23 @@ const ArticleCard = () => {
   };
 
   return (
-    <div className="relative mx-auto overflow-hidden">
+    <div className="relative mx-auto h-full w-full overflow-hidden">
       <div
-        className="flex transition-transform duration-300 ease-in-out"
+        className="flex h-full w-full transition-transform duration-300 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
       >
-        {loading
-          ? Array.from({ length: 10 }).map((_, index) => (
-              <div key={index} className="px-2 py-[8px]">
-                <SkeletonLoader num_h={32} num_w={17.2} />
+        {!loading
+          ? Array.from({ length: 100 }).map((_, index) => (
+              <div key={index} className="h-[100%] min-w-[33%] px-2 py-[8px]">
+                <SkeletonLoader />
               </div>
             ))
           : articles.map((article, index) => (
-              <div key={index} className="cursor-pointer px-2 py-[8px]">
-                <div className="h-[32vh] w-[17.2vw] rounded-[5px] bg-white transition-transform duration-300 ease-in-out hover:scale-105 dark:bg-[#171717] dark:text-gray-300">
+              <div
+                key={index}
+                className="h-[100%] min-w-[33%] cursor-pointer px-2 py-[8px]"
+              >
+                <div className="h-full rounded-[5px] bg-white transition-transform duration-300 ease-in-out hover:scale-105 dark:bg-[#171717] dark:text-gray-300">
                   <img
                     src={article.urlToImage || "sth"}
                     alt="Image"
@@ -119,11 +120,12 @@ const ArticleCard = () => {
       </div>
 
       {/* Prev Button */}
+
       <ArrowBigLeftDash
         size={40}
         color="#007bff"
         onClick={goPrev}
-        className={`absolute left-0 top-1/2 -translate-y-1/2 transform cursor-pointer transition-opacity duration-300 hover:opacity-100 ${
+        className={`absolute left-0 top-1/2 -translate-y-1/2 transform cursor-pointer rounded-full bg-white transition-opacity duration-300 hover:opacity-100 dark:bg-black ${
           currentIndex === 0 ? "pointer-events-none opacity-0" : "opacity-50"
         }`}
       />
@@ -133,7 +135,7 @@ const ArticleCard = () => {
         size={40}
         color="#007bff"
         onClick={goNext}
-        className={`absolute right-0 top-1/2 -translate-y-1/2 transform cursor-pointer transition-opacity duration-300 hover:opacity-100 ${
+        className={`absolute right-0 top-1/2 -translate-y-1/2 transform cursor-pointer rounded-full bg-white transition-opacity duration-300 hover:opacity-100 dark:bg-black ${
           currentIndex >= articles.length - 3
             ? "pointer-events-none opacity-0"
             : "opacity-50"

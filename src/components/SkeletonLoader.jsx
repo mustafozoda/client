@@ -7,8 +7,6 @@ import Skeleton from "@mui/material/Skeleton";
 import useThemeStore from "../store/useThemeStore";
 
 export default function SkeletonLoader({
-  num_h,
-  num_w,
   hideAvatar = false,
   hideTitle = false,
   hideSubheader = false,
@@ -27,11 +25,18 @@ export default function SkeletonLoader({
     <ThemeProvider theme={themeMode}>
       <Card
         sx={{
-          height: num_h ? `${num_h}vh` : "auto",
-          width: num_w ? `${num_w}vw` : "auto",
           borderRadius: "5px",
           backgroundColor: theme === "dark" ? "#171717" : "white",
           transition: "background-color 0.3s ease",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          paddingY: "1px",
+          // alignItems: "start",
+          justifyContent: "center",
+          overflow: "hidden",
+          // paddingY: "1px",
         }}
         elevation={0}
       >
@@ -43,6 +48,7 @@ export default function SkeletonLoader({
                 variant="circular"
                 width={40}
                 height={40}
+                // paddingY: "1px"
               />
             )
           }
@@ -51,14 +57,14 @@ export default function SkeletonLoader({
               <Skeleton
                 animation="wave"
                 height={10}
-                width="80%"
+                width="100%"
                 style={{ marginBottom: 6 }}
               />
             )
           }
           subheader={
             !hideSubheader && (
-              <Skeleton animation="wave" height={10} width="40%" />
+              <Skeleton animation="wave" height={10} width="60%" />
             )
           }
         />
@@ -66,11 +72,22 @@ export default function SkeletonLoader({
           <Skeleton
             animation="wave"
             variant="rectangular"
-            sx={{ height: 110 }}
+            sx={{
+              flexGrow: 1,
+              width: "100%",
+              height: "100%",
+              marginBottom: "10px",
+            }}
           />
         )}
         {!hideContent && (
-          <CardContent>
+          <CardContent
+            sx={{
+              flexGrow: 1,
+              width: "100%",
+              paddingY: "0px",
+            }}
+          >
             <Skeleton
               animation="wave"
               height={10}

@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import MachineChart from "./MachineChart";
 import { fetchMachines } from "../../api/machinesApi";
-import { Copy } from "lucide-react";
-import { handleCopy } from "../../components/Copy";
-import Alert from "@mui/material/Alert";
 import SkeletonLoader from "../../components/SkeletonLoader";
+import { copyToClipboard } from "../../utils/copyUtils";
+import { Copy } from "lucide-react";
 
 const MachineCard = () => {
-  const [alertVisible, setAlertVisible] = useState(false);
-
   const {
     data: machines,
     isLoading,
@@ -39,14 +36,6 @@ const MachineCard = () => {
   // Format copied text
   const copiedText = `Active: ${machineCounts.Active} machines\nInactive: ${machineCounts.Inactive} machines\nMaintenance: ${machineCounts.Maintenance} machines\nOffline: ${machineCounts.Offline} machines`;
 
-  const handleCopyAndShowAlert = () => {
-    handleCopy(copiedText);
-    setAlertVisible(true);
-    setTimeout(() => {
-      setAlertVisible(false);
-    }, 3000);
-  };
-
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex items-start justify-between">
@@ -57,19 +46,7 @@ const MachineCard = () => {
           </span>
         </div>
         <div className="cursor-pointer">
-          <Copy size={30} onClick={handleCopyAndShowAlert} />
-          {alertVisible && (
-            <div
-              style={{
-                position: "fixed",
-                right: "10px",
-                bottom: "10px",
-                zIndex: 9999,
-              }}
-            >
-              <Alert severity="success">Copied to clipboard!</Alert>
-            </div>
-          )}
+          <Copy size={30} onClick={() => copyToClipboard(copiedText)} />
         </div>
       </div>
       <div>

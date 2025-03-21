@@ -61,7 +61,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="left-0 top-0 z-50 flex h-[50px] w-full items-center space-x-[15px] border-b border-[#d8d8d8] bg-[#a1abae] px-[22px] backdrop-blur-md transition-colors duration-300 ease-in-out dark:border-[#2B2B2B] dark:bg-[#171717]">
+    <nav className="left-0 top-0 z-50 flex h-[50px] w-full items-center space-x-[15px] border-b border-[#d8d8d8] bg-[#FFFFFF] px-[22px] backdrop-blur-md transition-colors duration-300 ease-in-out dark:border-[#2B2B2B] dark:bg-[#171717]">
       <div
         className="m-0 flex flex-1 items-center justify-start space-x-[10px] p-0"
         ref={dropdownRef}
@@ -71,7 +71,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className="rounded bg-[#FFFFFF] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
+            className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(1)}
             onMouseEnter={() => hasClicked && handleMouseEnter(1)}
           >
@@ -85,7 +85,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className="rounded bg-[#FFFFFF] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
+            className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(2)}
             onMouseEnter={() => hasClicked && handleMouseEnter(2)}
           >
@@ -99,7 +99,7 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className="rounded bg-[#FFFFFF] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
+            className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(3)}
             onMouseEnter={() => hasClicked && handleMouseEnter(3)}
           >
