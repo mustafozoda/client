@@ -1,7 +1,5 @@
 import { apiClient } from "./apiClient";
-
 export const fetchTasks = () => apiClient("/tasks");
-
 export const fetchTaskById = (id) => apiClient(`/tasks/${id}`);
 
 export const addTask = (task) =>

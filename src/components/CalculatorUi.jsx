@@ -4,13 +4,10 @@ import { motion } from "framer-motion";
 import CustomCalculator from "./CustomCalculator";
 
 const CalculatorUi = () => {
-  // State to control the visibility of the CustomCalculator
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
 
-  // Reference for detecting clicks outside the calculator
   const calculatorRef = useRef(null);
 
-  // Handle click outside to close the calculator
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -21,16 +18,13 @@ const CalculatorUi = () => {
       }
     };
 
-    // Add event listener for clicks outside
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  // Handle opening/closing the calculator
   const toggleCalculator = () => {
     setIsCalculatorOpen(!isCalculatorOpen);
   };
@@ -39,14 +33,13 @@ const CalculatorUi = () => {
     <div>
       <div
         onClick={toggleCalculator}
-        className="relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[25px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
+        className="relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
       >
-        <Calculator size={22} style={{ color: "#0088FF" }} />
+        <Calculator size={22} />
       </div>
 
       {isCalculatorOpen && (
         <motion.div
-          // ref={calculatorRef}
           className="fixed left-[41vw] -translate-x-1/2 -translate-y-1/2 transform shadow-lg"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}

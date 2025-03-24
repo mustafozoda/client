@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "../SkeletonLoader";
 import { Copy } from "lucide-react";
 import { copyToClipboard } from "../../utils/copyUtils";
+
 const InActiveCnt = () => {
   const {
     data: machines,
@@ -28,7 +29,8 @@ const InActiveCnt = () => {
 
   return (
     <div className="h-full w-full items-center justify-center">
-      {isLoading ? (
+      {/* Show SkeletonLoader if loading or if error occurred */}
+      {isLoading || error ? (
         <div className="flex h-full w-full items-center justify-center">
           <SkeletonLoader
             hideAvatar={false}
@@ -57,7 +59,7 @@ const InActiveCnt = () => {
             </div>
           </div>
           <div className="h-full w-full">
-            <span>{inactivePercentage}% Inactive</span>
+            <span className="text-red-600">{inactivePercentage}% Inactive</span>
           </div>
         </div>
       )}
@@ -66,7 +68,3 @@ const InActiveCnt = () => {
 };
 
 export default InActiveCnt;
-
-// <div>Total Machines: {totalMachines}</div>
-//     <div>Inactive Machines: {machinesInActiveCnt}</div>
-//     <div>Inactive Percentage: {inactivePercentage}%</div>

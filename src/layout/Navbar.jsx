@@ -66,7 +66,7 @@ const Navbar = () => {
         className="m-0 flex flex-1 items-center justify-start space-x-[10px] p-0"
         ref={dropdownRef}
       >
-        <div className="flex w-[30px] items-center space-x-[10px]">
+        <div className="flex w-[30px] items-center space-x-[10px] rounded-full bg-[#a1abae] dark:bg-[#212121]">
           <img src={logo} alt="logo-of-university" />
         </div>
         <div className="relative">

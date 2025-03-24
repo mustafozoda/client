@@ -8,9 +8,14 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 import { fetchMachines } from "../api/machinesApi";
 import Tooltip from "@mui/material/Tooltip";
+import useThemeStore from "../store/useThemeStore";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+  const theme = useThemeStore((state) => state.theme);
+  const isDarkMode = theme === "dark";
+
   const today = dayjs().startOf("day");
   const formattedHighlightedDays = highlightedDays.map((d) =>
     dayjs(d).startOf("day"),
@@ -23,6 +28,7 @@ function ServerDay(props) {
       ? "Today - Maintenance scheduled"
       : `${Math.abs(daysLeft)} days left - Maintenance scheduled`
     : "No maintenance scheduled";
+
   return (
     <Tooltip title={tooltipMessage} arrow>
       <Badge
@@ -41,14 +47,24 @@ function ServerDay(props) {
           {...other}
           outsideCurrentMonth={outsideCurrentMonth}
           day={day}
+          sx={{
+            color: isDarkMode
+              ? outsideCurrentMonth
+                ? "rgba(255,255,255,0.6)"
+                : "white"
+              : "black",
+          }}
         />
       </Badge>
     </Tooltip>
   );
 }
+
 export default function DateCalendarComponent({ cusWidth }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState([]);
+  const theme = useThemeStore((state) => state.theme);
+  const isDarkMode = theme === "dark";
 
   const fetchMaintenanceDays = () => {
     setIsLoading(true);
@@ -56,10 +72,6 @@ export default function DateCalendarComponent({ cusWidth }) {
       .then((machines) => {
         const maintenanceDays = machines.map((machine) => {
           const maintenanceDate = dayjs(machine.nextMaintenance).startOf("day");
-          // console.log(
-          //   "Maintenance Date:",
-          //   maintenanceDate.format("YYYY-MM-DD"),
-          // );
           return maintenanceDate;
         });
 
@@ -76,16 +88,55 @@ export default function DateCalendarComponent({ cusWidth }) {
     fetchMaintenanceDays();
   }, []);
 
+  // Custom theme to fix header and weekday colors and button styles
+  const customTheme = createTheme({
+    components: {
+      MuiPickersCalendarHeader: {
+        styleOverrides: {
+          root: {
+            color: isDarkMode ? "white" : "black", // Fix month label
+          },
+        },
+      },
+      MuiDayCalendar: {
+        styleOverrides: {
+          weekDayLabel: {
+            color: isDarkMode ? "white" : "black", // Fix Mon, Tue, Wed labels
+          },
+        },
+      },
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            color: isDarkMode ? "white" : "black", // Fix buttons (next/previous month buttons)
+          },
+        },
+      },
+    },
+  });
+
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar
-        defaultValue={dayjs().startOf("day")}
-        loading={isLoading}
-        onMonthChange={fetchMaintenanceDays}
-        renderLoading={() => <DayCalendarSkeleton />}
-        slots={{ day: ServerDay }}
-        slotProps={{ day: { highlightedDays } }}
-      />
-    </LocalizationProvider>
+    <ThemeProvider theme={customTheme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateCalendar
+          defaultValue={dayjs().startOf("day")}
+          loading={isLoading}
+          onMonthChange={fetchMaintenanceDays}
+          renderLoading={() => <DayCalendarSkeleton />}
+          slots={{ day: ServerDay }}
+          slotProps={{ day: { highlightedDays } }}
+          sx={{
+            color: isDarkMode ? "white" : "black",
+            "& .MuiPickersCalendarHeader-root, & .MuiDayCalendar-weekDayLabel":
+              {
+                color: isDarkMode ? "white" : "black", // Apply to header and weekdays
+              },
+            "& .MuiIconButton-root": {
+              color: isDarkMode ? "white" : "black", // Apply to buttons
+            },
+          }}
+        />
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 }

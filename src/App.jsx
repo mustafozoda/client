@@ -4,6 +4,7 @@ import AppRoutes from "./routes/AppRoutes";
 import Sidebar from "./layout/Sidebar";
 import Navbar from "./layout/Navbar";
 import CopyAlertProvider from "./components/logic/CopyAlertProvider";
+import GlobalModal from "./components/GlobalModal";
 const App = () => {
   const { theme, setTheme } = useThemeStore(); // ✅ Zustand theme state
 
@@ -55,6 +56,7 @@ const App = () => {
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
       <CopyAlertProvider />
+      <GlobalModal />
     </div>
   );
 };

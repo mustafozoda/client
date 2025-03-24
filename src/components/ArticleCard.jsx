@@ -84,7 +84,7 @@ const ArticleCard = () => {
         className="flex h-full w-full transition-transform duration-300 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
       >
-        {!loading
+        {loading
           ? Array.from({ length: 100 }).map((_, index) => (
               <div key={index} className="h-[100%] min-w-[33%] px-2 py-[8px]">
                 <SkeletonLoader />

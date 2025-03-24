@@ -8,12 +8,12 @@ import Map from "../components/Map";
 import FloatingButton from "../components/FloatingButton";
 import InActiveCnt from "../components/ui/InActiveCnt";
 import ActiveCnt from "../components/ui/ActiveCnt";
-
+import TasksStatusCnt from "../components/ui/TasksStatusCnt";
 const Overview = () => {
   return (
     <div className="z-10 flex w-full flex-col overflow-auto">
       <Header title="Overview" />
-      {/* <FloatingButton /> */}
+
       <div className="mx-auto flex h-screen w-[80vw] flex-1 flex-col items-center justify-start">
         <div className="flex w-full items-center justify-center gap-7 p-[20px] px-[60px]">
           <div className="left-side grid h-full w-[45%] grid-cols-2 grid-rows-2">
@@ -23,7 +23,9 @@ const Overview = () => {
             <div className="m-[10px] flex items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
               <ActiveCnt />
             </div>
-            <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
+            <div className="m-[10px] items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+              <TasksStatusCnt />
+            </div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
           </div>
 

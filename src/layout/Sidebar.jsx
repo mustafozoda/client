@@ -65,7 +65,7 @@ const Sidebar = ({ setDark }) => {
         className={`relative z-10 flex-shrink-0 transition-all duration-300 ease-in-out ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
-        animate={{ width: isSidebarOpen ? 256 : 77 }}
+        animate={{ width: isSidebarOpen ? 256 : 70 }}
       >
         <div className="flex h-full flex-col bg-[#F9F9F9] p-4 backdrop-blur-md transition-colors duration-300 ease-in-out dark:border-r dark:border-[#2B2B2B] dark:bg-[#171717]">
           <nav className="flex-grow">
@@ -75,7 +75,7 @@ const Sidebar = ({ setDark }) => {
               return (
                 <Link key={item.href} to={item.href}>
                   <motion.div
-                    className={`mb-2 flex items-center rounded-lg p-3 text-[17px] transition-colors ${
+                    className={`mb-2 flex items-center rounded-lg p-2 text-[17px] transition-colors ${
                       isActive
                         ? "bg-[#a1abae] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
                         : "transition-colors duration-300 ease-in-out hover:bg-[#a1abae] dark:hover:bg-[#212121]"
@@ -87,7 +87,6 @@ const Sidebar = ({ setDark }) => {
                       style={{
                         color: item.color,
                         minWidth: "20px",
-                        marginBottom: "7px",
                       }}
                     />
                     <AnimatePresence>
