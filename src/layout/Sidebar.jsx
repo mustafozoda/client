@@ -22,12 +22,6 @@ const Sidebar = ({ setDark }) => {
   const SIDEBAR_ITEMS = [
     { name: "Overview", icon: ChartArea, color: "#6366f1", href: "/" },
     {
-      name: "Dashboard",
-      icon: BarChart2,
-      color: "#6366f1",
-      href: "/dashboard",
-    },
-    {
       name: "Machines",
       icon: Wrench,
       color: "#6EE7B7",

@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
 import Machines from "../pages/Machines";
 import MaintenanceLogs from "../pages/MaintenanceLogs";
 import IssueReports from "../pages/IssueReports";
@@ -13,7 +12,6 @@ const AppRoutes = ({ dark }) => {
     <Routes>
       <Route path="/" element={<Overview />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/machines" element={<Machines />} />
       <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
       <Route path="/issue-reports" element={<IssueReports />} />

@@ -1,25 +1,18 @@
 import { create } from "zustand";
 
-// Ensure theme is set on initial load
-const getStoredTheme = () => {
-  const storedTheme = localStorage.getItem("theme");
-  return storedTheme || "light";
-};
+// Retrieve stored theme or default to "light"
+const getStoredTheme = () => localStorage.getItem("theme") || "light";
 
-const useThemeStore = create((set) => {
-  const theme = getStoredTheme();
+const useThemeStore = create((set) => ({
+  theme: getStoredTheme(),
+  setTheme: (newTheme) => {
+    set({ theme: newTheme });
+    localStorage.setItem("theme", newTheme);
 
-  // Apply the theme immediately to avoid flickering
-  document.documentElement.classList.toggle("dark", theme === "dark");
-
-  return {
-    theme,
-    setTheme: (newTheme) => {
-      set({ theme: newTheme });
-      localStorage.setItem("theme", newTheme);
-      document.documentElement.classList.toggle("dark", newTheme === "dark");
-    },
-  };
-});
+    // Apply the theme globally
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(newTheme);
+  },
+}));
 
 export default useThemeStore;
