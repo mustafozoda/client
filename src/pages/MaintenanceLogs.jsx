@@ -6,9 +6,7 @@ const MaintenanceLogs = () => {
   return (
     <div className="relative z-10 flex flex-1 flex-col overflow-auto">
       <Header title="Maintenance Logs" />
-      <div className="h-full w-4/5 flex-1">
-        <MaintenanceChart />
-      </div>
+      <div className="h-full w-4/5 flex-1"></div>
     </div>
   );
 };

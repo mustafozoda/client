@@ -1,17 +1,20 @@
 import { useState } from "react";
 import useAuthStore from "../store/useAuthStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const { login, user } = useAuthStore();
+  const navigate = useNavigate(); // for redirection after successful login
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(email, password);
+      // After successful login, navigate to /overview
+      navigate("/");
     } catch (err) {
       setError("Invalid email or password");
     }

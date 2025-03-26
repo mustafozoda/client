@@ -6,22 +6,14 @@ import UserManagement from "../pages/UserManagement";
 import Settings from "../pages/Settings";
 import NotFound from "../pages/NotFound";
 import Overview from "../pages/Overview";
-import Login from "../auth/Login";
-import PrivateRoute from "../layout/PrivateRoute";
+import PrivateRoute from "../auth/PrivateRoute";
 
-const AppRoutes = ({ dark }) => {
+const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Overview />} />
 
-      <Route
-        path="/"
-        element={
-          <PrivateRoute>
-            <Overview />
-          </PrivateRoute>
-        }
-      />
+      {/* Protected Routes */}
       <Route
         path="/machines"
         element={
@@ -30,6 +22,7 @@ const AppRoutes = ({ dark }) => {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/maintenance-logs"
         element={
@@ -63,6 +56,7 @@ const AppRoutes = ({ dark }) => {
         }
       />
 
+      {/* 404 Page */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

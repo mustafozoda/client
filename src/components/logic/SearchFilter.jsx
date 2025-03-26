@@ -22,7 +22,7 @@ const SearchFilter = () => {
   };
 
   useEffect(() => {
-    console.log("Updated Selected Statuses:", selectedStatuses);
+    // console.log("Updated Selected Statuses:", selectedStatuses);
   }, [selectedStatuses]);
 
   const toggleDropdown = () => {

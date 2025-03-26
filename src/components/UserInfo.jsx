@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { UserRoundCog, LogOut, Settings, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import LogoutConfirmationModal from "../components/ui/LogoutConfirmationModal"; // Import the modal component
+import useAuthStore from "../store/useAuthStore";
 
 const UserInfo = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { logout } = useAuthStore(); // Get logout function from your store
 
+  // Close the dropdown if clicked outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -20,6 +24,20 @@ const UserInfo = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Handle Log Out action
+  const handleLogout = () => {
+    setIsModalOpen(true); // Open the confirmation modal
+  };
+
+  const confirmLogout = () => {
+    logout(); // Perform the logout action
+    setIsModalOpen(false); // Close the modal
+  };
+
+  const cancelLogout = () => {
+    setIsModalOpen(false); // Close the modal without logging out
+  };
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -51,7 +69,10 @@ const UserInfo = () => {
             Settings
           </div>
           <hr className="border-[#2D2D2D]" />
-          <div className="flex cursor-pointer items-center rounded-sm px-[10px] py-[2px] hover:bg-[#EF4444]">
+          <div
+            className="flex cursor-pointer items-center rounded-sm px-[10px] py-[2px] hover:bg-[#EF4444]"
+            onClick={handleLogout} // Open modal for logout
+          >
             <LogOut size={16} className="mr-2 text-white" />
             Log Out
           </div>
@@ -59,6 +80,11 @@ const UserInfo = () => {
       )}
 
       {/* Logout Confirmation Modal */}
+      <LogoutConfirmationModal
+        isOpen={isModalOpen}
+        onClose={cancelLogout} // Close modal without logging out
+        onConfirm={confirmLogout} // Confirm logout
+      />
     </div>
   );
 };

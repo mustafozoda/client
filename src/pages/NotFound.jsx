@@ -7,7 +7,7 @@ const NotFound = () => {
   return (
     <div className="relative z-10 flex flex-1 flex-col overflow-auto">
       <Header style="font-bold " title="404" />
-      <div className="flex flex-1 flex-col items-center justify-center">
+      {/* <div className="flex flex-1 flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-gray-800">
           404 - Page Not Found
         </h1>
@@ -27,7 +27,7 @@ const NotFound = () => {
             Contact Support
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
