@@ -27,3 +27,9 @@ Notifications & Alerts	React Toastify
 
 
 Ctrl + K, then W
+
+
+
+Get-ChildItem -Recurse -Include *.js, *.jsx, *.css | Select-Object FullName
+
+tree /a /f
