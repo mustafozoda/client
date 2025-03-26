@@ -10,7 +10,7 @@ const DetailsModal = ({ item, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex h-screen w-full items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black bg-opacity-50"
       onClick={onClose}
     >
       <motion.div

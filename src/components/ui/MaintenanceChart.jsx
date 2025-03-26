@@ -101,7 +101,7 @@ const MaintenanceChart = () => {
             }}
           />
           {/* <Legend /> */}
-          <Bar dataKey="count" fill="#457b9d" barSize={15} />
+          <Bar dataKey="count" fill="#457b9d" barSize={1} />
           <Area
             type="monotone"
             dataKey="count"
@@ -112,8 +112,8 @@ const MaintenanceChart = () => {
           <Line
             type="monotone"
             dataKey="count"
-            stroke="#1d3557"
-            strokeWidth={4}
+            stroke="green"
+            strokeWidth={1.2}
             dot={({ cx, cy, payload }) => (
               <circle
                 key={payload.month}

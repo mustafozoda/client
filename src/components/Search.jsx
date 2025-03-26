@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Cpu, FileText, X } from "lucide-react";
+import { Cable, ListTodo, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { fetchTasks } from "../api/tasksApi";
 import { fetchMachines } from "../api/machinesApi";
-
+import { History } from "lucide-react";
 import SearchResultItem from "./ui/SearchResultItem";
 import DetailsModal from "./ui/DetailsModal";
 
@@ -63,7 +63,7 @@ const Search = () => {
   };
 
   const handleDeleteRecent = (id) => {
-    setIsDeleting(true); // Set flag to true before deleting
+    setIsDeleting(true);
     const updatedSearches = recentSearches.filter((item) => item.id !== id);
     localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
     setRecentSearches(updatedSearches);
@@ -103,7 +103,7 @@ const Search = () => {
           <input
             type="text"
             placeholder="Search equipment, work orders, & more"
-            className={`h-[30px] rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-black dark:bg-[#212121] dark:placeholder:text-gray-300 dark:focus:ring-[#2B2B2B] ${
+            className={`h-[30px] rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none dark:bg-[#212121] dark:placeholder:text-gray-300 ${
               isFocused || showDropdown ? "w-[40vw]" : "w-[30vw]"
             }`}
             onFocus={() => {
@@ -123,7 +123,7 @@ const Search = () => {
             }
             className="absolute right-0 top-1/2 -translate-y-1/2 transform p-2 text-white"
           >
-            {category === "machines" ? <Cpu /> : <FileText />}
+            {category === "machines" ? <Cable /> : <ListTodo />}
           </button>
         </div>
       </div>
@@ -147,26 +147,34 @@ const Search = () => {
           ) : (
             <>
               {recentSearches.length > 0 ? (
-                <div className="text-sm text-gray-600 dark:text-gray-300">
-                  {recentSearches.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() => handleSelect(item)}
-                      className="flex cursor-pointer items-center justify-between rounded-lg p-2 hover:bg-slate-300 dark:hover:bg-[#2B2B2B]"
-                    >
-                      <span>{item.name || item.title}</span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteRecent(item.id);
-                          setShowDropdown(true);
-                        }}
-                        className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-400"
+                <div className="flex w-full flex-col items-start justify-center gap-2 p-2 text-sm text-gray-600 dark:text-gray-300">
+                  <div className="w-full font-semibold text-gray-700 dark:text-gray-400">
+                    Recent Searches
+                  </div>
+                  <div className="flex w-full flex-col items-start justify-center gap-1">
+                    {recentSearches.map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => handleSelect(item)}
+                        className="flex w-full cursor-pointer items-center justify-between rounded-lg p-2 hover:bg-slate-200 dark:hover:bg-[#2B2B2B]"
                       >
-                        <X size={16} />
-                      </button>
-                    </div>
-                  ))}
+                        <div className="flex items-center justify-center gap-2">
+                          <History size={15} />
+                          <span>{item.name || item.title}</span>
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteRecent(item.id);
+                            setShowDropdown(true);
+                          }}
+                          className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-400"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <div className="p-2 text-gray-500 dark:text-gray-400">

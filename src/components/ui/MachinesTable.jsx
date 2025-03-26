@@ -40,11 +40,11 @@ const MachinesGrid = () => {
   };
 
   return (
-    <div className="full flex h-[50vh] flex-col space-y-4">
+    <div className="full flex h-[45vh] flex-col space-y-4">
       <div className="hide-scrollbar w-full rounded-lg">
         <div className="flex flex-col">
           {/* Header */}
-          <div className="sticky top-0 z-10 mb-2 grid grid-cols-[5%_35%_30%_20%_10%] bg-white p-3 font-semibold shadow-md dark:bg-[#171717]">
+          <div className="sticky top-0 z-10 mb-[10px] grid grid-cols-[7%_32%_30%_20%_10%] bg-white p-3 shadow-md dark:bg-[#171717]">
             <div>ID</div>
             <div>Name</div>
             <div>Location</div>
@@ -53,22 +53,22 @@ const MachinesGrid = () => {
           </div>
 
           {/* Machine Rows */}
-          <div className="middle flex flex-col gap-2">
+          <div className="middle flex flex-col gap-[10px]">
             {filteredMachines.length > 0 ? (
               filteredMachines.map((machine) => (
                 <React.Fragment key={machine.id}>
                   <motion.div
-                    className="grid cursor-pointer grid-cols-[5%_35%_30%_20%_10%] items-center justify-center rounded-[5px] border-[#d8d8d8] bg-white p-3 dark:border-[#2B2B2B] dark:bg-[#171717]"
+                    className="grid cursor-pointer grid-cols-[7%_32%_30%_20%_10%] items-center justify-center rounded-[5px] bg-white p-3 dark:border-[#2B2B2B] dark:bg-[#171717]"
                     whileHover={{ scale: 1 }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.01 }}
                     onClick={() => handleClick(machine)}
                   >
-                    <div className="min-w-[80px]">{machine.id}</div>
+                    <div className="truncate">{machine.id}</div>
 
-                    <div className="truncate font-semibold">{machine.name}</div>
-                    <div>{machine.location}</div>
+                    <div className="truncate">{machine.name}</div>
+                    <div className="truncate">{machine.location}</div>
                     <div
                       className={`truncate font-medium ${
                         machine.status === "Active"
@@ -82,7 +82,7 @@ const MachinesGrid = () => {
                     </div>
                     <div
                       onClick={(e) => e.stopPropagation()}
-                      className="text-center"
+                      className="flex items-center justify-center"
                     >
                       <button
                         onClick={(e) => {

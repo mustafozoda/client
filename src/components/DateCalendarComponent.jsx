@@ -23,18 +23,23 @@ function ServerDay(props) {
   const matchedDay = formattedHighlightedDays.find((d) => d.isSame(day, "day"));
   const isSelected = Boolean(matchedDay);
   const daysLeft = isSelected ? matchedDay.diff(today, "day") : null;
+
   const tooltipMessage = isSelected
     ? daysLeft === 0
       ? "Today - Maintenance scheduled"
       : `${Math.abs(daysLeft)} days left - Maintenance scheduled`
     : "No maintenance scheduled";
 
+  // Check if the day has already passed
+  const isDayPassed = day.isBefore(today, "day");
+
+  // Only show the red dot (Badge) if the day has not passed
   return (
     <Tooltip title={tooltipMessage} arrow>
       <Badge
         key={day.toString()}
         overlap="circular"
-        badgeContent={isSelected ? "•" : undefined}
+        badgeContent={isSelected && !isDayPassed ? "•" : undefined} // Hide the dot if the day has passed
         sx={{
           "& .MuiBadge-badge": {
             color: "red",
