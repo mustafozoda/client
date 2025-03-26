@@ -23,7 +23,6 @@ const MachineCard = () => {
     return <SkeletonLoader />;
   }
 
-  // Count machines by status
   const machineCounts = {
     Active: machines.filter((machine) => machine.status === "Active").length,
     Inactive: machines.filter((machine) => machine.status === "Inactive")
@@ -33,7 +32,6 @@ const MachineCard = () => {
     Offline: machines.filter((machine) => machine.status === "Offline").length,
   };
 
-  // Format copied text
   const copiedText = `Active: ${machineCounts.Active} machines\nInactive: ${machineCounts.Inactive} machines\nMaintenance: ${machineCounts.Maintenance} machines\nOffline: ${machineCounts.Offline} machines`;
 
   return (

@@ -18,7 +18,6 @@ const MachineDetails = ({ machine, onDelete, onEdit }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
     >
-      {/* Left Side - Machine Info */}
       <div className="flex w-2/3 flex-col gap-2">
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
           {machine.name}
@@ -44,7 +43,6 @@ const MachineDetails = ({ machine, onDelete, onEdit }) => {
         </div>
       </div>
 
-      {/* Right Side - Actions */}
       <div className="flex flex-row items-end gap-3">
         <button onClick={() => onEdit(machine)} className="flex items-center">
           <SquarePen size={20} color="green" />

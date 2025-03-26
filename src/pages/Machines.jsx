@@ -31,7 +31,6 @@ const Machines = () => {
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 

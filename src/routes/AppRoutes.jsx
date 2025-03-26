@@ -13,7 +13,6 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Overview />} />
 
-      {/* Protected Routes */}
       <Route
         path="/machines"
         element={

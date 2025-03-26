@@ -12,7 +12,7 @@ import EditMachineModal from "./EditMachineModal";
 const MachinesTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [selectedMachine, setSelectedMachine] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Manage the Edit Modal state
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { searchTerm, selectedStatuses } = useMachineSearchStore();
 
   const {
@@ -63,9 +63,9 @@ const MachinesTable = () => {
 
   const handleEdit = (machine) => {
     console.log("Edit button clicked", machine);
-    setSelectedMachine(machine); // Set the selected machine for editing
-    setIsEditModalOpen(true); // Open the edit modal
-    console.log("Modal state is now:", isEditModalOpen); // Check if the state updates correctly
+    setSelectedMachine(machine);
+    setIsEditModalOpen(true);
+    console.log("Modal state is now:", isEditModalOpen);
   };
 
   const closeModal = () => {
@@ -74,13 +74,12 @@ const MachinesTable = () => {
   };
 
   const handleSaveChanges = (updatedMachine) => {
-    updateMachineMutation.mutate(updatedMachine); // Update the machine details
+    updateMachineMutation.mutate(updatedMachine);
   };
   return (
     <div className="full flex h-[45vh] flex-col space-y-4">
       <div className="hide-scrollbar w-full rounded-lg">
         <div className="flex flex-col">
-          {/* Header */}
           <div className="sticky top-0 z-10 mb-[10px] grid grid-cols-[7%_32%_30%_20%_10%] bg-white p-3 shadow-md dark:bg-[#171717]">
             <div>ID</div>
             <div>Name</div>
@@ -89,7 +88,6 @@ const MachinesTable = () => {
             <div>Actions</div>
           </div>
 
-          {/* Machine Rows */}
           <div className="middle flex flex-col gap-[10px]">
             {filteredMachines.length > 0 ? (
               filteredMachines.map((machine) => (
@@ -138,7 +136,6 @@ const MachinesTable = () => {
                     </div>
                   </motion.div>
 
-                  {/* Expanded Row */}
                   <AnimatePresence>
                     {expandedRow === machine.id && (
                       <motion.div
@@ -168,19 +165,15 @@ const MachinesTable = () => {
         </div>
       </div>
 
-      {/* Modal */}
       {selectedMachine && !isEditModalOpen && (
         <DetailsModal item={selectedMachine} onClose={closeModal} />
       )}
 
-      {/* Edit Modal */}
-      {/* {isEditModalOpen && selectedMachine && ( */}
       <EditMachineModal
         machine={selectedMachine}
         onClose={closeModal}
         onSave={handleSaveChanges}
       />
-      {/* )} */}
     </div>
   );
 };

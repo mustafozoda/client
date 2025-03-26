@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
 const DetailsModal = ({ item, onClose }) => {
-  const isMachine = item.hasOwnProperty("name"); // Check if it's a machine
+  const isMachine = item.hasOwnProperty("name");
 
   return (
     <motion.div
@@ -103,7 +103,6 @@ const DetailsModal = ({ item, onClose }) => {
           )}
         </div>
 
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="mt-4 w-full rounded-lg bg-[#1976D2] py-3 text-white shadow-lg transition hover:bg-opacity-80"

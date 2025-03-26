@@ -7,13 +7,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const { login, user } = useAuthStore();
-  const navigate = useNavigate(); // for redirection after successful login
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(email, password);
-      // After successful login, navigate to /overview
+
       navigate("/");
     } catch (err) {
       setError("Invalid email or password");

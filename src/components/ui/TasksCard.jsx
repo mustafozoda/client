@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TasksChart from "./TasksChart";
 import { fetchTasks } from "../../api/tasksApi";
-import SkeletonLoader from "../../components/SkeletonLoader"; // Make sure to import your SkeletonLoader component
+import SkeletonLoader from "../../components/SkeletonLoader";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { Copy } from "lucide-react";
 
@@ -18,15 +18,13 @@ const TasksCard = () => {
     queryFn: fetchTasks,
   });
 
-  // If loading or error, show SkeletonLoader or loading message
   if (isLoading || error) {
     if (error) {
-      console.error("Error loading tasks:", error); // Log error to console
+      console.error("Error loading tasks:", error);
     }
-    return <SkeletonLoader />; // Show SkeletonLoader in case of loading or error
+    return <SkeletonLoader />;
   }
 
-  // Count tasks by priority
   const taskCounts = {
     Urgent: tasks.filter((task) => task.priority === "Urgent").length,
     High: tasks.filter((task) => task.priority === "High").length,

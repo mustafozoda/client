@@ -30,16 +30,14 @@ function ServerDay(props) {
       : `${Math.abs(daysLeft)} days left - Maintenance scheduled`
     : "No maintenance scheduled";
 
-  // Check if the day has already passed
   const isDayPassed = day.isBefore(today, "day");
 
-  // Only show the red dot (Badge) if the day has not passed
   return (
     <Tooltip title={tooltipMessage} arrow>
       <Badge
         key={day.toString()}
         overlap="circular"
-        badgeContent={isSelected && !isDayPassed ? "•" : undefined} // Hide the dot if the day has passed
+        badgeContent={isSelected && !isDayPassed ? "•" : undefined}
         sx={{
           "& .MuiBadge-badge": {
             color: "red",
@@ -93,27 +91,26 @@ export default function DateCalendarComponent({ cusWidth }) {
     fetchMaintenanceDays();
   }, []);
 
-  // Custom theme to fix header and weekday colors and button styles
   const customTheme = createTheme({
     components: {
       MuiPickersCalendarHeader: {
         styleOverrides: {
           root: {
-            color: isDarkMode ? "white" : "black", // Fix month label
+            color: isDarkMode ? "white" : "black",
           },
         },
       },
       MuiDayCalendar: {
         styleOverrides: {
           weekDayLabel: {
-            color: isDarkMode ? "white" : "black", // Fix Mon, Tue, Wed labels
+            color: isDarkMode ? "white" : "black",
           },
         },
       },
       MuiIconButton: {
         styleOverrides: {
           root: {
-            color: isDarkMode ? "white" : "black", // Fix buttons (next/previous month buttons)
+            color: isDarkMode ? "white" : "black",
           },
         },
       },
@@ -134,10 +131,10 @@ export default function DateCalendarComponent({ cusWidth }) {
             color: isDarkMode ? "white" : "black",
             "& .MuiPickersCalendarHeader-root, & .MuiDayCalendar-weekDayLabel":
               {
-                color: isDarkMode ? "white" : "black", // Apply to header and weekdays
+                color: isDarkMode ? "white" : "black",
               },
             "& .MuiIconButton-root": {
-              color: isDarkMode ? "white" : "black", // Apply to buttons
+              color: isDarkMode ? "white" : "black",
             },
           }}
         />

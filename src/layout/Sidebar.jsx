@@ -106,7 +106,6 @@ const Sidebar = ({ setDark }) => {
             <ThemeToggle setDark={setDark} />
           </div>
 
-          {/* Sidebar Toggle Button */}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

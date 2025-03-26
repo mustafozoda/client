@@ -19,7 +19,6 @@ const App = () => {
   const { theme, setTheme } = useThemeStore();
   const { user, login } = useAuthStore();
 
-  // Sync theme between localStorage and Zustand store
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     const syncTheme = () => setTheme(localStorage.getItem("theme") || "light");
@@ -30,14 +29,13 @@ const App = () => {
     };
   }, [theme, setTheme]);
 
-  // Automatically log in the user if sessionStorage has a valid user
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
 
     if (storedUser && !user) {
       const parsedUser = JSON.parse(storedUser);
       if (parsedUser?.email) {
-        login(parsedUser.email, ""); // Assuming empty password (token-based auth)
+        login(parsedUser.email, "");
       }
     }
   }, [user, login]);

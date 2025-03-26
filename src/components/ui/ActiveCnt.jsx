@@ -29,7 +29,6 @@ const ActiveCnt = () => {
 
   return (
     <div className="h-full w-full">
-      {/* Show SkeletonLoader if still loading or if error occurred */}
       {isLoading || error ? (
         <div className="flex h-full w-full items-center justify-center">
           <SkeletonLoader

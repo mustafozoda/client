@@ -33,7 +33,6 @@ const WeatherCard = ({ weatherData, forecast }) => {
 
   return (
     <div className="relative rounded-[5px] bg-[#FFFFFF] p-1 shadow-lg transition-colors dark:bg-[#171717] dark:text-white">
-      {/* Video Background */}
       {bgMedia && (
         <video
           className="absolute left-0 top-0 h-full w-full rounded-[5px] object-cover opacity-85"
@@ -56,7 +55,6 @@ const WeatherCard = ({ weatherData, forecast }) => {
       </p>
       <p className="relative z-10 text-base">{weatherData.name}</p>
 
-      {/* Real Forecast Data */}
       <div className="relative z-10 flex justify-between text-sm opacity-80">
         {forecast.map((day, index) => (
           <p key={index}>

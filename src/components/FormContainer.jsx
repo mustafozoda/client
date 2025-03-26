@@ -11,7 +11,6 @@ const FormContainer = () => {
   const { secModOpen, toggleSecModal } = useModalStore();
   return (
     <div className="flex h-full w-[95%] flex-col items-center justify-start">
-      {/* top btn's to exit or other features */}
       <div className="flex w-full items-center justify-between">
         <div>
           {" "}
@@ -27,7 +26,6 @@ const FormContainer = () => {
           <X onClick={closeModal} className="cursor-pointer" />
         </div>
       </div>
-      {/* Buttons */}
       <div className="flex items-center justify-center gap-4">
         <button
           onClick={() => setShowBox1(true)}
@@ -51,9 +49,7 @@ const FormContainer = () => {
         </button>
       </div>
 
-      {/* Forms Container */}
       <div className="relative h-full w-full">
-        {/* Machine Form */}
         <motion.div
           className="absolute h-full w-full"
           initial={{ x: 0 }}
@@ -65,7 +61,6 @@ const FormContainer = () => {
           <MachineForm />
         </motion.div>
 
-        {/* Task Form */}
         <motion.div
           className="absolute h-full w-full"
           initial={{ x: 600 }}

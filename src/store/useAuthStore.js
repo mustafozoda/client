@@ -19,7 +19,6 @@ const useAuthStore = create((set) => ({
       sessionStorage.setItem("authToken", token);
       sessionStorage.setItem("user", JSON.stringify(user));
 
-      // Update Zustand store
       set({ user });
     } catch (error) {
       console.error("Login failed:", error);
@@ -47,7 +46,6 @@ const useAuthStore = create((set) => ({
     sessionStorage.removeItem("authToken");
     sessionStorage.removeItem("user");
     set({ user: null });
-    // Do not handle redirection here
   },
 }));
 

@@ -56,7 +56,6 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
         className="relative w-[40vw] max-w-full rounded-2xl bg-white p-6 shadow-2xl dark:bg-[#171717]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 transition hover:text-gray-800"
@@ -64,12 +63,10 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
           <X size={24} />
         </button>
 
-        {/* Title */}
         <h2 className="mb-4 text-center text-2xl font-bold text-white">
           Edit Machine: {item}
         </h2>
 
-        {/* Edit Form Section */}
         <div className="rounded-lg bg-white p-5 shadow-[0_1px_15px_rgba(0,0,0,0.3)] dark:bg-[#212121]">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -177,7 +174,6 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="mt-4 w-full rounded-lg bg-[#1976D2] py-3 text-white shadow-lg transition hover:bg-opacity-80"

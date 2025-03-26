@@ -20,7 +20,7 @@ const ArticleCard = () => {
 
       try {
         const cachedData = localStorage.getItem("cachedArticles");
-        const cachedTime = Number(localStorage.getItem("cachedTime")); // Ensure it's a number
+        const cachedTime = Number(localStorage.getItem("cachedTime")); 
 
         if (
           cachedData &&
@@ -119,7 +119,6 @@ const ArticleCard = () => {
             ))}
       </div>
 
-      {/* Prev Button */}
 
       <ArrowBigLeftDash
         size={40}
@@ -130,7 +129,6 @@ const ArticleCard = () => {
         }`}
       />
 
-      {/* Next Button */}
       <ArrowBigRightDash
         size={40}
         color="#007bff"

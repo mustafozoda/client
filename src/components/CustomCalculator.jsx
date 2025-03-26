@@ -8,7 +8,6 @@ const CustomCalculator = () => {
       let formattedInput = expr.replace(
         /(\d+\.?\d*)%/g,
         (_, number, index, str) => {
-          // Find the previous number before the percentage
           let prevMatch = str.substring(0, index).match(/(\d+\.?\d*)([+\-*/])/);
 
           if (prevMatch) {
@@ -16,7 +15,7 @@ const CustomCalculator = () => {
             return `(${prevNumber} * ${parseFloat(number) / 100})`;
           }
 
-          return `(${parseFloat(number) / 100})`; // Fallback case
+          return `(${parseFloat(number) / 100})`;
         },
       );
 

@@ -25,7 +25,6 @@ export default function ModalExample() {
         Open Modal
       </button>
 
-      {/* Overlay to dim background */}
       <AnimatePresence>
         {(showFirst || showSecond || showThird) && (
           <motion.div
@@ -38,7 +37,6 @@ export default function ModalExample() {
         )}
       </AnimatePresence>
 
-      {/* First Modal */}
       <AnimatePresence>
         {showFirst && (
           <motion.div
@@ -77,7 +75,6 @@ export default function ModalExample() {
         )}
       </AnimatePresence>
 
-      {/* Second Modal */}
       <AnimatePresence>
         {showSecond && (
           <motion.div
@@ -97,7 +94,6 @@ export default function ModalExample() {
         )}
       </AnimatePresence>
 
-      {/* Third Modal */}
       <AnimatePresence>
         {showThird && (
           <motion.div

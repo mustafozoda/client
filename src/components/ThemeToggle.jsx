@@ -5,7 +5,6 @@ import useThemeStore from "../store/useThemeStore";
 const ThemeToggle = () => {
   const { theme, setTheme } = useThemeStore();
 
-  // Apply the theme change to the document on every theme change
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");

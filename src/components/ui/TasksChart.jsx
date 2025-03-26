@@ -78,7 +78,6 @@ const TasksChart = () => {
 
   return (
     <div style={{ display: "flex", alignItems: "end" }}>
-      {/* Legend */}
       <div style={{ marginRight: "20px", fontSize: "10px" }}>
         {Object.keys(priorityMapping).map((priority, index) => (
           <div
@@ -101,7 +100,6 @@ const TasksChart = () => {
           </div>
         ))}
       </div>
-      {/* Chart */}
       <ResponsiveContainer width="100%" height={170}>
         <PieChart width={400} height={400}>
           <Pie
