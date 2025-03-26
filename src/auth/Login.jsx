@@ -1,8 +1,9 @@
 import { useState } from "react";
-import useAuthStore from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
+import useAuthStore from "../store/useAuthStore";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -12,11 +13,35 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
+      }
+
+      const data = await response.json();
+      const { token } = data;
+
+      localStorage.setItem("token", token);
+
+      login(token);
 
       navigate("/");
     } catch (err) {
-      setError("Invalid email or password");
+      setError("Invalid email, username, or password");
     }
   };
 
@@ -26,6 +51,16 @@ const Login = () => {
         <h2 className="mb-4 text-center text-2xl font-bold">Login</h2>
         {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
           <div>
             <label className="block text-gray-700">Email</label>
             <input

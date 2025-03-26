@@ -1,22 +1,57 @@
 import { useState } from "react";
-import useAuthStore from "../store/useAuthStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { register } = useAuthStore();
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(email, password);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Registration failed. Please try again.");
+      }
+
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-96 rounded-lg bg-white p-8 shadow-md">
         <h2 className="mb-4 text-center text-2xl font-bold">Register</h2>
+        {error && <p className="text-center text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-gray-700">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
           <div>
             <label className="block text-gray-700">Email</label>
             <input
