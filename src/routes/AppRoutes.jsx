@@ -6,17 +6,63 @@ import UserManagement from "../pages/UserManagement";
 import Settings from "../pages/Settings";
 import NotFound from "../pages/NotFound";
 import Overview from "../pages/Overview";
-import LoginPage from "../pages/LoginPage";
+import Login from "../auth/Login";
+import PrivateRoute from "../layout/PrivateRoute";
+
 const AppRoutes = ({ dark }) => {
   return (
     <Routes>
-      <Route path="/" element={<Overview />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/machines" element={<Machines />} />
-      <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
-      <Route path="/issue-reports" element={<IssueReports />} />
-      <Route path="/user-management" element={<UserManagement />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <Overview />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/machines"
+        element={
+          <PrivateRoute>
+            <Machines />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/maintenance-logs"
+        element={
+          <PrivateRoute>
+            <MaintenanceLogs />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/issue-reports"
+        element={
+          <PrivateRoute>
+            <IssueReports />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/user-management"
+        element={
+          <PrivateRoute>
+            <UserManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <PrivateRoute>
+            <Settings />
+          </PrivateRoute>
+        }
+      />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

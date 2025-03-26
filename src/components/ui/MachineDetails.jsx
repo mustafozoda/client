@@ -8,7 +8,7 @@ import {
   CalendarClock,
 } from "lucide-react";
 
-const MachineDetails = ({ machine, onEdit, onDelete }) => {
+const MachineDetails = ({ machine, onDelete, onEdit }) => {
   if (!machine) return null;
 
   return (
@@ -46,10 +46,7 @@ const MachineDetails = ({ machine, onEdit, onDelete }) => {
 
       {/* Right Side - Actions */}
       <div className="flex flex-row items-end gap-3">
-        <button
-          className="flex items-center"
-          onClick={() => onEdit(machine.id)}
-        >
+        <button onClick={() => onEdit(machine)} className="flex items-center">
           <SquarePen size={20} color="green" />
         </button>
         <button

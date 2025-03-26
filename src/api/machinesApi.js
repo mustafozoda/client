@@ -14,5 +14,6 @@ export const updateMachine = (id, data) =>
     body: JSON.stringify(data),
   });
 
+
 export const deleteMachine = (id) =>
   apiClient(`/machines/${id}`, { method: "DELETE" });

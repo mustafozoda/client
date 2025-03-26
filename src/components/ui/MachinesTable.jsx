@@ -1,22 +1,44 @@
 import React, { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMachines } from "../../api/machinesApi";
+import { useMutation } from "@tanstack/react-query";
+import { fetchMachines, deleteMachine } from "../../api/machinesApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronsUpDown, ChevronsDownUp } from "lucide-react";
 import MachineDetails from "./MachineDetails";
 import useMachineSearchStore from "../../store/useMachineSearchStore";
 import DetailsModal from "./DetailsModal";
+import EditMachineModal from "./EditMachineModal";
 
-const MachinesGrid = () => {
+const MachinesTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [selectedMachine, setSelectedMachine] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Manage the Edit Modal state
   const { searchTerm, selectedStatuses } = useMachineSearchStore();
 
   const {
     data: machines = [],
     isLoading,
     error,
+    refetch,
   } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
+
+  const deleteMachineMutation = useMutation({
+    mutationFn: (id) => deleteMachine(id),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      // alert(`Error deleting machine: ${error.message}`);
+    },
+  });
+
+  const updateMachineMutation = useMutation({
+    mutationFn: (updatedMachine) => updateMachine(updatedMachine),
+    onSuccess: () => {
+      refetch();
+      setIsEditModalOpen(false);
+    },
+  });
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
@@ -35,10 +57,25 @@ const MachinesGrid = () => {
     setSelectedMachine(machine);
   };
 
-  const closeModal = () => {
-    setSelectedMachine(null);
+  const handleDelete = (id) => {
+    deleteMachineMutation.mutate(id);
   };
 
+  const handleEdit = (machine) => {
+    console.log("Edit button clicked", machine);
+    setSelectedMachine(machine); // Set the selected machine for editing
+    setIsEditModalOpen(true); // Open the edit modal
+    console.log("Modal state is now:", isEditModalOpen); // Check if the state updates correctly
+  };
+
+  const closeModal = () => {
+    setSelectedMachine(null);
+    setIsEditModalOpen(false);
+  };
+
+  const handleSaveChanges = (updatedMachine) => {
+    updateMachineMutation.mutate(updatedMachine); // Update the machine details
+  };
   return (
     <div className="full flex h-[45vh] flex-col space-y-4">
       <div className="hide-scrollbar w-full rounded-lg">
@@ -111,7 +148,11 @@ const MachinesGrid = () => {
                         exit={{ opacity: 0, y: 0 }}
                         className="p-2"
                       >
-                        <MachineDetails machine={machine} />
+                        <MachineDetails
+                          machine={machine}
+                          onDelete={handleDelete}
+                          onEdit={handleEdit}
+                        />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -128,11 +169,20 @@ const MachinesGrid = () => {
       </div>
 
       {/* Modal */}
-      {selectedMachine && (
+      {selectedMachine && !isEditModalOpen && (
         <DetailsModal item={selectedMachine} onClose={closeModal} />
       )}
+
+      {/* Edit Modal */}
+      {/* {isEditModalOpen && selectedMachine && ( */}
+      <EditMachineModal
+        machine={selectedMachine}
+        onClose={closeModal}
+        onSave={handleSaveChanges}
+      />
+      {/* )} */}
     </div>
   );
 };
 
-export default MachinesGrid;
+export default MachinesTable;

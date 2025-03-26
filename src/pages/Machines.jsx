@@ -12,7 +12,7 @@ const Machines = () => {
     <div className="flex h-full w-full flex-col">
       <Header title="Machines" />
       <div className="z-10 mx-auto flex h-full w-[140vh]">
-        <div className="left-side flex h-full w-1/3 flex-col justify-around p-5">
+        <div className="left-side flex h-full w-1/3 flex-col justify-between p-5">
           <div>
             <MachineMaintenance />
           </div>
