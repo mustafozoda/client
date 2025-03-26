@@ -4,25 +4,34 @@ import ModalExample from "../components/ui/ModalExample";
 import MachinesTable from "../components/ui/MachinesTable";
 import MachineMaintenance from "../components/ui/MachineMaintenance";
 import DateCalendarComponent from "../components/DateCalendarComponent";
+import MaintenanceChart from "../components/ui/MaintenanceChart";
+import SearchFilter from "../components/logic/SearchFilter";
+import MaintenanceLogs from "./MaintenanceLogs";
 const Machines = () => {
   return (
     <div className="flex h-full w-full flex-col">
       <Header title="Machines" />
-
-      <div className="z-10 mx-auto flex h-full flex-col items-center justify-center">
-        <div className="hide-scrollbar mx-auto flex h-[80vh] w-full flex-row overflow-scroll">
-          <div className="w-[2/3] px-5">
+      <div className="z-10 mx-auto flex h-full w-[140vh]">
+        <div className="left-side w-1/3 p-5">
+          <div>
+            <SearchFilter />
+          </div>
+          <div>
+            <MachineMaintenance />
+          </div>
+          <div>{/* <DateCalendarComponent /> */}</div>
+        </div>
+        <div className="right-side flex w-2/3 flex-col justify-around p-5">
+          <div className="h-2/3">
             <MachinesTable />
           </div>
-          <div className="flex h-full w-[2/3] flex-col">
-            <div className="flex h-1/2 w-full items-center justify-center">
-              <MachineMaintenance />
-            </div>
-            <div className="h-1/2">{/* <DateCalendarComponent /> */}</div>
+          <div className="h-1/3">
+            <MaintenanceChart />
           </div>
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 

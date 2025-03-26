@@ -1,115 +1,138 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMachines } from "../../api/machinesApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronsUpDown, ChevronsDownUp } from "lucide-react";
 import MachineDetails from "./MachineDetails";
-const MachinesTable = () => {
-  const tableRef = useRef(null);
+import useMachineSearchStore from "../../store/useMachineSearchStore";
+import DetailsModal from "./DetailsModal";
+
+const MachinesGrid = () => {
+  const [expandedRow, setExpandedRow] = useState(null);
+  const [selectedMachine, setSelectedMachine] = useState(null);
+  const { searchTerm, selectedStatuses } = useMachineSearchStore();
 
   const {
     data: machines = [],
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["machines"],
-    queryFn: fetchMachines,
-  });
-
-  const [expandedRow, setExpandedRow] = useState(null);
+  } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
+  const filteredMachines = machines.filter((machine) => {
+    const matchesSearch = machine.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase().trim());
+    const matchesStatus =
+      selectedStatuses.length === 0 ||
+      selectedStatuses.includes(machine.status);
+    return matchesSearch && matchesStatus;
+  });
+
+  const handleClick = (machine) => {
+    setSelectedMachine(machine);
+  };
+
+  const closeModal = () => {
+    setSelectedMachine(null);
+  };
+
   return (
-    <div className="hide-scrollbar h-full w-full rounded-lg">
-      <table
-        ref={tableRef}
-        className="h-full w-full table-auto border-separate border-spacing-y-2 rounded-lg shadow-md"
-      >
-        <thead className="sticky top-0 z-10 bg-white shadow-md dark:bg-[#171717]">
-          <tr className="text-left">
-            <th className="p-3">ID</th>
-            <th className="p-3">Name</th>
-            <th className="p-3">Location</th>
-            <th className="p-3">Status</th>
-            <th className="p-3">Actions</th>
-          </tr>
-        </thead>
+    <div className="full flex h-[50vh] flex-col space-y-4">
+      <div className="hide-scrollbar w-full rounded-lg">
+        <div className="flex flex-col">
+          {/* Header */}
+          <div className="sticky top-0 z-10 mb-2 grid grid-cols-[5%_35%_30%_20%_10%] bg-white p-3 font-semibold shadow-md dark:bg-[#171717]">
+            <div>ID</div>
+            <div>Name</div>
+            <div>Location</div>
+            <div>Status</div>
+            <div>Actions</div>
+          </div>
 
-        <tbody className="">
-          {machines.map((machine) => (
-            <React.Fragment key={machine.id}>
-              <motion.tr
-                className="border-b border-[#d8d8d8] bg-white dark:border-[#2B2B2B] dark:bg-[#171717]"
-                whileHover={{ scale: 1 }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.01 }}
-              >
-                <td className="rounded-l-[5px] border-[#d8d8d8] p-3 dark:border-[#2B2B2B]">
-                  {machine.id}
-                </td>
-                <td className="p-3 font-semibold">{machine.name}</td>
-                <td className="p-3">{machine.location}</td>
-                <td
-                  className={`p-3 font-medium ${
-                    machine.status === "Active"
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }`}
-                >
-                  {machine.status}
-                </td>
-                <td className="rounded-r-[5px] p-3 text-center">
-                  <button
-                    className=""
-                    onClick={() =>
-                      setExpandedRow(
-                        expandedRow === machine.id ? null : machine.id,
-                      )
-                    }
+          {/* Machine Rows */}
+          <div className="middle flex flex-col gap-2">
+            {filteredMachines.length > 0 ? (
+              filteredMachines.map((machine) => (
+                <React.Fragment key={machine.id}>
+                  <motion.div
+                    className="grid cursor-pointer grid-cols-[5%_35%_30%_20%_10%] items-center justify-center rounded-[5px] border-[#d8d8d8] bg-white p-3 dark:border-[#2B2B2B] dark:bg-[#171717]"
+                    whileHover={{ scale: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.01 }}
+                    onClick={() => handleClick(machine)}
                   >
-                    {expandedRow === machine.id ? (
-                      <ChevronsDownUp />
-                    ) : (
-                      <ChevronsUpDown />
+                    <div className="min-w-[80px]">{machine.id}</div>
+
+                    <div className="truncate font-semibold">{machine.name}</div>
+                    <div>{machine.location}</div>
+                    <div
+                      className={`truncate font-medium ${
+                        machine.status === "Active"
+                          ? "text-green-600"
+                          : machine.status === "Inactive"
+                            ? "text-red-600"
+                            : "text-yellow-500"
+                      }`}
+                    >
+                      {machine.status}
+                    </div>
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-center"
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedRow(
+                            expandedRow === machine.id ? null : machine.id,
+                          );
+                        }}
+                      >
+                        {expandedRow === machine.id ? (
+                          <ChevronsDownUp />
+                        ) : (
+                          <ChevronsUpDown />
+                        )}
+                      </button>
+                    </div>
+                  </motion.div>
+
+                  {/* Expanded Row */}
+                  <AnimatePresence>
+                    {expandedRow === machine.id && (
+                      <motion.div
+                        key={`expanded-${machine.id}`}
+                        initial={{ opacity: 0, y: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ opacity: 0, y: 0 }}
+                        className="p-2"
+                      >
+                        <MachineDetails machine={machine} />
+                      </motion.div>
                     )}
-                  </button>
-                </td>
-              </motion.tr>
+                  </AnimatePresence>
+                </React.Fragment>
+              ))
+            ) : (
+              <div className="p-3 text-center text-gray-500">
+                No machines found
+              </div>
+            )}
+          </div>
+          <div className="sticky bottom-0 z-10 h-[40px] w-full bg-white shadow-[0_-1px_10px_rgba(0,0,0,0.2)] dark:bg-[#171717]"></div>
+        </div>
+      </div>
 
-              <AnimatePresence>
-                {expandedRow === machine.id && (
-                  <motion.tr
-                    key={`expanded-${machine.id}`}
-                    initial={{ opacity: 0, y: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ opacity: 0, y: 0 }}
-                    // transition={{ duration: 1, ease: "easeInOut" }}
-                    className="rounded-[5px]"
-                  >
-                    <td colSpan={5} className="p-2">
-                      <MachineDetails machine={machine} />
-                    </td>
-                  </motion.tr>
-                )}
-              </AnimatePresence>
-            </React.Fragment>
-          ))}
-        </tbody>
-        <tfoot className="sticky bottom-0 z-10 bg-white shadow-[0_-1px_10px_rgba(0,0,0,0.2)] dark:bg-[#171717]">
-          <tr className="text-left">
-            <th className="p-5"> </th>
-            <th className="p-5"> </th>
-            <th className="p-5"> </th>
-            <th className="p-5"> </th>
-            <th className="p-5"></th>
-          </tr>
-        </tfoot>
-      </table>
+      {/* Modal */}
+      {selectedMachine && (
+        <DetailsModal item={selectedMachine} onClose={closeModal} />
+      )}
     </div>
   );
 };
 
-export default MachinesTable;
+export default MachinesGrid;

@@ -42,7 +42,7 @@ export default function MachineMaintenance() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center p-4">
+    <div className="flex h-full w-full flex-col items-center">
       {currentMachines.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -51,7 +51,7 @@ export default function MachineMaintenance() {
           transition={{ duration: 0 }}
           className="w-[25vw]"
         >
-          <div className="relative transform overflow-hidden truncate rounded-xl bg-white p-6 shadow-[0_-1px_10px_rgba(0,0,0,0.2)] transition-transform hover:scale-105 dark:bg-[#171717]">
+          <div className="relative h-full w-full transform overflow-hidden truncate rounded-xl bg-white p-6 shadow-[0_-1px_10px_rgba(0,0,0,0.2)] transition-transform hover:scale-[1.01] dark:bg-[#171717]">
             <div className="absolute right-4 top-4">
               <BlinkingDot />
             </div>

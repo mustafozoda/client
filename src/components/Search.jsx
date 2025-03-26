@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Cpu, FileText, X } from "lucide-react"; // Import X icon
+import { Cpu, FileText, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { fetchTasks } from "../api/tasksApi";
 import { fetchMachines } from "../api/machinesApi";
@@ -15,7 +15,7 @@ const Search = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false); // Flag to track if delete is in progress
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const searchRef = useRef(null);
 
@@ -68,15 +68,14 @@ const Search = () => {
     localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
     setRecentSearches(updatedSearches);
 
-    // Delay closing dropdown if delete is in progress
     setTimeout(() => {
-      setIsDeleting(false); // Reset flag after delete
+      setIsDeleting(false);
       if (updatedSearches.length === 0) {
-        setShowDropdown(false); // Close dropdown if no more searches
+        setShowDropdown(false);
       } else {
-        setShowDropdown(true); // Keep dropdown open if there are remaining results
+        setShowDropdown(true);
       }
-    }, 100); // Small delay to allow for delete action
+    }, 100);
   };
 
   useEffect(() => {
@@ -105,7 +104,7 @@ const Search = () => {
             type="text"
             placeholder="Search equipment, work orders, & more"
             className={`h-[30px] rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-black dark:bg-[#212121] dark:placeholder:text-gray-300 dark:focus:ring-[#2B2B2B] ${
-              isFocused || showDropdown ? "w-[600px]" : "w-[400px]"
+              isFocused || showDropdown ? "w-[40vw]" : "w-[30vw]"
             }`}
             onFocus={() => {
               setIsFocused(true);
@@ -135,7 +134,7 @@ const Search = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="absolute left-0 mt-1 w-[600px] rounded-b-md bg-[#a1abae] p-1 shadow-lg dark:bg-[#212121]"
+          className="absolute left-0 mt-1 w-[40vw] rounded-b-md bg-[#a1abae] p-1 shadow-lg dark:bg-[#212121]"
         >
           {results.length > 0 ? (
             results.map((item) => (
