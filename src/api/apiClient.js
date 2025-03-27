@@ -4,10 +4,11 @@ export const apiClient = async (endpoint, options = {}) => {
   const token = localStorage.getItem("authToken");
 
   if (token) {
-    // console.log("Using token:", token);
+    console.log("Using token:", token);
   } else {
     console.warn("No token found in localStorage.");
   }
+
 
   const headers = {
     "Content-Type": "application/json",
