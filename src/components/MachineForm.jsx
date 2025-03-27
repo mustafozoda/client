@@ -23,7 +23,7 @@ const MachineForm = () => {
     try {
       await addMachine(formData);
       fetchAllMachines();
-      alert("Machine added successfully!");
+      // alert("Machine added successfully!");
       setFormData({
         name: "",
         description: "",
