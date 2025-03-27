@@ -14,12 +14,13 @@ const useAuthStore = create((set) => ({
 
   authToken: localStorage.getItem("authToken") || null,
 
-  login: async (email, password) => {
+  login: async (username, password) => {
     try {
-      console.log("Attempting login for email:", email);
+      console.log("Attempting login for username:", username);
       const response = await apiClient("/login", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
 
       if (!response || !response.token || !response.user) {
@@ -29,7 +30,7 @@ const useAuthStore = create((set) => ({
       localStorage.setItem("authToken", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
 
-      set((state) => ({ ...state, user: response.user, authToken: response.token }));
+      set({ user: response.user, authToken: response.token });
       console.log("✅ Login successful:", response.user);
     } catch (error) {
       console.error("❌ Login error:", error.message);
@@ -43,20 +44,27 @@ const useAuthStore = create((set) => ({
 
       const response = await apiClient("/register", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
       });
 
-      if (!response || !response.ok) {
+      console.log("Registration response:", response);
+
+      if (response.message !== "User registered successfully") {
         throw new Error(`Registration failed: ${response.message || "Unknown error"}`);
       }
+
+      localStorage.setItem("authToken", response.token);
+      localStorage.setItem("user", JSON.stringify(response.user));
 
       console.log("✅ Registration successful:", response);
       return response;
     } catch (error) {
-      console.error("❌", error.message);
-      return null;
+      console.error("❌ Registration error:", error.message);
+      throw error;
     }
   },
+
 
   logout: () => {
     console.log("Logging out user...");
@@ -72,7 +80,7 @@ const useAuthStore = create((set) => ({
 
       if (token && storedUser) {
         const parsedUser = JSON.parse(storedUser);
-        set((state) => ({ ...state, user: parsedUser, authToken: token }));
+        set({ user: parsedUser, authToken: token });
         console.log("✅ Authenticated user:", parsedUser);
         return true;
       }

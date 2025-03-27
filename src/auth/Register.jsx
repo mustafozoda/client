@@ -17,10 +17,11 @@ const Register = () => {
     setLoading(true);
 
     try {
+      // Register the user and then navigate to the login page
       await register({ username, email, password });
-      navigate("/");
+      navigate("/login"); // After successful registration, redirect to login
     } catch (err) {
-      setError(err.message || "Registration failed. Please try again.");
+      console.error("Registration error:", err); // Log error to console, but don't show it on UI
     } finally {
       setLoading(false);
     }
@@ -30,7 +31,8 @@ const Register = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-96 rounded-lg bg-white p-8 shadow-md">
         <h2 className="mb-4 text-center text-2xl font-bold">Register</h2>
-        {error && <p className="text-center text-red-500">{error}</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}{" "}
+        {/* Optional: keep error handling here */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700">Username</label>
