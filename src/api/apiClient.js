@@ -6,7 +6,7 @@ export const apiClient = async (endpoint, options = {}) => {
   if (token) {
     console.log("Using token:", token);
   } else {
-    console.warn("No token found in localStorage.");
+    // console.warn("No token found in localStorage.");
   }
 
   const headers = {

@@ -53,7 +53,7 @@ const useAuthStore = create((set) => ({
       console.log("✅ Registration successful:", response);
       return response;
     } catch (error) {
-      console.error("❌ Registration failed:", error.message);
+      console.error("❌", error.message);
       return null;
     }
   },
