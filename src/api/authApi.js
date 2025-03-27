@@ -6,8 +6,10 @@ export const login = async (credentials) => {
     body: JSON.stringify(credentials),
   });
 
-  if (response.token) {
-    localStorage.setItem("authToken", response.token);
+  const textResponse = await response.text(); 
+
+  if (textResponse.startsWith("eyJ")) {
+    localStorage.setItem("authToken", textResponse);
   }
 
   return response;
