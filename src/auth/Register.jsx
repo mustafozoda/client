@@ -1,38 +1,28 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import useAuthStore from "../store/useAuthStore";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { register } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setLoading(true);
+
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BASE_API_URL}/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            email,
-            password,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Registration failed. Please try again.");
-      }
-
-      navigate("/login");
+      await register({ username, email, password });
+      navigate("/");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,7 +38,7 @@ const Register = () => {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -58,7 +48,7 @@ const Register = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -68,15 +58,20 @@ const Register = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full rounded-lg bg-green-500 py-2 text-white transition hover:bg-green-600"
+            disabled={loading}
+            className={`w-full rounded-lg py-2 text-white transition ${
+              loading
+                ? "cursor-not-allowed bg-gray-400"
+                : "bg-green-500 hover:bg-green-600"
+            }`}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
         <p className="mt-4 text-center">

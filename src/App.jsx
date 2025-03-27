@@ -17,7 +17,7 @@ import Register from "./auth/Register";
 
 const App = () => {
   const { theme, setTheme } = useThemeStore();
-  const { user, login } = useAuthStore();
+  const { user, setUser } = useAuthStore();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -30,15 +30,31 @@ const App = () => {
   }, [theme, setTheme]);
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-
-    if (storedUser && !user) {
-      const parsedUser = JSON.parse(storedUser);
-      if (parsedUser?.email) {
-        login(parsedUser.email, "");
+    const preventZoomKeys = (event) => {
+      if (event.ctrlKey && ["=", "-", "0", "+"].includes(event.key)) {
+        event.preventDefault();
       }
+    };
+    const preventScrollZoom = (event) => {
+      if (event.ctrlKey) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("keydown", preventZoomKeys);
+    document.addEventListener("wheel", preventScrollZoom, { passive: false });
+
+    return () => {
+      document.removeEventListener("keydown", preventZoomKeys);
+      document.removeEventListener("wheel", preventScrollZoom);
+    };
+  }, []);
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-  }, [user, login]);
+  }, [setUser]);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#a1abae] font-mono font-bold transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-gray-300">
@@ -53,12 +69,10 @@ const App = () => {
           <Navbar />
           <main className="flex flex-1">
             <Sidebar />
-            <AppRoutes />
+            <Routes>
+              <Route path="*" element={<AppRoutes />} />
+            </Routes>
           </main>
-          <div className="fixed inset-0 -z-10 border border-[#2B2B2B]">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#171717] via-[#000000] to-[#212121] opacity-20" />
-            <div className="absolute inset-0 backdrop-blur-sm" />
-          </div>
           <CopyAlertProvider />
           <GlobalModal />
         </>

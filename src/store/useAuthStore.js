@@ -1,51 +1,88 @@
 import { create } from "zustand";
-
-const API_BASE_URL = import.meta.env.VITE_BASE_API_URL;
+import { apiClient } from "../api/apiClient";
 
 const useAuthStore = create((set) => ({
-  user: JSON.parse(sessionStorage.getItem("user")) || null,
+  user: (() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+      return null;
+    }
+  })(),
+
+  authToken: localStorage.getItem("authToken") || null,
 
   login: async (email, password) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      console.log("Attempting login for email:", email);
+      const response = await apiClient("/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) throw new Error("Invalid credentials");
+      if (!response || !response.token || !response.user) {
+        throw new Error("Invalid login response. Missing token or user.");
+      }
 
-      const { token, user } = await response.json();
-      sessionStorage.setItem("authToken", token);
-      sessionStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("authToken", response.token);
+      localStorage.setItem("user", JSON.stringify(response.user));
 
-      set({ user });
+      set((state) => ({ ...state, user: response.user, authToken: response.token }));
+      console.log("✅ Login successful:", response.user);
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("❌ Login error:", error.message);
       throw error;
     }
   },
 
-  register: async (email, password) => {
+  register: async ({ username, email, password }) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      console.log("Registering user:", { username, email });
+
+      const response = await apiClient("/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, email, password }),
       });
 
-      if (!response.ok) throw new Error("Registration failed");
+      if (!response || !response.ok) {
+        throw new Error(`Registration failed: ${response.message || "Unknown error"}`);
+      }
 
-      console.log("User registered successfully!");
+      console.log("✅ Registration successful:", response);
+      return response;
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error("❌ Registration failed:", error.message);
+      return null;
     }
   },
 
   logout: () => {
-    sessionStorage.removeItem("authToken");
-    sessionStorage.removeItem("user");
-    set({ user: null });
+    console.log("Logging out user...");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    set({ user: null, authToken: null });
+  },
+
+  checkAuth: () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const storedUser = localStorage.getItem("user");
+
+      if (token && storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        set((state) => ({ ...state, user: parsedUser, authToken: token }));
+        console.log("✅ Authenticated user:", parsedUser);
+        return true;
+      }
+
+      console.warn("⚠️ No valid session found.");
+      return false;
+    } catch (error) {
+      console.error("❌ Error restoring user session:", error);
+      return false;
+    }
   },
 }));
 
