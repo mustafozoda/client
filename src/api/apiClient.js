@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = import.meta.env.VITE_BASE_API_URL.replace(/\/$/, "");
 
 const getToken = () => sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
 
