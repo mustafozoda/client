@@ -17,8 +17,7 @@ import Register from "./auth/Register";
 
 const App = () => {
   const { theme, setTheme } = useThemeStore();
-  const { user, setUser } = useAuthStore();
-
+  const token = localStorage.getItem("authToken");
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     const syncTheme = () => setTheme(localStorage.getItem("theme") || "light");
@@ -49,16 +48,10 @@ const App = () => {
       document.removeEventListener("wheel", preventScrollZoom);
     };
   }, []);
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, [setUser]);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#a1abae] font-mono font-bold transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-gray-300">
-      {!user ? (
+      {!token ? (
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

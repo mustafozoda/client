@@ -30,6 +30,7 @@
     "dayjs": "^1.11.13",
     "framer-motion": "^12.5.0",
     "leaflet": "^1.9.4",
+    "lightningcss": "^1.29.3",
     "lucide-react": "^0.482.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

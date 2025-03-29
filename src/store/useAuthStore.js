@@ -2,16 +2,6 @@ import { create } from "zustand";
 import { apiClient } from "../api/apiClient";
 
 const useAuthStore = create((set) => ({
-  user: (() => {
-    try {
-      const storedUser = localStorage.getItem("user");
-      return storedUser ? JSON.parse(storedUser) : null;
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-      return null;
-    }
-  })(),
-
   authToken: localStorage.getItem("authToken") || null,
 
   login: async (username, password) => {
@@ -23,15 +13,14 @@ const useAuthStore = create((set) => ({
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response || !response.token || !response.user) {
-        throw new Error("Invalid login response. Missing token or user.");
+      if (!response || !response.token) {
+        throw new Error("Invalid login response. Missing token.");
       }
 
       localStorage.setItem("authToken", response.token);
-      localStorage.setItem("user", JSON.stringify(response.user));
 
-      set({ user: response.user, authToken: response.token });
-      console.log("✅ Login successful:", response.user);
+      set({ authToken: response.token });
+      console.log("✅ Login successful with token:", response.token);
     } catch (error) {
       console.error("❌ Login error:", error.message);
       throw error;
@@ -55,9 +44,8 @@ const useAuthStore = create((set) => ({
       }
 
       localStorage.setItem("authToken", response.token);
-      localStorage.setItem("user", JSON.stringify(response.user));
 
-      console.log("✅ Registration successful:", response);
+      console.log("✅ Registration successful with token:", response.token);
       return response;
     } catch (error) {
       console.error("❌ Registration error:", error.message);
@@ -65,30 +53,26 @@ const useAuthStore = create((set) => ({
     }
   },
 
-
   logout: () => {
     console.log("Logging out user...");
     localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-    set({ user: null, authToken: null });
+    set({ authToken: null });
   },
 
   checkAuth: () => {
     try {
       const token = localStorage.getItem("authToken");
-      const storedUser = localStorage.getItem("user");
 
-      if (token && storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        set({ user: parsedUser, authToken: token });
-        console.log("✅ Authenticated user:", parsedUser);
+      if (token) {
+        set({ authToken: token });
+        console.log("✅ Authenticated with token:", token);
         return true;
       }
 
       console.warn("⚠️ No valid session found.");
       return false;
     } catch (error) {
-      console.error("❌ Error restoring user session:", error);
+      console.error("❌ Error restoring session:", error);
       return false;
     }
   },

@@ -1,14 +1,15 @@
-const API_BASE_URL = import.meta.env.VITE_BASE_API_URL.replace(/\/$/, "");
+const API_BASE_URL = "http://localhost:8080";
+
+const getToken = () => sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
 
 export const apiClient = async (endpoint, options = {}) => {
-  const token = localStorage.getItem("authToken");
+  const token = getToken();
 
   if (token) {
-    console.log("Using token:", token);
+    console.log("🔑 Using token:", token);
   } else {
-    console.warn("No token found in localStorage.");
+    console.warn("⚠️ No token found in storage.");
   }
-
 
   const headers = {
     "Content-Type": "application/json",
@@ -22,19 +23,28 @@ export const apiClient = async (endpoint, options = {}) => {
       headers,
     });
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        console.warn("Unauthorized! Removing token and redirecting to login.");
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user");
-        window.location.href = "/login";
-      }
-      throw new Error(`Error ${response.status}: ${await response.text()}`);
+    if (response.status === 401) {
+      console.warn("🚫 Unauthorized! Logging out user.");
+      sessionStorage.removeItem("authToken");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+      return;
     }
 
-    return response.json();
+    const contentType = response.headers.get("content-type");
+    if (!response.ok) {
+      const errorMessage = contentType && contentType.includes("application/json")
+        ? await response.json()
+        : await response.text();
+      throw new Error(`❌ API Error ${response.status}: ${JSON.stringify(errorMessage)}`);
+    }
+
+    return contentType && contentType.includes("application/json")
+      ? response.json()
+      : response.text();
   } catch (error) {
-    console.error("API request failed:", error);
+    console.error("❌ Network/API request failed:", error.message || error);
     throw error;
   }
 };

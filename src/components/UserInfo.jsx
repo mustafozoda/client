@@ -31,6 +31,8 @@ const UserInfo = () => {
   const confirmLogout = () => {
     logout();
     setIsModalOpen(false);
+    navigate("/");
+    window.location.reload();
   };
 
   const cancelLogout = () => {
