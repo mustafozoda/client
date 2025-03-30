@@ -56,14 +56,14 @@ const DetailsModal = ({ item, onClose }) => {
                   <strong>Location:</strong> {item.location}
                 </p>
               )}
-              {item.lastMaintenance && (
+              {item.lastMaintenanceDate && (
                 <p className="mb-2">
-                  <strong>Last Maintenance:</strong> {item.lastMaintenance}
+                  <strong>Last Maintenance:</strong> {item.lastMaintenanceDate}
                 </p>
               )}
-              {item.nextMaintenance && (
+              {item.nextMaintenanceDate && (
                 <p className="mb-2">
-                  <strong>Next Maintenance:</strong> {item.nextMaintenance}
+                  <strong>Next Maintenance:</strong> {item.nextMaintenanceDate}
                 </p>
               )}
             </>

@@ -3,14 +3,14 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMachines } from "../../api/machinesApi";
 
-const COLORS = ["#28A745", "#6C757D", "#FFC107"];
+const COLORS = ["#28A745", "#FFC107", "#DC3545"]; // Green, Yellow, Red
 
 const RADIAN = Math.PI / 180;
 
 const statusMapping = {
-  Active: 2,
-  Inactive: 1,
-  Maintenance: 0,
+  OPERATIONAL: 2,
+  UNDER_MAINTENANCE: 1,
+  OUT_OF_SERVICE: 0,
 };
 
 const renderCustomizedLabel = ({
@@ -41,7 +41,7 @@ const renderCustomizedLabel = ({
 
 const MachineChart = () => {
   const {
-    data: machines,
+    data: responseData,
     isLoading,
     error,
   } = useQuery({
@@ -49,15 +49,26 @@ const MachineChart = () => {
     queryFn: fetchMachines,
   });
 
+  // Ensure machines is an array before proceeding
+  const machines = Array.isArray(responseData?.machines)
+    ? responseData.machines
+    : [];
+
   if (isLoading) return <p>Loading machines...</p>;
   if (error) return <p>Error loading machines</p>;
 
-  const getStatusCounts = (machines) => {
-    const counts = { Active: 0, Inactive: 0, "Under Maintenance": 0 };
+  // Log the status of machines for debugging
+  console.log("Machines Data: ", machines);
 
+  const getStatusCounts = (machines) => {
+    const counts = { OPERATIONAL: 0, UNDER_MAINTENANCE: 0, OUT_OF_SERVICE: 0 };
+
+    // Count the statuses
     machines.forEach((machine) => {
       if (counts[machine.status] !== undefined) {
         counts[machine.status] += 1;
+      } else {
+        console.warn(`Unknown status encountered: ${machine.status}`);
       }
     });
 
@@ -70,11 +81,9 @@ const MachineChart = () => {
       }));
   };
 
-  const data = machines ? getStatusCounts(machines) : [];
+  const data = getStatusCounts(machines);
 
   if (data.length === 0) return <p>No machines available for the chart</p>;
-
-  // console.log("Fetched machines:", machines);
 
   return (
     <div style={{ display: "flex", alignItems: "end" }}>
@@ -96,7 +105,8 @@ const MachineChart = () => {
                 marginRight: "10px",
               }}
             ></div>
-            <span>{status}</span>
+            <span>{status.replace("_", " ")}</span>{" "}
+            {/* Replace underscore with space */}
           </div>
         ))}
       </div>
@@ -111,13 +121,12 @@ const MachineChart = () => {
             outerRadius={75}
             fill="#8884d8"
             dataKey="value"
-            // blendStroke={true}
             innerRadius={42}
           >
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={entry.color} // Make sure the color is passed correctly
               />
             ))}
           </Pie>

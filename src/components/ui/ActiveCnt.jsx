@@ -7,7 +7,7 @@ import { copyToClipboard } from "../../utils/copyUtils";
 
 const ActiveCnt = () => {
   const {
-    data: machines,
+    data: responseData,
     isLoading,
     error,
   } = useQuery({
@@ -19,9 +19,19 @@ const ActiveCnt = () => {
     console.log("Error loading machines:", error);
   }
 
-  const totalMachines = machines?.length || 0;
-  const machinesActiveCnt =
-    machines?.filter((machine) => machine.status === "Active").length || 0;
+  const machines = Array.isArray(responseData?.machines)
+    ? responseData.machines
+    : [];
+
+  // machines.map((item) => {
+  //   console.log(item);
+  //   console.log(item.status);
+  // });
+
+  const totalMachines = machines.length;
+  const machinesActiveCnt = machines.filter(
+    (machine) => machine.status === "OPERATIONAL",
+  ).length;
 
   const activePercentage = totalMachines
     ? ((machinesActiveCnt / totalMachines) * 100).toFixed(2)

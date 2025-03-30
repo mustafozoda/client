@@ -10,6 +10,7 @@ import {
 
 const MachineDetails = ({ machine, onDelete, onEdit }) => {
   if (!machine) return null;
+  console.log(machine);
 
   return (
     <motion.div
@@ -32,13 +33,13 @@ const MachineDetails = ({ machine, onDelete, onEdit }) => {
         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
           <CalendarCheck size={16} className="text-green-500" />
           <span>
-            Last Maintenance: <strong>{machine.lastMaintenance}</strong>
+            Last Maintenance: <strong>{machine.lastMaintenanceDate}</strong>
           </span>
         </div>
         <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
           <CalendarClock size={16} className="text-blue-500" />
           <span>
-            Next Maintenance: <strong>{machine.nextMaintenance}</strong>
+            Next Maintenance: <strong>{machine.nextMaintenanceDate}</strong>
           </span>
         </div>
       </div>

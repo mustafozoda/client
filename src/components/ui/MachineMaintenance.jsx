@@ -14,17 +14,34 @@ export default function MachineMaintenance() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchMachines();
-      const filteredMachines = data.filter((machine) => {
-        const nextMaintenanceDate = new Date(machine.nextMaintenance);
-        const currentDate = new Date();
-        return nextMaintenanceDate >= currentDate;
-      });
+      try {
+        const data = await fetchMachines();
 
-      const sortedMachines = filteredMachines.sort(
-        (a, b) => new Date(a.nextMaintenance) - new Date(b.nextMaintenance),
-      );
-      setMachines(sortedMachines);
+        // Check if 'machines' is an array inside the fetched data
+        if (Array.isArray(data.machines)) {
+          const filteredMachines = data.machines.filter((machine) => {
+            const nextMaintenanceDateVar = new Date(
+              machine.nextMaintenanceDate,
+            );
+            const currentDate = new Date();
+            return nextMaintenanceDateVar >= currentDate;
+          });
+
+          const sortedMachines = filteredMachines.sort(
+            (a, b) =>
+              new Date(a.nextMaintenanceDate) - new Date(b.nextMaintenanceDate),
+          );
+
+          setMachines(sortedMachines);
+        } else {
+          console.error(
+            "Fetched data.machines is not an array:",
+            data.machines,
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching machines:", error);
+      }
     };
 
     fetchData();
@@ -49,7 +66,7 @@ export default function MachineMaintenance() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0 }}
-          className="w-[25vw]"
+          className="w-full"
         >
           <div className="relative h-full w-full transform overflow-hidden truncate rounded-xl bg-white p-6 shadow-[0_-1px_10px_rgba(0,0,0,0.2)] transition-transform hover:scale-[1.01] dark:bg-[#171717]">
             <div className="absolute right-4 top-4">
@@ -68,7 +85,7 @@ export default function MachineMaintenance() {
               <p>
                 <strong>Next Maintenance:</strong>{" "}
                 {new Date(
-                  currentMachines[0].nextMaintenance,
+                  currentMachines[0].nextMaintenanceDate,
                 ).toLocaleDateString()}
               </p>
               <p

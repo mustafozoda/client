@@ -4,18 +4,24 @@ const getToken = () => sessionStorage.getItem("authToken") || localStorage.getIt
 
 export const apiClient = async (endpoint, options = {}) => {
   const token = getToken();
+  //  const token = localStorage.getItem("authToken");
 
   if (token) {
-    console.log("🔑 Using token:", token);
+    // console.log("🔑 Using token:", token);
   } else {
     console.warn("⚠️ No token found in storage.");
   }
 
   const headers = {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...(options.headers || {}),
+    "Content-Type": options.headers?.["Content-Type"] || "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
+
+  // console.log("🔍 API Request Details:");
+  // console.log("URL:", `${API_BASE_URL}/${endpoint.replace(/^\//, "")}`);
+  // console.log("Headers:", headers);
+  // console.log("Options:", options);
 
   try {
     const response = await fetch(`${API_BASE_URL}/${endpoint.replace(/^\//, "")}`, {
@@ -23,16 +29,21 @@ export const apiClient = async (endpoint, options = {}) => {
       headers,
     });
 
+    // console.log("📬 API Response Status:", response.status);
+    // console.log("📬 Response Headers:", response.headers);
+
     if (response.status === 401) {
       console.warn("🚫 Unauthorized! Logging out user.");
       sessionStorage.removeItem("authToken");
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
-      window.location.href = "/login";
+
+      window.dispatchEvent(new Event("logout"));
       return;
     }
 
     const contentType = response.headers.get("content-type");
+
     if (!response.ok) {
       const errorMessage = contentType && contentType.includes("application/json")
         ? await response.json()
@@ -40,9 +51,13 @@ export const apiClient = async (endpoint, options = {}) => {
       throw new Error(`❌ API Error ${response.status}: ${JSON.stringify(errorMessage)}`);
     }
 
-    return contentType && contentType.includes("application/json")
-      ? response.json()
-      : response.text();
+    if (contentType && contentType.includes("application/json") && response.status !== 204) {
+      const data = await response.json();
+      // console.log("📬 API Response Body:", data);
+      return data;
+    }
+
+    return null;
   } catch (error) {
     console.error("❌ Network/API request failed:", error.message || error);
     throw error;

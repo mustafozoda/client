@@ -72,13 +72,22 @@ export default function DateCalendarComponent({ cusWidth }) {
   const fetchMaintenanceDays = () => {
     setIsLoading(true);
     fetchMachines()
-      .then((machines) => {
-        const maintenanceDays = machines.map((machine) => {
-          const maintenanceDate = dayjs(machine.nextMaintenance).startOf("day");
-          return maintenanceDate;
-        });
+      .then((data) => {
+        if (Array.isArray(data.machines)) {
+          const maintenanceDays = data.machines.map((machine) => {
+            const maintenanceDate = dayjs(machine.nextMaintenanceDate).startOf(
+              "day",
+            );
+            return maintenanceDate;
+          });
 
-        setHighlightedDays(maintenanceDays);
+          setHighlightedDays(maintenanceDays);
+        } else {
+          console.error(
+            "Fetched data.machines is not an array:",
+            data.machines,
+          );
+        }
         setIsLoading(false);
       })
       .catch((error) => {

@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { apiClient } from "../api/apiClient";
+
+const API_URL = "http://localhost:8080";
 
 const useAuthStore = create((set) => ({
   user: (() => {
@@ -18,24 +19,23 @@ const useAuthStore = create((set) => ({
     try {
       console.log("🔄 Attempting login...");
 
-      const response = await apiClient("/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
-      console.log("📩 Login response:", response);
-
-      if (!response.token || !response.user) {
-        throw new Error("Invalid login response. Missing token or user.");
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
       }
 
-      sessionStorage.setItem("authToken", response.token);
-      localStorage.setItem("user", JSON.stringify(response.user));
+      const data = await response.json();
+      sessionStorage.setItem("authToken", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-      set({ user: response.user, authToken: response.token });
-      console.log("✅ Login successful:", response.user);
-      return { success: true, user: response.user };
+      set({ user: data.user, authToken: data.token });
+      console.log("✅ Login successful:", data.user);
+      return { success: true, user: data.user };
     } catch (error) {
       console.error("❌ Login error:", error.message);
       return { success: false, error: error.message };
@@ -46,25 +46,18 @@ const useAuthStore = create((set) => ({
     try {
       console.log("🔄 Registering user:", { username, email });
 
-      const response = await apiClient("/register", {
+      const response = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
       });
 
-      console.log("📩 Registration response:", response);
-
-      if (!response.token || !response.user) {
-        console.error("🚨 Unexpected response structure:", response);
-        throw new Error("Invalid registration response. Missing token or user.");
+      if (!response.ok) {
+        throw new Error("Registration failed");
       }
 
-      sessionStorage.setItem("authToken", response.token);
-      localStorage.setItem("user", JSON.stringify(response.user));
-
-      set({ user: response.user, authToken: response.token });
-      console.log("✅ Registration successful:", response.user);
-      return { success: true, user: response.user };
+      console.log("✅ Registration successful");
+      return { success: true };
     } catch (error) {
       console.error("❌ Registration error:", error.message);
       return { success: false, error: error.message };
@@ -77,39 +70,6 @@ const useAuthStore = create((set) => ({
     localStorage.removeItem("user");
     set({ user: null, authToken: null });
     console.log("✅ User logged out.");
-  },
-
-  checkAuth: async () => {
-    try {
-      const token = sessionStorage.getItem("authToken");
-      const storedUser = localStorage.getItem("user");
-
-      if (token && storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-
-        // OPTIONAL: Validate token with backend
-        const response = await apiClient("/verify-token", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!response.ok) {
-          console.warn("⚠️ Token validation failed. Logging out...");
-          useAuthStore.getState().logout();
-          return false;
-        }
-
-        set({ user: parsedUser, authToken: token });
-        console.log("✅ Authenticated user:", parsedUser);
-        return true;
-      }
-
-      console.warn("⚠️ No valid session found.");
-      return false;
-    } catch (error) {
-      console.error("❌ Error restoring session:", error);
-      return false;
-    }
   },
 }));
 

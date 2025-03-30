@@ -16,11 +16,13 @@ const MachinesTable = () => {
   const { searchTerm, selectedStatuses } = useMachineSearchStore();
 
   const {
-    data: machines = [],
+    data: machinesData = {},
     isLoading,
     error,
     refetch,
   } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
+
+  console.log(machinesData);
 
   const deleteMachineMutation = useMutation({
     mutationFn: (id) => deleteMachine(id),
@@ -43,15 +45,20 @@ const MachinesTable = () => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading data</p>;
 
-  const filteredMachines = machines.filter((machine) => {
-    const matchesSearch = machine.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase().trim());
-    const matchesStatus =
-      selectedStatuses.length === 0 ||
-      selectedStatuses.includes(machine.status);
-    return matchesSearch && matchesStatus;
-  });
+  const machines = machinesData.machines || [];
+
+  const filteredMachines = Array.isArray(machines)
+    ? machines.filter((machine) => {
+        // const matchesSearch = machine.name
+        //   .toLowerCase()
+        //   .includes(searchTerm.toLowerCase().trim());
+        const matchesStatus =
+          selectedStatuses.length === 0 ||
+          selectedStatuses.includes(machine.status);
+        // return matchesSearch && matchesStatus;
+        return matchesStatus;
+      })
+    : [];
 
   const handleClick = (machine) => {
     setSelectedMachine(machine);
@@ -76,6 +83,7 @@ const MachinesTable = () => {
   const handleSaveChanges = (updatedMachine) => {
     updateMachineMutation.mutate(updatedMachine);
   };
+
   return (
     <div className="full flex h-[45vh] flex-col space-y-4">
       <div className="hide-scrollbar w-full rounded-lg">
@@ -106,9 +114,9 @@ const MachinesTable = () => {
                     <div className="truncate">{machine.location}</div>
                     <div
                       className={`truncate font-medium ${
-                        machine.status === "Active"
+                        machine.status === "OPERATIONAL"
                           ? "text-green-600"
-                          : machine.status === "Inactive"
+                          : machine.status === "OUT_OF_SERVICE"
                             ? "text-red-600"
                             : "text-yellow-500"
                       }`}

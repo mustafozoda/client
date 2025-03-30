@@ -5,14 +5,13 @@ import useTasksStore from "../store/useTasksStore";
 const TaskForm = () => {
   const { fetchAllTasks } = useTasksStore();
   const [formData, setFormData] = useState({
-    title: "",
-    machineId: "",
-    assignedTo: "",
-    priority: "",
-    status: "",
-    dueDate: "",
-    cost: "",
+    description: "",
+    createdByUserId: "",
+    assignedToUserId: "",
     category: "",
+    priority: "LOW",
+    cost: "",
+    deadline: "",
   });
 
   const handleChange = (e) => {
@@ -22,18 +21,28 @@ const TaskForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addTask(formData);
-      await fetchAllTasks();
+      const taskData = {
+        description: formData.description,
+        createdByUserId: parseInt(formData.createdByUserId),
+        assignedToUserId: parseInt(formData.assignedToUserId),
+        category: formData.category,
+        priority: formData.priority,
+        cost: parseFloat(formData.cost),
+        deadline: formData.deadline + "+00:00", // Ensure correct deadline format
+      };
+
+      // Add task with default status
+      await addTask(taskData);
+      await fetchAllTasks(); // Refresh tasks list
       alert("Task added successfully!");
       setFormData({
-        title: "",
-        machineId: "",
-        assignedTo: "",
-        priority: "",
-        status: "",
-        dueDate: "",
-        cost: "",
+        description: "",
+        createdByUserId: "",
+        assignedToUserId: "",
         category: "",
+        priority: "LOW",
+        cost: "",
+        deadline: "",
       });
     } catch (error) {
       console.error("Error adding task:", error);
@@ -47,28 +56,25 @@ const TaskForm = () => {
       className="mx-auto w-full space-y-6 rounded-lg bg-white p-6 dark:bg-[#212121]"
       autoComplete="off"
     >
-      {/* <h2 className="text-center text-xl font-semibold">Add New Task</h2> */}
-
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block font-medium">Task Title</label>
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter task title"
-            value={formData.title}
+          <label className="block font-medium">Task Description</label>
+          <textarea
+            name="description"
+            placeholder="Enter task description"
+            value={formData.description}
             onChange={handleChange}
             required
             className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />
         </div>
         <div>
-          <label className="block font-medium">Machine ID</label>
+          <label className="block font-medium">Created By (User ID)</label>
           <input
             type="number"
-            name="machineId"
-            placeholder="Enter machine ID"
-            value={formData.machineId}
+            name="createdByUserId"
+            placeholder="Enter creator user ID"
+            value={formData.createdByUserId}
             onChange={handleChange}
             className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />
@@ -80,9 +86,9 @@ const TaskForm = () => {
           <label className="block font-medium">Assigned To (User ID)</label>
           <input
             type="number"
-            name="assignedTo"
-            placeholder="Enter user ID"
-            value={formData.assignedTo}
+            name="assignedToUserId"
+            placeholder="Enter assigned user ID"
+            value={formData.assignedToUserId}
             onChange={handleChange}
             className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />
@@ -100,7 +106,7 @@ const TaskForm = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className="block font-medium">Priority</label>
           <select
@@ -110,48 +116,32 @@ const TaskForm = () => {
             required
             className="w-full rounded-[5px] border-none bg-[#a1abae] p-[11px] text-black text-opacity-50 transition-all duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           >
-            <option value="">Select Priority</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
           </select>
         </div>
         <div>
-          <label className="block font-medium">Status</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            required
-            className="w-full rounded-[5px] border-none bg-[#a1abae] p-[11px] text-black text-opacity-50 transition-all duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
-          >
-            <option value="">Select Status</option>
-            <option value="Pending">Pending</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Completed">Completed</option>
-          </select>
-        </div>
-        <div>
-          <label className="block font-medium">Due Date</label>
+          <label className="block font-medium">Cost ($)</label>
           <input
-            type="date"
-            name="dueDate"
-            value={formData.dueDate}
+            type="number"
+            name="cost"
+            placeholder="Enter cost"
+            value={formData.cost}
             onChange={handleChange}
-            className="w-full rounded-[5px] border-none bg-[#a1abae] p-[8px] text-black text-opacity-50 transition-all duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
+            step="0.01"
+            className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />
         </div>
       </div>
 
       <div>
-        <label className="block font-medium">Cost ($)</label>
+        <label className="block font-medium">Deadline</label>
         <input
-          type="number"
-          name="cost"
-          placeholder="Enter cost"
-          value={formData.cost}
+          type="datetime-local"
+          name="deadline"
+          value={formData.deadline}
           onChange={handleChange}
-          step="0.01"
           className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
         />
       </div>

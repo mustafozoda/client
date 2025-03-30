@@ -7,7 +7,7 @@ import { copyToClipboard } from "../../utils/copyUtils";
 
 const InActiveCnt = () => {
   const {
-    data: machines,
+    data: responseData,
     isLoading,
     error,
   } = useQuery({
@@ -19,9 +19,15 @@ const InActiveCnt = () => {
     console.error("Error loading machines:", error);
   }
 
-  const totalMachines = machines?.length || 0;
-  const machinesInActiveCnt =
-    machines?.filter((machine) => machine.status === "Inactive").length || 0;
+  // Ensure machines is always an array, falling back to an empty array if not
+  const machines = Array.isArray(responseData?.machines)
+    ? responseData.machines
+    : [];
+
+  const totalMachines = machines.length;
+  const machinesInActiveCnt = machines.filter(
+    (machine) => machine.status === "OUT_OF_SERVICE",
+  ).length;
 
   const inactivePercentage = totalMachines
     ? ((machinesInActiveCnt / totalMachines) * 100).toFixed(2)

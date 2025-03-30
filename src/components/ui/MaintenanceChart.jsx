@@ -10,7 +10,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   CartesianGrid,
 } from "recharts";
 
@@ -37,46 +36,71 @@ const monthsOrder = [
 
 const MaintenanceChart = () => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchMachines().then((machines) => {
-      const maintenanceCounts = monthsOrder.reduce((acc, month) => {
-        acc[month] = 0;
-        return acc;
-      }, {});
+    fetchMachines()
+      .then((machinesData) => {
+        console.log("Fetched machines data:", machinesData);
 
-      machines.forEach((machine) => {
-        const month = new Date(machine.nextMaintenance).toLocaleString(
-          "default",
-          { month: "short" },
-        );
-        maintenanceCounts[month] += 1;
+        // Ensure data is in the expected format
+        const machines = Array.isArray(machinesData)
+          ? machinesData
+          : machinesData.machines || [];
+
+        if (!Array.isArray(machines)) {
+          throw new Error("Fetched machines data is not in an array format.");
+        }
+
+        // Initialize maintenance counts for each month
+        const maintenanceCounts = monthsOrder.reduce((acc, month) => {
+          acc[month] = 0; // Initialize count for each month
+          return acc;
+        }, {});
+
+        // Calculate maintenance counts for each machine
+        machines.forEach((machine) => {
+          const month = new Date(machine.nextMaintenanceDate).toLocaleString(
+            "default",
+            { month: "short" },
+          );
+          if (maintenanceCounts.hasOwnProperty(month)) {
+            maintenanceCounts[month] += 1;
+          }
+        });
+
+        // Format data for the chart
+        const chartData = monthsOrder.map((month) => ({
+          month,
+          count: maintenanceCounts[month],
+          color: getColorForMonth(maintenanceCounts[month]),
+        }));
+
+        setData(chartData);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError("Error fetching machine data.");
+        setIsLoading(false);
+        console.error(err);
       });
-
-      const chartData = monthsOrder.map((month) => ({
-        month,
-        count: maintenanceCounts[month],
-        color: getColorForMonth(maintenanceCounts[month]),
-      }));
-
-      setData(chartData);
-    });
   }, []);
+
+  // Display loading state
+  if (isLoading) return <p>Loading maintenance data...</p>;
+
+  // Display error message
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="h-full w-full rounded-xl bg-white shadow-lg dark:bg-[#171717]">
-      {/* <h2 className="mb-3 text-center text-lg font-bold">
-        Maintenance Schedule
-      </h2> */}
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           data={data}
           margin={{ top: 20, right: 10, bottom: 0, left: -20 }}
         >
-          <CartesianGrid
-            // stroke="green"
-            strokeDasharray="5 5"
-          />
+          <CartesianGrid strokeDasharray="5 5" />
           <XAxis dataKey="month" className="text-xs" />
           <YAxis allowDecimals={false} />
           <Tooltip
@@ -100,7 +124,6 @@ const MaintenanceChart = () => {
               return null;
             }}
           />
-          {/* <Legend /> */}
           <Bar dataKey="count" fill="#457b9d" barSize={1} />
           <Area
             type="monotone"

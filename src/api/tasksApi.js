@@ -1,12 +1,19 @@
 import { apiClient } from "./apiClient";
-export const fetchTasks = () => apiClient("/tasks");
-export const fetchTaskById = (id) => apiClient(`/tasks/${id}`);
+
+export const fetchTasks = () => apiClient("/tasks/get-tasks-by-filter");
+export const fetchTaskById = (id) => apiClient(`/tasks/get-task-by-id?id=${id}`);
 
 export const addTask = (task) =>
-  apiClient("/tasks", { method: "POST", body: JSON.stringify(task) });
+  apiClient("/tasks/create", {
+    method: "POST",
+    body: JSON.stringify({
+      ...task,
+      status: task.status || "PENDING",
+    }),
+  });
 
-export const updateTask = (id, data) =>
-  apiClient(`/tasks/${id}`, { method: "PUT", body: JSON.stringify(data) });
+export const updateTask = (data) =>
+  apiClient("/tasks/update", { method: "PUT", body: JSON.stringify(data) });
 
 export const deleteTask = (id) =>
-  apiClient(`/tasks/${id}`, { method: "DELETE" });
+  apiClient(`/tasks/delete/${id}`, { method: "DELETE" });

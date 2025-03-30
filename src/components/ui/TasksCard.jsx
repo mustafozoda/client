@@ -10,7 +10,7 @@ const TasksCard = () => {
   const [alertVisible, setAlertVisible] = useState(false);
 
   const {
-    data: tasks,
+    data: responseData,
     isLoading,
     error,
   } = useQuery({
@@ -18,21 +18,32 @@ const TasksCard = () => {
     queryFn: fetchTasks,
   });
 
-  if (isLoading || error) {
-    if (error) {
-      console.error("Error loading tasks:", error);
-    }
+  const tasks = Array.isArray(responseData?.tasks) ? responseData.tasks : [];
+
+  console.log(tasks);
+
+  if (isLoading) {
     return <SkeletonLoader />;
   }
 
+  if (error) {
+    console.error("Error loading tasks:", error);
+    return <p>Failed to load tasks. Please try again later.</p>;
+  }
+
+  if (!tasks || tasks.length === 0) {
+    return <p>No tasks available.</p>;
+  }
+
+  // Count tasks by Priority (LOW, MEDIUM, HIGH)
   const taskCounts = {
-    Urgent: tasks.filter((task) => task.priority === "Urgent").length,
-    High: tasks.filter((task) => task.priority === "High").length,
-    Normal: tasks.filter((task) => task.priority === "Normal").length,
-    Low: tasks.filter((task) => task.priority === "Low").length,
+    LOW: tasks.filter((task) => task.priority === "LOW").length,
+    MEDIUM: tasks.filter((task) => task.priority === "MEDIUM").length,
+    HIGH: tasks.filter((task) => task.priority === "HIGH").length,
   };
 
-  const copiedText = `Urgent: ${taskCounts.Urgent} tasks\nHigh: ${taskCounts.High} tasks\nNormal: ${taskCounts.Normal} tasks\nLow: ${taskCounts.Low} tasks`;
+  // Prepare the text for copying
+  const copiedText = `Low: ${taskCounts.LOW} tasks\nMedium: ${taskCounts.MEDIUM} tasks\nHigh: ${taskCounts.HIGH} tasks`;
 
   return (
     <div className="flex h-full flex-col justify-between">

@@ -7,8 +7,9 @@ import { copyToClipboard } from "../../utils/copyUtils";
 import { motion } from "framer-motion";
 
 const TasksStatusCnt = () => {
+  // Fetch tasks data with react-query
   const {
-    data: tasks,
+    data: responseData,
     isLoading,
     error,
   } = useQuery({
@@ -16,16 +17,21 @@ const TasksStatusCnt = () => {
     queryFn: fetchTasks,
   });
 
+  // Initialize state variables
   const [taskNames, setTaskNames] = useState([]);
   const [taskIndex, setTaskIndex] = useState(0);
 
+  // Update taskNames state when the data is fetched
   useEffect(() => {
-    if (tasks) {
-      const pendingTasks = tasks.filter((task) => task.status === "Pending");
-      setTaskNames(pendingTasks.map((task) => task.title));
+    if (Array.isArray(responseData?.tasks)) {
+      const pendingTasks = responseData.tasks.filter(
+        (task) => task.status === "PENDING",
+      );
+      setTaskNames(pendingTasks.map((task) => task.description));
     }
-  }, [tasks]);
+  }, [responseData]);
 
+  // Cycle through the task names every 3 seconds
   useEffect(() => {
     if (taskNames.length > 0) {
       const timer = setInterval(() => {
@@ -36,12 +42,16 @@ const TasksStatusCnt = () => {
     }
   }, [taskNames]);
 
+  if (isLoading) return <SkeletonLoader />;
+
   if (error) {
     console.log("Error loading tasks:", error);
   }
 
-  const tasksStatusPending =
-    tasks?.filter((task) => task.status === "Pending").length || 0;
+  // Count tasks with "PENDING" status
+  const tasksStatusPending = Array.isArray(responseData?.tasks)
+    ? responseData.tasks.filter((task) => task.status === "PENDING").length
+    : 0;
 
   return (
     <div className="h-full w-full">
