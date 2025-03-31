@@ -9,14 +9,13 @@ import {
   CalendarCheck,
   CalendarClock,
 } from "lucide-react";
-import EditMachineModal from "./EditMachineModal"; // Assuming EditMachineModal is in the same directory
+import EditMachineModal from "./EditMachineModal";
 
 const MachineDetails = ({ machine, refetch }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   if (!machine) return null;
 
-  // Mutation to delete machine
   const deleteMachineMutation = useMutation({
     mutationFn: (id) => deleteMachine(id),
     onSuccess: () => {
@@ -40,17 +39,14 @@ const MachineDetails = ({ machine, refetch }) => {
   });
 
   const handleDelete = () => {
-    // Trigger delete machine mutation
     deleteMachineMutation.mutate(machine.id);
   };
 
   const handleEdit = () => {
-    // Open the edit modal
     setIsEditModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    // Close the edit modal
     setIsEditModalOpen(false);
   };
 
@@ -101,30 +97,21 @@ const MachineDetails = ({ machine, refetch }) => {
         </div>
 
         <div className="flex flex-row items-end gap-3">
-          {/* Edit button */}
-          <button
-            className="flex items-center"
-            onClick={handleEdit} // Open modal on click
-          >
+          <button className="flex items-center" onClick={handleEdit}>
             <SquarePen size={20} color="green" />
           </button>
 
-          {/* Delete button */}
-          <button
-            className="flex items-center"
-            onClick={handleDelete} // Delete machine on click
-          >
+          <button className="flex items-center" onClick={handleDelete}>
             <Trash2 size={20} color="red" />
           </button>
         </div>
       </motion.div>
 
-      {/* Edit Modal */}
       {isEditModalOpen && (
         <EditMachineModal
-          item={machine} // Pass machine data to modal
-          onClose={handleCloseModal} // Close modal function
-          onSave={handleSave} // Save handler
+          item={machine}
+          onClose={handleCloseModal}
+          onSave={handleSave}
         />
       )}
     </>

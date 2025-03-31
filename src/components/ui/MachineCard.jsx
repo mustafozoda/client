@@ -19,7 +19,7 @@ const MachineCard = () => {
   const machines = Array.isArray(responseData?.machines)
     ? responseData.machines
     : [];
-  console.log(machines);
+  // console.log(machines);
 
   if (isLoading) return <SkeletonLoader />;
   if (error) {

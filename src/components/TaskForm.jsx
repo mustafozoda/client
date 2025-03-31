@@ -28,12 +28,11 @@ const TaskForm = () => {
         category: formData.category,
         priority: formData.priority,
         cost: parseFloat(formData.cost),
-        deadline: formData.deadline + "+00:00", // Ensure correct deadline format
+        deadline: formData.deadline + "+00:00",
       };
 
-      // Add task with default status
       await addTask(taskData);
-      await fetchAllTasks(); // Refresh tasks list
+      await fetchAllTasks();
       alert("Task added successfully!");
       setFormData({
         description: "",

@@ -4,7 +4,6 @@ const getToken = () => sessionStorage.getItem("authToken") || localStorage.getIt
 
 export const apiClient = async (endpoint, options = {}) => {
   const token = getToken();
-  //  const token = localStorage.getItem("authToken");
 
   if (token) {
     // console.log("🔑 Using token:", token);
@@ -32,15 +31,15 @@ export const apiClient = async (endpoint, options = {}) => {
     // console.log("📬 API Response Status:", response.status);
     // console.log("📬 Response Headers:", response.headers);
 
-    if (response.status === 401) {
-      console.warn("🚫 Unauthorized! Logging out user.");
+    if (response.status === 401 || response.status === 403) {
+      console.warn(`🚫 ${response.status} Error! Logging out user.`);
       sessionStorage.removeItem("authToken");
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
-
       window.dispatchEvent(new Event("logout"));
       return;
     }
+
 
     const contentType = response.headers.get("content-type");
 

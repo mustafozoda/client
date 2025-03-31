@@ -5,13 +5,13 @@ import useMachineStore from "../store/useMachineStore";
 const MachineForm = () => {
   const { fetchAllMachines } = useMachineStore();
   const [formData, setFormData] = useState({
-    // name: "", // Commented out since name is not required
+    // name: "",
     description: "",
     location: "",
     lastMaintenanceDateTime: "",
     nextMaintenanceDateTime: "",
     status: "",
-    // photoUrl: "", // Commented out since photoUrl is not required
+    // photoUrl: "",
   });
 
   const handleChange = (e) => {
@@ -35,13 +35,13 @@ const MachineForm = () => {
       await addMachine(formattedData);
       fetchAllMachines();
       setFormData({
-        // name: "", // Commented out since name is not required
+        // name: "",
         description: "",
         location: "",
         lastMaintenanceDateTime: "",
         nextMaintenanceDateTime: "",
         status: "",
-        // photoUrl: "", // Commented out since photoUrl is not required
+        // photoUrl: "",
       });
     } catch (error) {
       console.error("Error adding machine:", error);

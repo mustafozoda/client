@@ -31,7 +31,7 @@ const Login = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="w-full rounded border p-2"
+            className="w-full rounded border p-2 text-black"
             placeholder="Username"
           />
           <input

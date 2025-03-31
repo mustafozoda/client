@@ -42,9 +42,8 @@ const MaintenanceChart = () => {
   useEffect(() => {
     fetchMachines()
       .then((machinesData) => {
-        console.log("Fetched machines data:", machinesData);
+        // console.log("Fetched machines data:", machinesData);
 
-        // Ensure data is in the expected format
         const machines = Array.isArray(machinesData)
           ? machinesData
           : machinesData.machines || [];
@@ -53,13 +52,11 @@ const MaintenanceChart = () => {
           throw new Error("Fetched machines data is not in an array format.");
         }
 
-        // Initialize maintenance counts for each month
         const maintenanceCounts = monthsOrder.reduce((acc, month) => {
-          acc[month] = 0; // Initialize count for each month
+          acc[month] = 0;
           return acc;
         }, {});
 
-        // Calculate maintenance counts for each machine
         machines.forEach((machine) => {
           const month = new Date(machine.nextMaintenanceDate).toLocaleString(
             "default",
@@ -70,7 +67,6 @@ const MaintenanceChart = () => {
           }
         });
 
-        // Format data for the chart
         const chartData = monthsOrder.map((month) => ({
           month,
           count: maintenanceCounts[month],
@@ -87,10 +83,8 @@ const MaintenanceChart = () => {
       });
   }, []);
 
-  // Display loading state
   if (isLoading) return <p>Loading maintenance data...</p>;
 
-  // Display error message
   if (error) return <p>{error}</p>;
 
   return (

@@ -20,7 +20,7 @@ const TasksCard = () => {
 
   const tasks = Array.isArray(responseData?.tasks) ? responseData.tasks : [];
 
-  console.log(tasks);
+  // console.log(tasks);
 
   if (isLoading) {
     return <SkeletonLoader />;
@@ -35,14 +35,12 @@ const TasksCard = () => {
     return <p>No tasks available.</p>;
   }
 
-  // Count tasks by Priority (LOW, MEDIUM, HIGH)
   const taskCounts = {
     LOW: tasks.filter((task) => task.priority === "LOW").length,
     MEDIUM: tasks.filter((task) => task.priority === "MEDIUM").length,
     HIGH: tasks.filter((task) => task.priority === "HIGH").length,
   };
 
-  // Prepare the text for copying
   const copiedText = `Low: ${taskCounts.LOW} tasks\nMedium: ${taskCounts.MEDIUM} tasks\nHigh: ${taskCounts.HIGH} tasks`;
 
   return (

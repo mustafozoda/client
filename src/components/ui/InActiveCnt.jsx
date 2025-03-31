@@ -19,7 +19,6 @@ const InActiveCnt = () => {
     console.error("Error loading machines:", error);
   }
 
-  // Ensure machines is always an array, falling back to an empty array if not
   const machines = Array.isArray(responseData?.machines)
     ? responseData.machines
     : [];

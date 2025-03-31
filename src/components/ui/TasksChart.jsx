@@ -1,9 +1,9 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "../../api/tasksApi"; // Ensure this fetches tasks similarly to fetchMachines
+import { fetchTasks } from "../../api/tasksApi";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]; // Green, Yellow, Red
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const RADIAN = Math.PI / 180;
 
@@ -46,22 +46,19 @@ const TasksChart = () => {
     error,
   } = useQuery({
     queryKey: ["tasks"],
-    queryFn: fetchTasks, // Update fetchTasks function accordingly
+    queryFn: fetchTasks,
   });
 
-  // Ensure tasks is an array before proceeding
   const tasks = Array.isArray(responseData?.tasks) ? responseData.tasks : [];
 
   if (isLoading) return <p>Loading tasks...</p>;
   if (error) return <p>Error loading tasks</p>;
 
-  // Log the task data for debugging
-  console.log("Tasks Data: ", tasks);
+  // console.log("Tasks Data: ", tasks);
 
   const getPriorityCounts = (tasks) => {
     const counts = { LOW: 0, MEDIUM: 0, HIGH: 0 };
 
-    // Count the priorities
     tasks.forEach((task) => {
       if (counts[task.priority] !== undefined) {
         counts[task.priority] += 1;

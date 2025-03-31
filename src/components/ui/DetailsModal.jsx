@@ -21,7 +21,6 @@ const DetailsModal = ({ item, onClose }) => {
         className="relative w-[40vw] max-w-full rounded-2xl bg-white p-6 shadow-2xl dark:bg-[#171717]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 transition hover:text-gray-800"
@@ -29,19 +28,15 @@ const DetailsModal = ({ item, onClose }) => {
           <X size={24} />
         </button>
 
-        {/* Title */}
         <h2 className="mb-6 text-center text-3xl font-semibold text-[#1976D2]">
           {isMachine ? "Machine Details" : "Task Details"}
         </h2>
 
-        {/* Details Section */}
         <div className="rounded-lg bg-white p-5 shadow-[0_1px_15px_rgba(0,0,0,0.3)] dark:bg-[#212121]">
-          {/* General Info */}
           <p className="mb-3 text-lg">
             <strong>ID:</strong> {item.id}
           </p>
 
-          {/* Machine Specific Details */}
           {isMachine ? (
             <>
               <p className="mb-3">
@@ -67,7 +62,6 @@ const DetailsModal = ({ item, onClose }) => {
               </p>
             </>
           ) : (
-            // Task Specific Details
             <>
               <p className="mb-3">
                 <strong>Category:</strong> {item.category}
@@ -97,7 +91,6 @@ const DetailsModal = ({ item, onClose }) => {
           )}
         </div>
 
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="mt-6 w-full rounded-lg bg-[#1976D2] py-3 text-white shadow-lg transition hover:bg-opacity-80"

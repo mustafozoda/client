@@ -34,31 +34,28 @@ const Search = () => {
     const fetchData = async () => {
       let data;
 
-      // Fetch based on category
       if (category === "machines") {
         data = await fetchMachines();
-        data = data.machines || []; // Access 'machines' array
+        data = data.machines || [];
       } else {
         data = await fetchTasks();
-        data = data.tasks || []; // Access 'tasks' array
+        data = data.tasks || [];
       }
 
-      // Check if data is an array
       if (Array.isArray(data)) {
-        // Filter data based on query and category
         const filtered = data.filter(
           (item) =>
             (item.name?.toLowerCase().includes(query.toLowerCase()) ||
               item.title?.toLowerCase().includes(query.toLowerCase()) ||
               item.description?.toLowerCase().includes(query.toLowerCase()) ||
               item.location?.toLowerCase().includes(query.toLowerCase())) &&
-            item.status !== "OUT_OF_SERVICE", // Assuming you want to filter out "OUT_OF_SERVICE"
+            item.status !== "OUT_OF_SERVICE",
         );
-        setResults(filtered.slice(0, 10)); // Limit results to the first 10
+        setResults(filtered.slice(0, 10));
         setShowDropdown(true);
       } else {
         console.error("Data is not an array:", data);
-        setResults([]); // Optionally, handle it differently
+        setResults([]);
       }
     };
 

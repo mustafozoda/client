@@ -7,7 +7,6 @@ import { copyToClipboard } from "../../utils/copyUtils";
 import { motion } from "framer-motion";
 
 const TasksStatusCnt = () => {
-  // Fetch tasks data with react-query
   const {
     data: responseData,
     isLoading,
@@ -17,11 +16,9 @@ const TasksStatusCnt = () => {
     queryFn: fetchTasks,
   });
 
-  // Initialize state variables
   const [taskNames, setTaskNames] = useState([]);
   const [taskIndex, setTaskIndex] = useState(0);
 
-  // Update taskNames state when the data is fetched
   useEffect(() => {
     if (Array.isArray(responseData?.tasks)) {
       const pendingTasks = responseData.tasks.filter(
@@ -31,7 +28,6 @@ const TasksStatusCnt = () => {
     }
   }, [responseData]);
 
-  // Cycle through the task names every 3 seconds
   useEffect(() => {
     if (taskNames.length > 0) {
       const timer = setInterval(() => {
@@ -48,7 +44,6 @@ const TasksStatusCnt = () => {
     console.log("Error loading tasks:", error);
   }
 
-  // Count tasks with "PENDING" status
   const tasksStatusPending = Array.isArray(responseData?.tasks)
     ? responseData.tasks.filter((task) => task.status === "PENDING").length
     : 0;

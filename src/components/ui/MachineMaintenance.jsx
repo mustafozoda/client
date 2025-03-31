@@ -17,7 +17,6 @@ export default function MachineMaintenance() {
       try {
         const data = await fetchMachines();
 
-        // Check if 'machines' is an array inside the fetched data
         if (Array.isArray(data.machines)) {
           const filteredMachines = data.machines.filter((machine) => {
             const nextMaintenanceDateVar = new Date(
