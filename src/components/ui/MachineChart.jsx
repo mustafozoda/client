@@ -3,16 +3,19 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMachines } from "../../api/machinesApi";
 
+// Colors for the pie chart
 const COLORS = ["#28A745", "#FFC107", "#DC3545"]; // Green, Yellow, Red
 
 const RADIAN = Math.PI / 180;
 
+// Mapping the statuses to indices for color assignment
 const statusMapping = {
-  OPERATIONAL: 2,
-  UNDER_MAINTENANCE: 1,
-  OUT_OF_SERVICE: 0,
+  OPERATIONAL: 0, // Green
+  UNDER_MAINTENANCE: 1, // Yellow
+  OUT_OF_SERVICE: 2, // Red
 };
 
+// Customized label rendering for pie chart
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -39,6 +42,7 @@ const renderCustomizedLabel = ({
   );
 };
 
+// Machine chart component
 const MachineChart = () => {
   const {
     data: responseData,
@@ -57,29 +61,35 @@ const MachineChart = () => {
   if (isLoading) return <p>Loading machines...</p>;
   if (error) return <p>Error loading machines</p>;
 
-  // Log the status of machines for debugging
-  console.log("Machines Data: ", machines);
-
+  // Function to calculate the status counts
   const getStatusCounts = (machines) => {
     const counts = { OPERATIONAL: 0, UNDER_MAINTENANCE: 0, OUT_OF_SERVICE: 0 };
 
     // Count the statuses
     machines.forEach((machine) => {
-      if (counts[machine.status] !== undefined) {
+      if (statusMapping.hasOwnProperty(machine.status)) {
         counts[machine.status] += 1;
       } else {
         console.warn(`Unknown status encountered: ${machine.status}`);
       }
     });
 
+    // Convert counts to an array and filter out statuses with zero count
     return Object.entries(counts)
       .filter(([, count]) => count > 0)
       .map(([name, value], index) => ({
         name,
         value,
-        color: COLORS[index % COLORS.length],
+        color: COLORS[statusMapping[name]], // Apply color based on statusMapping
       }));
   };
+
+  // Log the status of machines for debugging
+  console.log("Machines Data: ", machines);
+  console.log(
+    "Machine statuses:",
+    machines.map((machine) => machine.status),
+  );
 
   const data = getStatusCounts(machines);
 
@@ -101,12 +111,11 @@ const MachineChart = () => {
               style={{
                 width: "15px",
                 height: "15px",
-                backgroundColor: COLORS[index % COLORS.length],
+                backgroundColor: COLORS[statusMapping[status]], // Color based on statusMapping
                 marginRight: "10px",
               }}
             ></div>
-            <span>{status.replace("_", " ")}</span>{" "}
-            {/* Replace underscore with space */}
+            <span>{status.replace("_", " ")}</span>
           </div>
         ))}
       </div>
@@ -124,10 +133,7 @@ const MachineChart = () => {
             innerRadius={42}
           >
             {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={entry.color} // Make sure the color is passed correctly
-              />
+              <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
         </PieChart>

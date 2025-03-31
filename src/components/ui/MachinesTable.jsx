@@ -1,18 +1,15 @@
 import React, { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
-import { fetchMachines, deleteMachine } from "../../api/machinesApi";
+import { fetchMachines } from "../../api/machinesApi";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronsUpDown, ChevronsDownUp } from "lucide-react";
 import MachineDetails from "./MachineDetails";
 import useMachineSearchStore from "../../store/useMachineSearchStore";
 import DetailsModal from "./DetailsModal";
-import EditMachineModal from "./EditMachineModal";
 
 const MachinesTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [selectedMachine, setSelectedMachine] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { searchTerm, selectedStatuses } = useMachineSearchStore();
 
   const {
@@ -22,67 +19,29 @@ const MachinesTable = () => {
     refetch,
   } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
 
-  console.log(machinesData);
-
-  const deleteMachineMutation = useMutation({
-    mutationFn: (id) => deleteMachine(id),
-    onSuccess: () => {
-      refetch();
-    },
-    onError: (error) => {
-      // alert(`Error deleting machine: ${error.message}`);
-    },
-  });
-
-  const updateMachineMutation = useMutation({
-    mutationFn: (updatedMachine) => updateMachine(updatedMachine),
-    onSuccess: () => {
-      refetch();
-      setIsEditModalOpen(false);
-    },
-  });
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data</p>;
-
   const machines = machinesData.machines || [];
 
-  const filteredMachines = Array.isArray(machines)
-    ? machines.filter((machine) => {
-        // const matchesSearch = machine.name
-        //   .toLowerCase()
-        //   .includes(searchTerm.toLowerCase().trim());
-        const matchesStatus =
-          selectedStatuses.length === 0 ||
-          selectedStatuses.includes(machine.status);
-        // return matchesSearch && matchesStatus;
-        return matchesStatus;
-      })
-    : [];
+  const filteredMachines = machines.filter((machine) => {
+    // const matchesSearch = machine.name
+    //   .toLowerCase()
+    //   .includes(searchTerm.toLowerCase().trim());
+    const matchesStatus =
+      selectedStatuses.length === 0 ||
+      selectedStatuses.includes(machine.status);
+    // return matchesSearch && matchesStatus;
+    return matchesStatus;
+  });
 
   const handleClick = (machine) => {
     setSelectedMachine(machine);
   };
 
-  const handleDelete = (id) => {
-    deleteMachineMutation.mutate(id);
-  };
-
-  const handleEdit = (machine) => {
-    console.log("Edit button clicked", machine);
-    setSelectedMachine(machine);
-    setIsEditModalOpen(true);
-    console.log("Modal state is now:", isEditModalOpen);
-  };
-
   const closeModal = () => {
     setSelectedMachine(null);
-    setIsEditModalOpen(false);
   };
 
-  const handleSaveChanges = (updatedMachine) => {
-    updateMachineMutation.mutate(updatedMachine);
-  };
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading data</p>;
 
   return (
     <div className="full flex h-[45vh] flex-col space-y-4">
@@ -109,7 +68,6 @@ const MachinesTable = () => {
                     onClick={() => handleClick(machine)}
                   >
                     <div className="truncate">{machine.id}</div>
-
                     <div className="truncate">{machine.name}</div>
                     <div className="truncate">{machine.location}</div>
                     <div
@@ -154,9 +112,9 @@ const MachinesTable = () => {
                         className="p-2"
                       >
                         <MachineDetails
+                          key={machine.id}
                           machine={machine}
-                          onDelete={handleDelete}
-                          onEdit={handleEdit}
+                          refetch={refetch}
                         />
                       </motion.div>
                     )}
@@ -173,15 +131,9 @@ const MachinesTable = () => {
         </div>
       </div>
 
-      {selectedMachine && !isEditModalOpen && (
+      {selectedMachine && (
         <DetailsModal item={selectedMachine} onClose={closeModal} />
       )}
-
-      <EditMachineModal
-        machine={selectedMachine}
-        onClose={closeModal}
-        onSave={handleSaveChanges}
-      />
     </div>
   );
 };

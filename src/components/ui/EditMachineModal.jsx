@@ -5,24 +5,29 @@ import { X } from "lucide-react";
 const EditMachineModal = ({ item, onClose, onSave }) => {
   if (!item) return null;
 
+  const formatDateForInput = (date) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   const [formData, setFormData] = useState({
-    name: item?.name || "",
+    id: item.id ?? 0,
     description: item?.description || "",
     location: item?.location || "",
     status: item?.status || "",
-    lastMaintenance: item?.lastMaintenance || "",
-    nextMaintenance: item?.nextMaintenance || "",
+    lastMaintenanceDateTime: formatDateForInput(item?.lastMaintenanceDate),
+    nextMaintenanceDateTime: formatDateForInput(item?.nextMaintenanceDate),
   });
 
   useEffect(() => {
     if (item) {
       setFormData({
-        name: item.name || "",
+        id: item.id ?? 0,
         description: item.description || "",
         location: item.location || "",
         status: item.status || "",
-        lastMaintenance: item.lastMaintenance || "",
-        nextMaintenance: item.nextMaintenance || "",
+        lastMaintenanceDateTime: formatDateForInput(item.lastMaintenanceDate),
+        nextMaintenanceDateTime: formatDateForInput(item.nextMaintenanceDate),
       });
     }
   }, [item]);
@@ -37,7 +42,21 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
+
+    const formatDate = (date) => {
+      return date ? new Date(date).toISOString() : null;
+    };
+
+    const formattedData = {
+      ...formData,
+      lastMaintenanceDateTime: formatDate(formData.lastMaintenanceDateTime),
+      nextMaintenanceDateTime: formatDate(formData.nextMaintenanceDateTime),
+    };
+
+    onSave(formattedData);
+    console.log(formattedData);
+
+    onClose();
   };
 
   return (
@@ -45,7 +64,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex h-screen w-full items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       onClick={onClose}
     >
       <motion.div
@@ -58,18 +77,18 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 transition hover:text-gray-800"
+          className="absolute right-4 top-4 text-white transition hover:text-gray-800"
         >
           <X size={24} />
         </button>
 
-        <h2 className="mb-4 text-center text-2xl font-bold text-white">
-          Edit Machine: {item}
+        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 dark:text-white">
+          Edit Machine: {item?.name}
         </h2>
 
-        <div className="rounded-lg bg-white p-5 shadow-[0_1px_15px_rgba(0,0,0,0.3)] dark:bg-[#212121]">
+        <div className="rounded-lg bg-gray-100 p-5 shadow-md dark:bg-[#2B2B2B]">
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-600 dark:text-gray-400"
@@ -82,9 +101,9 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
               />
-            </div>
+            </div> */}
 
             <div className="mb-4">
               <label
@@ -99,7 +118,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 value={formData.description}
                 onChange={handleChange}
                 rows="4"
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
@@ -116,7 +135,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
@@ -132,51 +151,51 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
               >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Maintenance">Maintenance</option>
+                <option value="OPERATIONAL">OPERATIONAL</option>
+                <option value="OUT_OF_SERVICE">OUT_OF_SERVICE</option>
+                <option value="UNDER_MAINTENANCE">UNDER_MAINTENANCE</option>
               </select>
             </div>
 
             <div className="mb-4">
               <label
-                htmlFor="lastMaintenance"
+                htmlFor="lastMaintenanceDateTime"
                 className="block text-sm font-medium text-gray-600 dark:text-gray-400"
               >
                 Last Maintenance
               </label>
               <input
                 type="date"
-                id="lastMaintenance"
-                name="lastMaintenance"
-                value={formData.lastMaintenance}
+                id="lastMaintenanceDateTime"
+                name="lastMaintenanceDateTime"
+                value={formData.lastMaintenanceDateTime}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
             <div className="mb-4">
               <label
-                htmlFor="nextMaintenance"
+                htmlFor="lastMaintenanceDateTime"
                 className="block text-sm font-medium text-gray-600 dark:text-gray-400"
               >
                 Next Maintenance
               </label>
               <input
                 type="date"
-                id="nextMaintenance"
-                name="nextMaintenance"
-                value={formData.nextMaintenance}
+                id="lastMaintenanceDateTime"
+                name="lastMaintenanceDateTime"
+                value={formData.nextMaintenanceDateTime}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
             <button
               type="submit"
-              className="mt-4 w-full rounded-lg bg-[#1976D2] py-3 text-white shadow-lg transition hover:bg-opacity-80"
+              className="mt-6 w-full rounded-lg bg-blue-600 py-3 text-white transition hover:bg-blue-700"
             >
               Save Changes
             </button>

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
 const DetailsModal = ({ item, onClose }) => {
-  const isMachine = item.hasOwnProperty("name");
+  const isMachine = item.hasOwnProperty("nextMaintenanceDate");
 
   return (
     <motion.div
@@ -30,82 +30,77 @@ const DetailsModal = ({ item, onClose }) => {
         </button>
 
         {/* Title */}
-        <h2 className="mb-4 text-center text-2xl font-bold">
-          {isMachine ? item.name : item.title}
+        <h2 className="mb-6 text-center text-3xl font-semibold text-[#1976D2]">
+          {isMachine ? "Machine Details" : "Task Details"}
         </h2>
 
         {/* Details Section */}
         <div className="rounded-lg bg-white p-5 shadow-[0_1px_15px_rgba(0,0,0,0.3)] dark:bg-[#212121]">
-          <p className="mb-2">
+          {/* General Info */}
+          <p className="mb-3 text-lg">
             <strong>ID:</strong> {item.id}
           </p>
+
+          {/* Machine Specific Details */}
           {isMachine ? (
             <>
-              {item.description && (
-                <p className="mb-2">
-                  <strong>Description:</strong> {item.description}
-                </p>
-              )}
-              {item.status && (
-                <p className="mb-2">
-                  <strong>Status:</strong> {item.status}
-                </p>
-              )}
-              {item.location && (
-                <p className="mb-2">
-                  <strong>Location:</strong> {item.location}
-                </p>
-              )}
-              {item.lastMaintenanceDate && (
-                <p className="mb-2">
-                  <strong>Last Maintenance:</strong> {item.lastMaintenanceDate}
-                </p>
-              )}
-              {item.nextMaintenanceDate && (
-                <p className="mb-2">
-                  <strong>Next Maintenance:</strong> {item.nextMaintenanceDate}
-                </p>
-              )}
+              <p className="mb-3">
+                <strong>Description:</strong> {item.description}
+              </p>
+              <p className="mb-3">
+                <strong>Status:</strong> {item.status}
+              </p>
+              <p className="mb-3">
+                <strong>Location:</strong> {item.location}
+              </p>
+              <p className="mb-3">
+                <strong>Last Maintenance Date:</strong>{" "}
+                {new Date(item.lastMaintenanceDate).toLocaleDateString()}
+              </p>
+              <p className="mb-3">
+                <strong>Next Maintenance Date:</strong>{" "}
+                {new Date(item.nextMaintenanceDate).toLocaleDateString()}
+              </p>
+              <p className="mb-3">
+                <strong>Date Added:</strong>{" "}
+                {new Date(item.dateAdded).toLocaleDateString()}
+              </p>
             </>
           ) : (
+            // Task Specific Details
             <>
-              {item.priority && (
-                <p className="mb-2">
-                  <strong>Priority:</strong> {item.priority}
-                </p>
-              )}
-              {item.status && (
-                <p className="mb-2">
-                  <strong>Status:</strong> {item.status}
-                </p>
-              )}
-              {item.dueDate && (
-                <p className="mb-2">
-                  <strong>Due Date:</strong> {item.dueDate}
-                </p>
-              )}
-              {item.assignedTo && (
-                <p className="mb-2">
-                  <strong>Assigned To:</strong> {item.assignedTo}
-                </p>
-              )}
-              {item.createdAt && (
-                <p className="mb-2">
-                  <strong>Created At:</strong> {item.createdAt}
-                </p>
-              )}
-              {item.cost && (
-                <p className="">
-                  <strong>Cost:</strong> ${item.cost.toFixed(2)}
-                </p>
-              )}
+              <p className="mb-3">
+                <strong>Category:</strong> {item.category}
+              </p>
+              <p className="mb-3">
+                <strong>Priority:</strong> {item.priority}
+              </p>
+              <p className="mb-3">
+                <strong>Status:</strong> {item.status}
+              </p>
+              <p className="mb-3">
+                <strong>Deadline:</strong>{" "}
+                {new Date(item.deadline).toLocaleDateString()}
+              </p>
+              <p className="mb-3">
+                <strong>Assigned To:</strong> {item.responsibleUserId || "N/A"}
+              </p>
+              <p className="mb-3">
+                <strong>Created At:</strong>{" "}
+                {new Date(item.createDate).toLocaleDateString()}
+              </p>
+              <p className="mb-3">
+                <strong>Cost:</strong> $
+                {item.cost ? item.cost.toFixed(2) : "N/A"}
+              </p>
             </>
           )}
         </div>
 
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="mt-4 w-full rounded-lg bg-[#1976D2] py-3 text-white shadow-lg transition hover:bg-opacity-80"
+          className="mt-6 w-full rounded-lg bg-[#1976D2] py-3 text-white shadow-lg transition hover:bg-opacity-80"
         >
           Close
         </button>

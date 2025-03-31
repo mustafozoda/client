@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useMachineSearchStore from "../../store/useMachineSearchStore";
 
-const statuses = ["Active", "Inactive", "Under Maintenance"];
+const statuses = ["OPERATIONAL", "OUT_OF_SERVICE", "UNDER_MAINTENANCE"];
 
 const SearchFilter = () => {
   const { searchTerm, selectedStatuses, setSearchTerm, setSelectedStatuses } =

@@ -1,16 +1,16 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTasks } from "../../api/tasksApi";
+import { fetchTasks } from "../../api/tasksApi"; // Ensure this fetches tasks similarly to fetchMachines
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]; // Green, Yellow, Red
+
 const RADIAN = Math.PI / 180;
 
 const priorityMapping = {
-  Urgent: 4,
-  High: 3,
-  Normal: 2,
-  Low: 1,
+  LOW: 1,
+  MEDIUM: 2,
+  HIGH: 3,
 };
 
 const renderCustomizedLabel = ({
@@ -41,23 +41,32 @@ const renderCustomizedLabel = ({
 
 const TasksChart = () => {
   const {
-    data: tasks,
+    data: responseData,
     isLoading,
     error,
   } = useQuery({
     queryKey: ["tasks"],
-    queryFn: fetchTasks,
+    queryFn: fetchTasks, // Update fetchTasks function accordingly
   });
+
+  // Ensure tasks is an array before proceeding
+  const tasks = Array.isArray(responseData?.tasks) ? responseData.tasks : [];
 
   if (isLoading) return <p>Loading tasks...</p>;
   if (error) return <p>Error loading tasks</p>;
 
-  const getPriorityCounts = (tasks) => {
-    const counts = { Urgent: 0, High: 0, Normal: 0, Low: 0 };
+  // Log the task data for debugging
+  console.log("Tasks Data: ", tasks);
 
+  const getPriorityCounts = (tasks) => {
+    const counts = { LOW: 0, MEDIUM: 0, HIGH: 0 };
+
+    // Count the priorities
     tasks.forEach((task) => {
       if (counts[task.priority] !== undefined) {
         counts[task.priority] += 1;
+      } else {
+        console.warn(`Unknown priority encountered: ${task.priority}`);
       }
     });
 
@@ -70,11 +79,9 @@ const TasksChart = () => {
       }));
   };
 
-  const data = tasks ? getPriorityCounts(tasks) : [];
+  const data = getPriorityCounts(tasks);
 
   if (data.length === 0) return <p>No tasks available for the chart</p>;
-
-  // console.log("Fetched tasks:", tasks);
 
   return (
     <div style={{ display: "flex", alignItems: "end" }}>
@@ -96,7 +103,8 @@ const TasksChart = () => {
                 marginRight: "10px",
               }}
             ></div>
-            <span>{priority}</span>
+            <span>{priority.replace("_", " ")}</span>{" "}
+            {/* Replace underscores with space */}
           </div>
         ))}
       </div>
@@ -111,12 +119,10 @@ const TasksChart = () => {
             outerRadius={75}
             fill="#8884d8"
             dataKey="value"
+            innerRadius={42}
           >
             {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
+              <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
         </PieChart>
