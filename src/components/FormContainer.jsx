@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X, CalendarDays } from "lucide-react";
 import { useModalStore } from "../store/useModalStore";
 import MachineForm from "./MachineForm";
 import TaskForm from "./TaskForm";
+import { useLocation } from "react-router-dom";
 
 const FormContainer = () => {
   const [showBox1, setShowBox1] = useState(true);
   const { isOpen, closeModal } = useModalStore();
   const { secModOpen, toggleSecModal } = useModalStore();
+  const location = useLocation();
+
+  // Set initial state based on current route
+  useEffect(() => {
+    if (location.pathname === "/tasks") {
+      setShowBox1(false); // Show tasks form if we're on /tasks page
+    } else {
+      setShowBox1(true); // Default to showing machines form
+    }
+  }, [location.pathname]);
+
   return (
     <div className="flex h-full w-[95%] flex-col items-center justify-start">
       <div className="flex w-full items-center justify-between">
         <div>
-          {" "}
           <CalendarDays
             className="cursor-pointer"
             onClick={(e) => {

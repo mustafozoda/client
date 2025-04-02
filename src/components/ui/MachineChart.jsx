@@ -96,17 +96,19 @@ const MachineChart = () => {
               display: "flex",
               alignItems: "center",
               marginBottom: "5px",
+              overflow: "hidden",
             }}
           >
             <div
+              className=""
               style={{
                 width: "15px",
                 height: "15px",
-                backgroundColor: COLORS[statusMapping[status]], // Color based on statusMapping
+                backgroundColor: COLORS[statusMapping[status]],
                 marginRight: "10px",
               }}
             ></div>
-            <span>{status.replace("_", " ")}</span>
+            <span className="">{status.replace("_", " ")}</span>
           </div>
         ))}
       </div>

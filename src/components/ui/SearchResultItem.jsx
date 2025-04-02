@@ -3,11 +3,15 @@ import React from "react";
 const SearchResultItem = ({ item, onClick }) => {
   return (
     <div
-      className="cursor-pointer border-b p-2 hover:bg-gray-300 dark:hover:bg-[#2B2B2B]"
+      className="flex w-full cursor-pointer items-center rounded-lg p-2 hover:bg-gray-200 dark:hover:bg-[#2B2B2B]"
       onClick={onClick}
     >
-      <p className="font-semibold">{item.name || item.title}</p>
-      <p className="text-sm text-gray-600">{item.id}</p>
+      <div className="w-[90%]">
+        <span>Name: {item.description}</span>
+      </div>
+      <div className="w-[10%]">
+        <span>ID: {item.id}</span>
+      </div>
     </div>
   );
 };

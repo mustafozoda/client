@@ -14,10 +14,12 @@ const MachinesTable = () => {
 
   const {
     data: machinesData = {},
+
     isLoading,
     error,
     refetch,
   } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
+  console.log(machinesData);
 
   const machines = machinesData.machines || [];
 

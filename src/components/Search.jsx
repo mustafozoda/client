@@ -120,7 +120,7 @@ const Search = () => {
           <input
             type="text"
             placeholder="Search equipment, work orders, & more"
-            className={`h-[30px] rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none dark:bg-[#212121] dark:placeholder:text-gray-300 ${
+            className={`h-[30px] ${showDropdown ? "rounded-b-none" : ""} rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none dark:bg-[#212121] dark:placeholder:text-gray-300 ${
               isFocused || showDropdown ? "w-[40vw]" : "w-[30vw]"
             }`}
             onFocus={() => {
@@ -150,7 +150,7 @@ const Search = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="absolute left-0 mt-1 w-[40vw] rounded-b-md bg-[#a1abae] p-1 shadow-lg dark:bg-[#212121]"
+          className="absolute left-0 flex w-[40vw] flex-col gap-1 rounded-b-md bg-[#a1abae] p-2 dark:bg-[#212121]"
         >
           {results.length > 0 ? (
             results.map((item) => (
@@ -176,7 +176,7 @@ const Search = () => {
                       >
                         <div className="flex items-center justify-center gap-2">
                           <History size={15} />
-                          <span>{item.name || item.title}</span>
+                          <span>{item.description || item.title}</span>
                         </div>
                         <button
                           onClick={(e) => {

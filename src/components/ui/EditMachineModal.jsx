@@ -5,18 +5,25 @@ import { X } from "lucide-react";
 const EditMachineModal = ({ item, onClose, onSave }) => {
   if (!item) return null;
 
-  const formatDateForInput = (date) => {
-    if (!date) return "";
-    return new Date(date).toISOString().split("T")[0];
+  // Format "YYYY-MM-DD" from full ISO string
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    return date.toISOString().split("T")[0];
   };
 
+  // Initial state with correct field names from GET response
   const [formData, setFormData] = useState({
     id: item.id ?? 0,
-    description: item?.description || "",
-    location: item?.location || "",
-    status: item?.status || "",
-    lastMaintenanceDateTime: formatDateForInput(item?.lastMaintenanceDate),
-    nextMaintenanceDateTime: formatDateForInput(item?.nextMaintenanceDate),
+    description: item.description || "",
+    location: item.location || "",
+    status: item.status || "OPERATIONAL",
+    lastMaintenanceDate: item.lastMaintenanceDate
+      ? formatDate(item.lastMaintenanceDate)
+      : "",
+    nextMaintenanceDate: item.nextMaintenanceDate
+      ? formatDate(item.nextMaintenanceDate)
+      : "",
   });
 
   useEffect(() => {
@@ -25,17 +32,21 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
         id: item.id ?? 0,
         description: item.description || "",
         location: item.location || "",
-        status: item.status || "",
-        lastMaintenanceDateTime: formatDateForInput(item.lastMaintenanceDate),
-        nextMaintenanceDateTime: formatDateForInput(item.nextMaintenanceDate),
+        status: item.status || "OPERATIONAL",
+        lastMaintenanceDate: item.lastMaintenanceDate
+          ? formatDate(item.lastMaintenanceDate)
+          : "",
+        nextMaintenanceDate: item.nextMaintenanceDate
+          ? formatDate(item.nextMaintenanceDate)
+          : "",
       });
     }
   }, [item]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
@@ -43,20 +54,23 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formatDate = (date) => {
-      return date ? new Date(date).toISOString() : null;
+    const payload = {
+      id: formData.id,
+      description: formData.description,
+      location: formData.location,
+      status: formData.status.toUpperCase(),
+      lastMaintenanceDateTime: formData.lastMaintenanceDate
+        ? new Date(formData.lastMaintenanceDate).toISOString()
+        : null,
+      nextMaintenanceDateTime: formData.nextMaintenanceDate
+        ? new Date(formData.nextMaintenanceDate).toISOString()
+        : null,
     };
 
-    const formattedData = {
-      ...formData,
-      lastMaintenanceDateTime: formatDate(formData.lastMaintenanceDateTime),
-      nextMaintenanceDateTime: formatDate(formData.nextMaintenanceDateTime),
-    };
+    onSave(payload);
+    console.log(payload);
 
-    onSave(formattedData);
-    console.log(formattedData);
-
-    onClose();
+    onClose(); // close modal
   };
 
   return (
@@ -77,7 +91,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 text-white transition hover:text-gray-800"
+          className="absolute right-4 top-4 text-gray-600 hover:text-black dark:text-gray-300 dark:hover:text-white"
         >
           <X size={24} />
         </button>
@@ -88,108 +102,71 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
 
         <div className="rounded-lg bg-gray-100 p-5 shadow-md dark:bg-[#2B2B2B]">
           <form onSubmit={handleSubmit}>
-            {/* <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-600 dark:text-gray-400"
-              >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
-              />
-            </div> */}
-
             <div className="mb-4">
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-gray-600 dark:text-gray-400"
-              >
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Description
               </label>
               <textarea
-                id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                rows="4"
-                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                rows="3"
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="location"
-                className="block text-sm font-medium text-gray-600 dark:text-gray-400"
-              >
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Location
               </label>
               <input
                 type="text"
-                id="location"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium text-gray-600 dark:text-gray-400"
-              >
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Status
               </label>
               <select
-                id="status"
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               >
                 <option value="OPERATIONAL">OPERATIONAL</option>
-                <option value="OUT_OF_SERVICE">OUT_OF_SERVICE</option>
                 <option value="UNDER_MAINTENANCE">UNDER_MAINTENANCE</option>
+                <option value="OUT_OF_SERVICE">OUT_OF_SERVICE</option>
               </select>
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="lastMaintenanceDateTime"
-                className="block text-sm font-medium text-gray-600 dark:text-gray-400"
-              >
-                Last Maintenance
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                Last Maintenance Date
               </label>
               <input
                 type="date"
-                id="lastMaintenanceDateTime"
-                name="lastMaintenanceDateTime"
-                value={formData.lastMaintenanceDateTime}
+                name="lastMaintenanceDate"
+                value={formData.lastMaintenanceDate}
                 onChange={handleChange}
-                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="lastMaintenanceDateTime"
-                className="block text-sm font-medium text-gray-600 dark:text-gray-400"
-              >
-                Next Maintenance
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                Next Maintenance Date
               </label>
               <input
                 type="date"
-                id="lastMaintenanceDateTime"
-                name="lastMaintenanceDateTime"
-                value={formData.nextMaintenanceDateTime}
+                name="nextMaintenanceDate"
+                value={formData.nextMaintenanceDate}
                 onChange={handleChange}
-                className="mt-2 block w-full rounded-lg border border-gray-300 bg-white p-2 dark:bg-[#333] dark:text-white"
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
 

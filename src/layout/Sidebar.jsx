@@ -5,8 +5,8 @@ import {
   Users,
   LogOut,
   BarChart2,
-  Wrench,
-  ClipboardList,
+  Cable,
+  ListTodo,
   CircleAlert,
   ChartArea,
 } from "lucide-react";
@@ -20,35 +20,40 @@ const Sidebar = ({ setDark }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const SIDEBAR_ITEMS = [
-    { name: "Overview", icon: ChartArea, color: "#6366f1", href: "/" },
+    {
+      name: "Overview",
+      icon: ChartArea,
+      // color: "#6366f1",
+      href: "/",
+    },
     {
       name: "Machines",
-      icon: Wrench,
-      color: "#6EE7B7",
+      icon: Cable,
+      // color: "#6EE7B7",
       href: "/machines",
     },
     {
-      name: "Maintenance Logs",
-      icon: ClipboardList,
-      color: "#8B5CF6",
-      href: "/maintenance-logs",
+      name: "Tasks",
+      icon: ListTodo,
+      // color: "#8B5CF6",
+      href: "/tasks",
     },
     {
       name: "Issue Reports",
       icon: CircleAlert,
-      color: "#F59E0B",
+      // color: "#F59E0B",
       href: "/issue-reports",
     },
     {
       name: "User Management",
       icon: Users,
-      color: "#3B82F6",
+      // color: "#3B82F6",
       href: "/user-management",
     },
     {
       name: "Settings",
       icon: Settings,
-      color: "#6EE7B7",
+      // color: "#6EE7B7",
       href: "/settings",
     },
   ];
