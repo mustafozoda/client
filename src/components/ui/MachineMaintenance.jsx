@@ -11,7 +11,6 @@ import useThemeStore from "../../store/useThemeStore";
 import BlinkingDot from "./BlinkingDot";
 import { Trash2, SquarePen } from "lucide-react";
 
-// Helper to ensure ISO format with 'Z' suffix
 const toIsoZ = (dateStr) =>
   new Date(dateStr).toISOString().split(".")[0] + ".000Z";
 

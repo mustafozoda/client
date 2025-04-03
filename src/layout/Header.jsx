@@ -6,7 +6,6 @@ const Header = ({ title, style }) => {
   const { openModal } = useModalStore();
   const location = useLocation();
 
-  // Only show button if we're on /machines or /tasks
   const shouldShowButton =
     location.pathname === "/machines" || location.pathname === "/tasks";
 

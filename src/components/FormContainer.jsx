@@ -12,12 +12,11 @@ const FormContainer = () => {
   const { secModOpen, toggleSecModal } = useModalStore();
   const location = useLocation();
 
-  // Set initial state based on current route
   useEffect(() => {
     if (location.pathname === "/tasks") {
-      setShowBox1(false); // Show tasks form if we're on /tasks page
+      setShowBox1(false);
     } else {
-      setShowBox1(true); // Default to showing machines form
+      setShowBox1(true);
     }
   }, [location.pathname]);
 

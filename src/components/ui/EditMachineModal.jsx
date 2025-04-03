@@ -5,14 +5,12 @@ import { X } from "lucide-react";
 const EditMachineModal = ({ item, onClose, onSave }) => {
   if (!item) return null;
 
-  // Format "YYYY-MM-DD" from full ISO string
   const formatDate = (isoString) => {
     if (!isoString) return "";
     const date = new Date(isoString);
     return date.toISOString().split("T")[0];
   };
 
-  // Initial state with correct field names from GET response
   const [formData, setFormData] = useState({
     id: item.id ?? 0,
     description: item.description || "",
@@ -70,7 +68,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
     onSave(payload);
     console.log(payload);
 
-    onClose(); // close modal
+    onClose();
   };
 
   return (
