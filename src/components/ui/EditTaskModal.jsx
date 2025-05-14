@@ -2,13 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
-/**
- * EditTaskModal
- * Props:
- * - task: the task object to edit (should include all editable fields)
- * - onClose: callback to close the modal
- * - onSave: callback receiving the updated payload
- */
 export default function EditTaskModal({ task, onClose, onSave }) {
   if (!task) return null;
 

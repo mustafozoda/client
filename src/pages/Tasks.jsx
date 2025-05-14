@@ -141,8 +141,8 @@ export default function Tasks() {
             </button>
           </div>
         </div>
-        <div className="max-h-[600px] divide-y divide-slate-200 overflow-y-scroll rounded bg-white shadow dark:divide-slate-700 dark:bg-[#171717]">
-          <div className="sticky top-0 grid grid-cols-[5%_10%_30%_15%_10%_20%_10%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
+        <div className="scroll-container max-h-[600px] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
+          <div className="sticky top-0 grid grid-cols-[5%_10%_20%_25%_10%_20%_10%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
             <div className="flex justify-center">
               <button onClick={toggleSelectAll}>
                 {selectAll ? (
@@ -167,7 +167,7 @@ export default function Tasks() {
               <div
                 key={t.id}
                 onClick={() => setEditing(t)}
-                className="grid cursor-pointer grid-cols-[5%_10%_30%_15%_10%_20%_10%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
+                className="grid cursor-pointer grid-cols-[5%_10%_20%_25%_10%_20%_10%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
               >
                 <div className="flex justify-center">
                   <button
@@ -240,6 +240,7 @@ export default function Tasks() {
                 </div>
               </div>
             ))}
+          <div className="sticky bottom-0 bg-white px-4 py-5 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400"></div>
         </div>
         {filterOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
