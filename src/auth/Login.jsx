@@ -39,7 +39,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full rounded border p-2"
+            className="w-full rounded border p-2 text-black"
             placeholder="Password"
           />
           <button

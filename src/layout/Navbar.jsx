@@ -69,7 +69,7 @@ const Navbar = () => {
         <div className="flex w-[30px] items-center space-x-[10px] rounded-full bg-[#a1abae] dark:bg-[#212121]">
           <img src={logo} alt="logo-of-university" />
         </div>
-        <div className="relative">
+        <div className="none">
           <button
             className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
             onClick={() => toggleDropdown(1)}

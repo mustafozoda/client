@@ -39,7 +39,7 @@ const Register = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Username"
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-black"
               required
             />
           </div>
@@ -50,7 +50,7 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-black"
               required
             />
           </div>
@@ -61,7 +61,7 @@ const Register = () => {
               value={password}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded border p-2"
+              className="w-full rounded border p-2 text-black"
               required
             />
           </div>

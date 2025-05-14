@@ -7,46 +7,27 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
 
   const formatDate = (isoString) => {
     if (!isoString) return "";
-    const date = new Date(isoString);
-    return date.toISOString().split("T")[0];
+    return new Date(isoString).toISOString().split("T")[0];
   };
 
-  const [formData, setFormData] = useState({
+  const makeInitialForm = () => ({
     id: item.id ?? 0,
     description: item.description || "",
     location: item.location || "",
     status: item.status || "OPERATIONAL",
-    lastMaintenanceDate: item.lastMaintenanceDate
-      ? formatDate(item.lastMaintenanceDate)
-      : "",
-    nextMaintenanceDate: item.nextMaintenanceDate
-      ? formatDate(item.nextMaintenanceDate)
-      : "",
+    lastMaintenanceDate: formatDate(item.lastMaintenanceDate),
+    nextMaintenanceDate: formatDate(item.nextMaintenanceDate),
   });
 
+  const [formData, setFormData] = useState(makeInitialForm());
+
   useEffect(() => {
-    if (item) {
-      setFormData({
-        id: item.id ?? 0,
-        description: item.description || "",
-        location: item.location || "",
-        status: item.status || "OPERATIONAL",
-        lastMaintenanceDate: item.lastMaintenanceDate
-          ? formatDate(item.lastMaintenanceDate)
-          : "",
-        nextMaintenanceDate: item.nextMaintenanceDate
-          ? formatDate(item.nextMaintenanceDate)
-          : "",
-      });
-    }
+    setFormData(makeInitialForm());
   }, [item]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -54,20 +35,18 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
 
     const payload = {
       id: formData.id,
-      description: formData.description,
-      location: formData.location,
+      description: formData.description.trim(),
+      location: formData.location.trim(),
       status: formData.status.toUpperCase(),
       lastMaintenanceDateTime: formData.lastMaintenanceDate
         ? new Date(formData.lastMaintenanceDate).toISOString()
-        : null,
+        : item.lastMaintenanceDateTime,
       nextMaintenanceDateTime: formData.nextMaintenanceDate
         ? new Date(formData.nextMaintenanceDate).toISOString()
-        : null,
+        : item.nextMaintenanceDateTime,
     };
 
     onSave(payload);
-    console.log(payload);
-
     onClose();
   };
 
@@ -95,7 +74,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
         </button>
 
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 dark:text-white">
-          Edit Machine: {item?.name}
+          Edit Machine: {item.name}
         </h2>
 
         <div className="rounded-lg bg-gray-100 p-5 shadow-md dark:bg-[#2B2B2B]">
@@ -108,7 +87,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                rows="3"
+                rows={3}
                 className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
             </div>
@@ -137,8 +116,8 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               >
                 <option value="OPERATIONAL">OPERATIONAL</option>
-                <option value="UNDER_MAINTENANCE">UNDER_MAINTENANCE</option>
-                <option value="OUT_OF_SERVICE">OUT_OF_SERVICE</option>
+                <option value="UNDER_MAINTENANCE">UNDER MAINTENANCE</option>
+                <option value="OUT_OF_SERVICE">OUT OF SERVICE</option>
               </select>
             </div>
 

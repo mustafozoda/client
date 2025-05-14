@@ -16,6 +16,12 @@ const MachineDetails = ({ machine, refetch }) => {
 
   if (!machine) return null;
 
+  // Format ISO timestamps to YYYY-MM-DD
+  const formatDate = (isoString) => {
+    if (!isoString) return "-";
+    return new Date(isoString).toISOString().split("T")[0];
+  };
+
   const deleteMachineMutation = useMutation({
     mutationFn: (id) => deleteMachine(id),
     onSuccess: () => {
@@ -31,6 +37,7 @@ const MachineDetails = ({ machine, refetch }) => {
     mutationFn: (data) => updateMachine(data),
     onSuccess: () => {
       refetch();
+      setIsEditModalOpen(false);
     },
     onError: (error) => {
       console.error("Error updating machine:", error);
@@ -39,28 +46,17 @@ const MachineDetails = ({ machine, refetch }) => {
   });
 
   const handleDelete = () => {
-    deleteMachineMutation.mutate(machine.id);
+    if (window.confirm("Are you sure you want to delete this machine?")) {
+      deleteMachineMutation.mutate(machine.id);
+    }
   };
 
-  const handleEdit = () => {
-    setIsEditModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsEditModalOpen(false);
-  };
+  const handleEdit = () => setIsEditModalOpen(true);
+  const handleCloseModal = () => setIsEditModalOpen(false);
 
   const handleSave = (updatedMachine) => {
-    const formattedMachine = {
-      id: updatedMachine.id,
-      description: updatedMachine.description,
-      lastMaintenanceDateTime: updatedMachine.lastMaintenanceDate,
-      nextMaintenanceDateTime: updatedMachine.nextMaintenanceDate,
-      location: updatedMachine.location,
-      status: updatedMachine.status,
-    };
-
-    updateMachineMutation.mutate(formattedMachine);
+    // updatedMachine includes lastMaintenanceDateTime & nextMaintenanceDateTime
+    updateMachineMutation.mutate(updatedMachine);
   };
 
   return (
@@ -85,23 +81,25 @@ const MachineDetails = ({ machine, refetch }) => {
           <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <CalendarCheck size={16} className="text-green-500" />
             <span>
-              Last Maintenance: <strong>{machine.lastMaintenanceDate}</strong>
+              Last Maintenance:{" "}
+              <strong>{formatDate(machine.lastMaintenanceDate)}</strong>
             </span>
           </div>
           <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <CalendarClock size={16} className="text-blue-500" />
             <span>
-              Next Maintenance: <strong>{machine.nextMaintenanceDate}</strong>
+              Next Maintenance:{" "}
+              <strong>{formatDate(machine.nextMaintenanceDate)}</strong>
             </span>
           </div>
         </div>
 
         <div className="flex flex-row items-end gap-3">
-          <button className="flex items-center" onClick={handleEdit}>
+          <button onClick={handleEdit} className="flex items-center">
             <SquarePen size={20} color="green" />
           </button>
 
-          <button className="flex items-center" onClick={handleDelete}>
+          <button onClick={handleDelete} className="flex items-center">
             <Trash2 size={20} color="red" />
           </button>
         </div>

@@ -11,8 +11,7 @@ import useThemeStore from "../../store/useThemeStore";
 import BlinkingDot from "./BlinkingDot";
 import { Trash2, SquarePen } from "lucide-react";
 
-const toIsoZ = (dateStr) =>
-  new Date(dateStr).toISOString().split(".")[0] + ".000Z";
+const toIsoZ = (dateStr) => new Date(dateStr).toISOString().split(".")[0] + "Z";
 
 export default function MachineMaintenance() {
   const [machines, setMachines] = useState([]);
@@ -101,17 +100,17 @@ export default function MachineMaintenance() {
     <div className="flex h-full w-full flex-col items-center">
       {currentMachines.length > 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.2 }}
-          className="relative h-2/3 w-full transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-transform hover:scale-[1.01] dark:bg-[#171717]"
+          // initial={{ opacity: 0, y: 20 }}
+          // animate={{ opacity: 1, y: 0 }}
+          // exit={{ opacity: 0, y: -20 }}
+          // transition={{ duration: 0.2 }}
+          className="relative h-full w-full transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-transform hover:scale-[1.01] dark:bg-[#171717]"
         >
           <div className="absolute right-4 top-4">
             <BlinkingDot />
           </div>
 
-          <div className="space-y-2">
+          <div className="m-0 space-y-2">
             <h3 className="text-center text-2xl text-slate-800 dark:text-white">
               {currentMachines[0].name}
             </h3>

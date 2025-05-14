@@ -9,6 +9,7 @@ import FloatingButton from "../components/FloatingButton";
 import InActiveCnt from "../components/ui/InActiveCnt";
 import ActiveCnt from "../components/ui/ActiveCnt";
 import TasksStatusCnt from "../components/ui/TasksStatusCnt";
+import Sth from "../components/ui/Sth";
 const Overview = () => {
   return (
     <div className="z-10 flex w-full flex-col overflow-auto">
@@ -26,7 +27,9 @@ const Overview = () => {
             <div className="m-[10px] items-center justify-center rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
               <TasksStatusCnt />
             </div>
-            <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]"></div>
+            <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
+              <Sth />
+            </div>
           </div>
 
           <div className="right-side grid h-full w-[55%] grid-cols-2">

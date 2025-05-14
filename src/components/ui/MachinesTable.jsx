@@ -19,7 +19,7 @@ const MachinesTable = () => {
     error,
     refetch,
   } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
-  console.log(machinesData);
+  // console.log(machinesData);
 
   const machines = machinesData.machines || [];
 

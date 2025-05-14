@@ -120,7 +120,7 @@ const Search = () => {
           <input
             type="text"
             placeholder="Search equipment, work orders, & more"
-            className={`h-[30px] ${showDropdown ? "rounded-b-none" : ""} rounded-md bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none dark:bg-[#212121] dark:placeholder:text-gray-300 ${
+            className={`h-[30px] ${showDropdown ? "rounded-b-none" : ""} rounded-md bg-[#a1abae] p-[10px] outline-none transition-all duration-300 placeholder:text-black focus:outline-none dark:bg-[#212121] dark:placeholder:text-gray-300 ${
               isFocused || showDropdown ? "w-[40vw]" : "w-[30vw]"
             }`}
             onFocus={() => {
