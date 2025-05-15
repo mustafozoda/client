@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { addMachine } from "../api/machinesApi";
-import useMachineStore from "../store/useMachineStore";
+import { addMachine } from "../../api/machinesApi";
+import useMachineStore from "../../store/useMachineStore";
 
 const MachineForm = () => {
   const { fetchAllMachines } = useMachineStore();

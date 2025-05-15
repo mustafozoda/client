@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Cable, ListTodo, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { fetchTasks } from "../api/tasksApi";
-import { fetchMachines } from "../api/machinesApi";
+import { fetchTasks } from "../../api/tasksApi";
+import { fetchMachines } from "../../api/machinesApi";
 import { History } from "lucide-react";
-import SearchResultItem from "./ui/SearchResultItem";
-import DetailsModal from "./ui/DetailsModal";
+import SearchResultItem from "./SearchResultItem";
+import DetailsModal from "./../machinesPage/DetailsModal";
 
 const Search = () => {
   const [query, setQuery] = useState("");

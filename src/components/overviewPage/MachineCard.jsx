@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import MachineChart from "./MachineChart";
 import { fetchMachines } from "../../api/machinesApi";
-import SkeletonLoader from "../../components/SkeletonLoader";
+import SkeletonLoader from "../SkeletonLoader";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { Copy } from "lucide-react";
 

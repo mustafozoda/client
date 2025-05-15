@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import clearr from "../assets/clearr.mp4";
-import clouds from "../assets/cloudy.mp4";
-import rain from "../assets/rainy.mp4";
-import snow from "../assets/snowy.mp4";
-import SkeletonLoader from "./SkeletonLoader";
+import clearr from "../../assets/clearr.mp4";
+import clouds from "../../assets/cloudy.mp4";
+import rain from "../../assets/rainy.mp4";
+import snow from "../../assets/snowy.mp4";
+import SkeletonLoader from "./../SkeletonLoader";
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 const getBackgroundImage = (weatherMain) => {

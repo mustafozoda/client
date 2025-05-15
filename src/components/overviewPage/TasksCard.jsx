@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import TasksChart from "./TasksChart";
 import { fetchTasks } from "../../api/tasksApi";
-import SkeletonLoader from "../../components/SkeletonLoader";
+import SkeletonLoader from "../SkeletonLoader";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { Copy } from "lucide-react";
 

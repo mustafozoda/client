@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X, CalendarDays } from "lucide-react";
 import { useModalStore } from "../store/useModalStore";
-import MachineForm from "./MachineForm";
-import TaskForm from "./TaskForm";
+import MachineForm from "./machinesPage/MachineForm";
+import TaskForm from "../components/tasksPage/TaskForm";
 import { useLocation } from "react-router-dom";
 
 const FormContainer = () => {

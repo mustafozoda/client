@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { addTask } from "../api/tasksApi";
-import useTasksStore from "../store/useTasksStore";
+import { addTask } from "../../api/tasksApi";
+import useTasksStore from "../../store/useTasksStore";
 
 const TaskForm = () => {
   const { fetchAllTasks } = useTasksStore();

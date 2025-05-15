@@ -1,15 +1,15 @@
 import React from "react";
 import Header from "../layout/Header";
-import TasksCard from "../components/ui/TasksCard";
-import MachineCard from "../components/ui/MachineCard";
-import WeatherApp from "../components/WeatherApp";
-import ArticleCard from "../components/ArticleCard";
-import Map from "../components/Map";
-import FloatingButton from "../components/FloatingButton";
-import InActiveCnt from "../components/ui/InActiveCnt";
-import ActiveCnt from "../components/ui/ActiveCnt";
-import TasksStatusCnt from "../components/ui/TasksStatusCnt";
-import Sth from "../components/ui/Sth";
+import TasksCard from "../components/overviewPage/TasksCard";
+import MachineCard from "../components/overviewPage/MachineCard";
+import WeatherApp from "../components/overviewPage/WeatherApp";
+import ArticleCard from "../components/overviewPage/ArticleCard";
+import Map from "../components/overviewPage/Map";
+// import FloatingButton from "../components/FloatingButton";
+import InActiveCnt from "../components/overviewPage/InActiveCnt";
+import ActiveCnt from "../components/overviewPage/ActiveCnt";
+import TasksStatusCnt from "../components/overviewPage/TasksStatusCnt";
+import Sth from "../components/overviewPage/Sth";
 const Overview = () => {
   return (
     <div className="z-10 flex w-full flex-col overflow-auto">

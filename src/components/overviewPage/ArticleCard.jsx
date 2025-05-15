@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SkeletonLoader from "../components/SkeletonLoader";
+import SkeletonLoader from "../SkeletonLoader";
 import { ArrowBigRightDash, ArrowBigLeftDash } from "lucide-react";
 
 const API_KEY = import.meta.env.VITE_NEWS_API_KEY;

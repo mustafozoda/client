@@ -8,7 +8,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { motion } from "framer-motion";
 import useThemeStore from "../../store/useThemeStore";
-import BlinkingDot from "./BlinkingDot";
+import BlinkingDot from "../overviewPage/BlinkingDot";
 import { Trash2, SquarePen } from "lucide-react";
 
 const toIsoZ = (dateStr) => new Date(dateStr).toISOString().split(".")[0] + "Z";

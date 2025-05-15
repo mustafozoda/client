@@ -1,15 +1,15 @@
-import React from "react";
-import { SquarePen } from "lucide-react";
+// import React from "react";
+// import { SquarePen } from "lucide-react";
 import Header from "../layout/Header";
 import DateCalendarComponent from "../components/DateCalendarComponent";
-import MachineMaintenance from "../components/ui/MachineMaintenance";
-import MaintenanceChart from "../components/ui/MaintenanceChart";
-import SearchFilter from "../components/logic/SearchFilter";
-import MachinesTable from "../components/ui/MachinesTable";
-import { useModalStore } from "../store/useModalStore";
+import MachineMaintenance from "../components/machinesPage/MachineMaintenance";
+import MaintenanceChart from "../components/machinesPage/MaintenanceChart";
+import SearchFilter from "../components/machinesPage/SearchFilter";
+import MachinesTable from "../components/machinesPage/MachinesTable";
+// import { useModalStore } from "../store/useModalStore";
 
 const Machines = () => {
-  const { openModal } = useModalStore();
+  // const { openModal } = useModalStore();
   return (
     <div className="flex h-full w-full flex-col">
       <Header title="Machines" />

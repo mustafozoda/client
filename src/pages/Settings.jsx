@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../layout/Header";
-import EditMachineModal from "../components/ui/EditMachineModal";
+import EditMachineModal from "../components/machinesPage/EditMachineModal";
 import DateCalendarComponent from "../components/DateCalendarComponent";
 
 const Settings = () => {

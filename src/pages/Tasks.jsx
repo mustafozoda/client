@@ -10,10 +10,10 @@ import {
   SquareCheckBig,
   Trash2,
 } from "lucide-react";
-import FilterModal from "../components/FilterModal";
+import FilterModal from "../components/tasksPage/FilterModal";
 import LinearProgress from "@mui/material/LinearProgress";
-import TaskFilter from "../components/logic/TaskFilter";
-import EditTaskModal from "../components/ui/EditTaskModal";
+import TaskFilter from "../components/tasksPage/TaskFilter";
+import EditTaskModal from "../components/tasksPage/EditTaskModal";
 
 const statusConfig = {
   PENDING: {

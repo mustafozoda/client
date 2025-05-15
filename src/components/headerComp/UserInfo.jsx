@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { UserRoundCog, LogOut, Settings, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import LogoutConfirmationModal from "../components/ui/LogoutConfirmationModal";
-import useAuthStore from "../store/useAuthStore";
+import LogoutConfirmationModal from "./LogoutConfirmationModal";
+import useAuthStore from "../../store/useAuthStore";
 
 const UserInfo = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

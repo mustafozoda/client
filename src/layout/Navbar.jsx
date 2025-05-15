@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import logo from "../assets/ELTE.png";
-import Search from "../components/Search";
-import NotificationBox from "../components/NotificationBox";
-import UserInfo from "../components/UserInfo";
-import Setting from "../components/Setting";
-import CalculatorUi from "../components/CalculatorUi";
+import Search from "../components/headerComp/Search";
+import NotificationBox from "../components/headerComp/NotificationBox";
+import UserInfo from "../components/headerComp/UserInfo";
+import Setting from "../components/headerComp/Setting";
+import CalculatorUi from "../components/headerComp/CalculatorUi";
 const DropdownMenu = ({ isOpen, options, onClose }) => {
   return (
     isOpen && (
