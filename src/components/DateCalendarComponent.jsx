@@ -75,9 +75,9 @@ export default function DateCalendarComponent({ cusWidth }) {
       .then((data) => {
         if (Array.isArray(data.machines)) {
           const maintenanceDays = data.machines.map((machine) => {
-            const maintenanceDate = dayjs(machine.nextMaintenanceDate).startOf(
-              "day",
-            );
+            const maintenanceDate = dayjs(
+              machine.nextMaintenanceDateTime,
+            ).startOf("day");
             return maintenanceDate;
           });
 

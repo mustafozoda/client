@@ -8,8 +8,8 @@ const MachineForm = () => {
     // name: "",
     description: "",
     location: "",
-    lastMaintenanceDate: "",
-    nextMaintenanceDate: "",
+    lastMaintenanceDateTime: "",
+    nextMaintenanceDateTime: "",
     status: "",
     // photoUrl: "",
   });
@@ -23,14 +23,14 @@ const MachineForm = () => {
 
     const formattedData = {
       ...formData,
-      lastMaintenanceDate: formData.lastMaintenanceDate
-        ? new Date(formData.lastMaintenanceDate).toISOString()
+      lastMaintenanceDateTime: formData.lastMaintenanceDateTime
+        ? new Date(formData.lastMaintenanceDateTime).toISOString()
         : null,
-      nextMaintenanceDate: formData.nextMaintenanceDate
-        ? new Date(formData.nextMaintenanceDate).toISOString()
+      nextMaintenanceDateTime: formData.nextMaintenanceDateTime
+        ? new Date(formData.nextMaintenanceDateTime).toISOString()
         : null,
     };
-    console.log("🔍 Sending object to backend:", formattedData);
+    console.log("Sending object to backend:", formattedData);
     try {
       await addMachine(formattedData);
       fetchAllMachines();
@@ -38,8 +38,8 @@ const MachineForm = () => {
         // name: "",
         description: "",
         location: "",
-        lastMaintenanceDate: "",
-        nextMaintenanceDate: "",
+        lastMaintenanceDateTime: "",
+        nextMaintenanceDateTime: "",
         status: "",
         // photoUrl: "",
       });
@@ -113,8 +113,8 @@ const MachineForm = () => {
           <label className="block font-medium">Last Maintenance</label>
           <input
             type="date"
-            name="lastMaintenanceDate"
-            value={formData.lastMaintenanceDate}
+            name="lastMaintenanceDateTime"
+            value={formData.lastMaintenanceDateTime}
             onChange={handleChange}
             className="w-full rounded border-none bg-[#a1abae] p-2 text-black text-opacity-50 transition-all duration-300 focus:outline-none focus:ring-[1px] focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />
@@ -123,8 +123,8 @@ const MachineForm = () => {
           <label className="block font-medium">Next Maintenance</label>
           <input
             type="date"
-            name="nextMaintenanceDate"
-            value={formData.nextMaintenanceDate}
+            name="nextMaintenanceDateTime"
+            value={formData.nextMaintenanceDateTime}
             onChange={handleChange}
             className="w-full rounded border-none bg-[#a1abae] p-2 text-black text-opacity-50 transition-all duration-300 focus:outline-none focus:ring-[1px] focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />

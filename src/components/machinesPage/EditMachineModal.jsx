@@ -15,8 +15,8 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
     description: item.description || "",
     location: item.location || "",
     status: item.status || "OPERATIONAL",
-    lastMaintenanceDate: formatDate(item.lastMaintenanceDate),
-    nextMaintenanceDate: formatDate(item.nextMaintenanceDate),
+    lastMaintenanceDateTime: formatDate(item.lastMaintenanceDateTime),
+    nextMaintenanceDateTime: formatDate(item.nextMaintenanceDateTime),
   });
 
   const [formData, setFormData] = useState(makeInitialForm());
@@ -38,12 +38,12 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
       description: formData.description.trim(),
       location: formData.location.trim(),
       status: formData.status.toUpperCase(),
-      lastMaintenanceDate: formData.lastMaintenanceDate
-        ? new Date(formData.lastMaintenanceDate).toISOString()
-        : item.lastMaintenanceDate,
-      nextMaintenanceDate: formData.nextMaintenanceDate
-        ? new Date(formData.nextMaintenanceDate).toISOString()
-        : item.nextMaintenanceDate,
+      lastMaintenanceDateTime: formData.lastMaintenanceDateTime
+        ? new Date(formData.lastMaintenanceDateTime).toISOString()
+        : item.lastMaintenanceDateTime,
+      nextMaintenanceDateTime: formData.nextMaintenanceDateTime
+        ? new Date(formData.nextMaintenanceDateTime).toISOString()
+        : item.nextMaintenanceDateTime,
     };
 
     onSave(payload);
@@ -127,8 +127,8 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
               </label>
               <input
                 type="date"
-                name="lastMaintenanceDate"
-                value={formData.lastMaintenanceDate}
+                name="lastMaintenanceDateTime"
+                value={formData.lastMaintenanceDateTime}
                 onChange={handleChange}
                 className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
@@ -140,8 +140,8 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
               </label>
               <input
                 type="date"
-                name="nextMaintenanceDate"
-                value={formData.nextMaintenanceDate}
+                name="nextMaintenanceDateTime"
+                value={formData.nextMaintenanceDateTime}
                 onChange={handleChange}
                 className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />

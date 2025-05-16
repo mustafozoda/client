@@ -31,10 +31,11 @@ export default function MachineMaintenance() {
       const data = await fetchMachines();
       if (Array.isArray(data.machines)) {
         const upcoming = data.machines
-          .filter((m) => new Date(m.nextMaintenanceDate) >= new Date())
+          .filter((m) => new Date(m.nextMaintenanceDateTime) >= new Date())
           .sort(
             (a, b) =>
-              new Date(a.nextMaintenanceDate) - new Date(b.nextMaintenanceDate),
+              new Date(a.nextMaintenanceDateTime) -
+              new Date(b.nextMaintenanceDateTime),
           );
         setMachines(upcoming);
       }
@@ -78,11 +79,11 @@ export default function MachineMaintenance() {
         description: draft.description,
         location: draft.location,
         status: draft.status,
-        lastMaintenanceDate: toIsoZ(
-          draft.lastMaintenanceDate || draft.lastMaintenanceDate,
+        lastMaintenanceDateTime: toIsoZ(
+          draft.lastMaintenanceDateTime || draft.lastMaintenanceDateTime,
         ),
-        nextMaintenanceDate: toIsoZ(
-          draft.nextMaintenanceDate || draft.nextMaintenanceDate,
+        nextMaintenanceDateTime: toIsoZ(
+          draft.nextMaintenanceDateTime || draft.nextMaintenanceDateTime,
         ),
       };
 
@@ -185,7 +186,7 @@ export default function MachineMaintenance() {
               </span>
               <span className="text-slate-600 dark:text-slate-300">
                 {new Date(
-                  currentMachines[0].nextMaintenanceDate,
+                  currentMachines[0].nextMaintenanceDateTime,
                 ).toLocaleDateString()}
               </span>
             </div>

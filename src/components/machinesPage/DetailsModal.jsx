@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
 const DetailsModal = ({ item, onClose }) => {
-  const isMachine = item.hasOwnProperty("nextMaintenanceDate");
+  const isMachine = item.hasOwnProperty("nextMaintenanceDateTime");
 
   return (
     <motion.div
@@ -50,11 +50,11 @@ const DetailsModal = ({ item, onClose }) => {
               </p>
               <p className="mb-3">
                 <strong>Last Maintenance Date:</strong>{" "}
-                {new Date(item.lastMaintenanceDate).toLocaleDateString()}
+                {new Date(item.lastMaintenanceDateTime).toLocaleDateString()}
               </p>
               <p className="mb-3">
                 <strong>Next Maintenance Date:</strong>{" "}
-                {new Date(item.nextMaintenanceDate).toLocaleDateString()}
+                {new Date(item.nextMaintenanceDateTime).toLocaleDateString()}
               </p>
               <p className="mb-3">
                 <strong>Date Added:</strong>{" "}

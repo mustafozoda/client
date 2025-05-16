@@ -81,14 +81,14 @@ const MachineDetails = ({ machine, refetch }) => {
             <CalendarCheck size={16} className="text-green-500" />
             <span>
               Last Maintenance:{" "}
-              <strong>{formatDate(machine.lastMaintenanceDate)}</strong>
+              <strong>{formatDate(machine.lastMaintenanceDateTime)}</strong>
             </span>
           </div>
           <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <CalendarClock size={16} className="text-blue-500" />
             <span>
               Next Maintenance:{" "}
-              <strong>{formatDate(machine.nextMaintenanceDate)}</strong>
+              <strong>{formatDate(machine.nextMaintenanceDateTime)}</strong>
             </span>
           </div>
         </div>

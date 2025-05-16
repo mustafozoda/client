@@ -58,10 +58,9 @@ const MaintenanceChart = () => {
         }, {});
 
         machines.forEach((machine) => {
-          const month = new Date(machine.nextMaintenanceDate).toLocaleString(
-            "default",
-            { month: "short" },
-          );
+          const month = new Date(
+            machine.nextMaintenanceDateTime,
+          ).toLocaleString("default", { month: "short" });
           if (maintenanceCounts.hasOwnProperty(month)) {
             maintenanceCounts[month] += 1;
           }
