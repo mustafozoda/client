@@ -9,7 +9,7 @@ import Map from "../components/overviewPage/Map";
 import InActiveCnt from "../components/overviewPage/InActiveCnt";
 import ActiveCnt from "../components/overviewPage/ActiveCnt";
 import TasksStatusCnt from "../components/overviewPage/TasksStatusCnt";
-import Sth from "../components/overviewPage/Sth";
+import InProgressTasksStatusCnt from "../components/overviewPage/InProgressTasksStatusCnt";
 const Overview = () => {
   return (
     <div className="z-10 flex w-full flex-col overflow-auto">
@@ -28,7 +28,7 @@ const Overview = () => {
               <TasksStatusCnt />
             </div>
             <div className="box1 m-[10px] rounded-[5px] bg-white transition-colors duration-300 ease-in-out dark:bg-[#171717]">
-              <Sth />
+              <InProgressTasksStatusCnt />
             </div>
           </div>
 

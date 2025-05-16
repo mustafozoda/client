@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import Header from "../layout/Header";
 import { fetchTasks, updateTask, deleteTask } from "../api/tasksApi";
 import {
-  Filter,
+  SlidersHorizontal,
   Hourglass,
   CheckCircle,
   XCircle,
   Square,
   SquareCheckBig,
   Trash2,
+  Edit2,
 } from "lucide-react";
 import FilterModal from "../components/tasksPage/FilterModal";
 import LinearProgress from "@mui/material/LinearProgress";
 import TaskFilter from "../components/tasksPage/TaskFilter";
 import EditTaskModal from "../components/tasksPage/EditTaskModal";
+import DetailsModal from "../components/machinesPage/DetailsModal";
 
 const statusConfig = {
   PENDING: {
@@ -55,6 +57,7 @@ export default function Tasks() {
   const [search, setSearch] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [detailsItem, setDetailsItem] = useState(null);
 
   useEffect(() => {
     fetchTasks().then((r) => {
@@ -63,7 +66,6 @@ export default function Tasks() {
     });
   }, []);
 
-  // keep selectAll in sync
   useEffect(() => {
     setSelectAll(filtered.length > 0 && selected.size === filtered.length);
   }, [filtered, selected]);
@@ -118,6 +120,12 @@ export default function Tasks() {
     });
   };
 
+  const openEdit = () => {
+    const [id] = Array.from(selected);
+    const task = tasks.find((t) => t.id === id);
+    setEditing(task);
+  };
+
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
       <Header title="Task Manager" />
@@ -126,23 +134,32 @@ export default function Tasks() {
           <TaskFilter search={search} setSearch={setSearch} />
           <div className="flex items-center gap-2">
             {selected.size === 1 && (
-              <button
-                onClick={deleteSelected}
-                className="flex items-center gap-2 rounded bg-red-600 px-4 py-1 text-white hover:bg-red-700"
-              >
-                <Trash2 size={18} /> Delete
-              </button>
+              <>
+                <button
+                  onClick={openEdit}
+                  className="flex items-center gap-2 rounded bg-green-600 px-4 py-1 text-white hover:bg-green-700"
+                >
+                  <Edit2 size={18} /> Edit
+                </button>
+                <button
+                  onClick={deleteSelected}
+                  className="flex items-center gap-2 rounded bg-red-600 px-4 py-1 text-white hover:bg-red-700"
+                >
+                  <Trash2 size={18} /> Delete
+                </button>
+              </>
             )}
             <button
               onClick={() => setFilterOpen(true)}
               className="flex items-center gap-2 rounded bg-blue-600 px-4 py-1 text-white hover:bg-blue-700"
             >
-              <Filter size={18} /> Filter
+              <SlidersHorizontal size={18} /> Filter
             </button>
           </div>
         </div>
-        <div className="scroll-container max-h-[600px] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
-          <div className="sticky top-0 grid grid-cols-[5%_10%_20%_25%_10%_20%_10%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
+
+        <div className="hide-scrollbar-p max-h-[600px] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
+          <div className="sticky top-0 z-20 grid grid-cols-[5%_10%_20%_25%_10%_20%_10%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
             <div className="flex justify-center">
               <button onClick={toggleSelectAll}>
                 {selectAll ? (
@@ -159,6 +176,7 @@ export default function Tasks() {
             <div>Progress</div>
             <div>Deadline</div>
           </div>
+
           {filtered
             .filter((t) =>
               t.status.toLowerCase().includes(search.toLowerCase()),
@@ -166,7 +184,7 @@ export default function Tasks() {
             .map((t) => (
               <div
                 key={t.id}
-                onClick={() => setEditing(t)}
+                onClick={() => setDetailsItem(t)}
                 className="grid cursor-pointer grid-cols-[5%_10%_20%_25%_10%_20%_10%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
               >
                 <div className="flex justify-center">
@@ -204,7 +222,13 @@ export default function Tasks() {
                 </div>
                 <div>
                   <span
-                    className={`rounded px-2 py-1 font-medium text-white ${t.priority === "HIGH" ? "bg-red-500" : t.priority === "MEDIUM" ? "bg-yellow-400 text-black" : "bg-green-500"}`}
+                    className={`rounded px-2 py-1 font-medium text-white ${
+                      t.priority === "HIGH"
+                        ? "bg-red-500"
+                        : t.priority === "MEDIUM"
+                          ? "bg-yellow-400 text-black"
+                          : "bg-green-500"
+                    }`}
                   >
                     {t.priority}
                   </span>
@@ -240,16 +264,10 @@ export default function Tasks() {
                 </div>
               </div>
             ))}
-          <div className="sticky bottom-0 bg-white px-4 py-5 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400"></div>
+
+          <div className="sticky bottom-0 bg-white px-4 py-5 font-semibold uppercase text-slate-600 dark:bg-[#171717]"></div>
         </div>
-        {filterOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <FilterModal
-              onClose={() => setFilterOpen(false)}
-              onApply={applyFilters}
-            />
-          </div>
-        )}
+
         {editing && (
           <EditTaskModal
             task={editing}
@@ -257,7 +275,21 @@ export default function Tasks() {
             onSave={saveEdit}
           />
         )}
+        {detailsItem && (
+          <DetailsModal
+            item={detailsItem}
+            onClose={() => setDetailsItem(null)}
+          />
+        )}
       </div>
+      {filterOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <FilterModal
+            onClose={() => setFilterOpen(false)}
+            onApply={applyFilters}
+          />
+        </div>
+      )}
     </div>
   );
 }

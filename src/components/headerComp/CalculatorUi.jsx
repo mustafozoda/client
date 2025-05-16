@@ -33,7 +33,7 @@ const CalculatorUi = () => {
     <div>
       <div
         onClick={toggleCalculator}
-        className="relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
+        className="z-500 relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
       >
         <Calculator size={22} />
       </div>

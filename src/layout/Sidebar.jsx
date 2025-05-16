@@ -1,10 +1,10 @@
 import {
   PanelLeftClose,
   PanelLeftOpen,
-  Settings,
-  Users,
-  LogOut,
-  BarChart2,
+  // Settings,
+  // Users,
+  // LogOut,
+  // BarChart2,
   Cable,
   ListTodo,
   CircleAlert,
@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import ThemeToggle from "../components/ThemeToggle";
+// import ThemeToggle from "../components/ThemeToggle";
 
 const Sidebar = ({ setDark }) => {
   const location = useLocation();
@@ -39,23 +39,23 @@ const Sidebar = ({ setDark }) => {
       href: "/tasks",
     },
     {
-      name: "Issue Reports",
+      name: "Reports",
       icon: CircleAlert,
       // color: "#F59E0B",
       href: "/issue-reports",
     },
-    {
-      name: "User Management",
-      icon: Users,
-      // color: "#3B82F6",
-      href: "/user-management",
-    },
-    {
-      name: "Settings",
-      icon: Settings,
-      // color: "#6EE7B7",
-      href: "/settings",
-    },
+    // {
+    //   name: "User Management",
+    //   icon: Users,
+    //   // color: "#3B82F6",
+    //   href: "/user-management",
+    // },
+    // {
+    //   name: "Settings",
+    //   icon: Settings,
+    //   // color: "#6EE7B7",
+    //   href: "/settings",
+    // },
   ];
 
   return (
@@ -107,9 +107,9 @@ const Sidebar = ({ setDark }) => {
             })}
           </nav>
 
-          <div>
+          {/* <div>
             <ThemeToggle setDark={setDark} />
-          </div>
+          </div> */}
 
           <motion.button
             whileHover={{ scale: 1.1 }}

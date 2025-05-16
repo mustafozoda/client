@@ -4,8 +4,8 @@ const LogoutConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="bg-b fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-opacity-50">
-      <div className="w-full max-w-sm rounded-lg bg-white p-6">
+    <div className="bg-b fixed inset-0 z-50 flex h-screen w-full items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full max-w-sm rounded-lg bg-white p-6 text-black">
         <h2 className="text-lg font-bold">Are you sure you want to log out?</h2>
         <div className="mt-4 flex justify-between">
           <button
