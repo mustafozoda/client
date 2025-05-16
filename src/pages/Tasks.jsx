@@ -158,7 +158,7 @@ export default function Tasks() {
           </div>
         </div>
 
-        <div className="hide-scrollbar-p max-h-[600px] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
+        <div className="hide-scrollbar-p h-[70vh] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
           <div className="sticky top-0 z-20 grid grid-cols-[5%_10%_20%_25%_10%_20%_10%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
             <div className="flex justify-center">
               <button onClick={toggleSelectAll}>
