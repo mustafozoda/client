@@ -22,7 +22,7 @@ export const login = async (credentials, persist = false) => {
 
     return { success: true, token: data.token };
   } catch (error) {
-    console.error("❌ Login error:", error.message);
+    console.error("Login error:", error.message);
     return { success: false, error: error.message };
   }
 };

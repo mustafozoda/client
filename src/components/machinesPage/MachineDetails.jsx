@@ -55,7 +55,6 @@ const MachineDetails = ({ machine, refetch }) => {
   const handleCloseModal = () => setIsEditModalOpen(false);
 
   const handleSave = (updatedMachine) => {
-    // updatedMachine includes lastMaintenanceDateTime & nextMaintenanceDateTime
     updateMachineMutation.mutate(updatedMachine);
   };
 

@@ -78,11 +78,11 @@ export default function MachineMaintenance() {
         description: draft.description,
         location: draft.location,
         status: draft.status,
-        lastMaintenanceDateTime: toIsoZ(
-          draft.lastMaintenanceDateTime || draft.lastMaintenanceDate,
+        lastMaintenanceDate: toIsoZ(
+          draft.lastMaintenanceDate || draft.lastMaintenanceDate,
         ),
-        nextMaintenanceDateTime: toIsoZ(
-          draft.nextMaintenanceDateTime || draft.nextMaintenanceDate,
+        nextMaintenanceDate: toIsoZ(
+          draft.nextMaintenanceDate || draft.nextMaintenanceDate,
         ),
       };
 

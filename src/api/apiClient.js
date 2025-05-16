@@ -6,9 +6,9 @@ export const apiClient = async (endpoint, options = {}) => {
   const token = getToken();
 
   if (token) {
-    // console.log("🔑 Using token:", token);
+    // console.log("Using token:", token);
   } else {
-    console.warn("⚠️ No token found in storage.");
+    console.warn(" No token found in storage.");
   }
 
   const headers = {
@@ -17,7 +17,7 @@ export const apiClient = async (endpoint, options = {}) => {
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
-  // console.log("🔍 API Request Details:");
+  // console.log("API Request Details:");
   // console.log("URL:", `${API_BASE_URL}/${endpoint.replace(/^\//, "")}`);
   // console.log("Headers:", headers);
   // console.log("Options:", options);
@@ -28,14 +28,14 @@ export const apiClient = async (endpoint, options = {}) => {
       headers,
     });
 
-    // console.log("📬 API Response Status:", response.status);
-    // console.log("📬 Response Headers:", response.headers);
+    // console.log(" API Response Status:", response.status);
+    // console.log(" Response Headers:", response.headers);
 
     if (response.status === 401
       // ||
       // response.status === 403
     ) {
-      console.warn(`🚫 ${response.status} Error! Logging out user.`);
+      console.warn(`${response.status} Error! Logging out user.`);
       sessionStorage.removeItem("authToken");
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
@@ -50,18 +50,18 @@ export const apiClient = async (endpoint, options = {}) => {
       const errorMessage = contentType && contentType.includes("application/json")
         ? await response.json()
         : await response.text();
-      throw new Error(`❌ API Error ${response.status}: ${JSON.stringify(errorMessage)}`);
+      throw new Error(`API Error ${response.status}: ${JSON.stringify(errorMessage)}`);
     }
 
     if (contentType && contentType.includes("application/json") && response.status !== 204) {
       const data = await response.json();
-      // console.log("📬 API Response Body:", data);
+      // console.log("API Response Body:", data);
       return data;
     }
 
     return null;
   } catch (error) {
-    console.error("❌ Network/API request failed:", error.message || error);
+    console.error("Network/API request failed:", error.message || error);
     throw error;
   }
 };

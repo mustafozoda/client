@@ -38,12 +38,12 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
       description: formData.description.trim(),
       location: formData.location.trim(),
       status: formData.status.toUpperCase(),
-      lastMaintenanceDateTime: formData.lastMaintenanceDate
+      lastMaintenanceDate: formData.lastMaintenanceDate
         ? new Date(formData.lastMaintenanceDate).toISOString()
-        : item.lastMaintenanceDateTime,
-      nextMaintenanceDateTime: formData.nextMaintenanceDate
+        : item.lastMaintenanceDate,
+      nextMaintenanceDate: formData.nextMaintenanceDate
         ? new Date(formData.nextMaintenanceDate).toISOString()
-        : item.nextMaintenanceDateTime,
+        : item.nextMaintenanceDate,
     };
 
     onSave(payload);
