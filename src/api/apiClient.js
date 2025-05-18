@@ -37,6 +37,7 @@ export const apiClient = async (endpoint, options = {}) => {
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
       window.dispatchEvent(new Event("logout"));
+      window.location.reload();
       throw new Error("Unauthorized - Token expired or invalid");
     }
 
