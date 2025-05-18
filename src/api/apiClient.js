@@ -31,17 +31,15 @@ export const apiClient = async (endpoint, options = {}) => {
     // console.log(" API Response Status:", response.status);
     // console.log(" Response Headers:", response.headers);
 
-    if (response.status === 401
-      ||
-      response.status === 403
-    ) {
+    if (response.status === 401 || response.status === 403) {
       console.warn(`${response.status} Error! Logging out user.`);
       sessionStorage.removeItem("authToken");
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
       window.dispatchEvent(new Event("logout"));
-      return;
+      throw new Error("Unauthorized - Token expired or invalid");
     }
+
 
 
     const contentType = response.headers.get("content-type");
@@ -50,7 +48,10 @@ export const apiClient = async (endpoint, options = {}) => {
       const errorMessage = contentType && contentType.includes("application/json")
         ? await response.json()
         : await response.text();
-      throw new Error(`API Error ${response.status}: ${JSON.stringify(errorMessage)}`);
+      throw new Error(
+        `API Error ${response.status}: ${typeof errorMessage === "string" ? errorMessage : errorMessage.message || JSON.stringify(errorMessage)
+        }`
+      );
     }
 
     if (contentType && contentType.includes("application/json") && response.status !== 204) {
