@@ -6,7 +6,7 @@ export const apiClient = async (endpoint, options = {}) => {
   const token = getToken();
 
   if (token) {
-    // console.log("Using token:", token);
+    console.log("Using token:", token);
   } else {
     console.warn(" No token found in storage.");
   }
@@ -31,7 +31,7 @@ export const apiClient = async (endpoint, options = {}) => {
     // console.log(" API Response Status:", response.status);
     // console.log(" Response Headers:", response.headers);
 
-    if (response.status === 401 || response.status === 403) {
+    if (response.status === 401) {
       console.warn(`${response.status} Error! Logging out user.`);
       sessionStorage.removeItem("authToken");
       localStorage.removeItem("authToken");
@@ -40,6 +40,7 @@ export const apiClient = async (endpoint, options = {}) => {
       // window.location.reload();
       // window.location.href = '/login';
       throw new Error("Unauthorized - Token expired or invalid");
+      // return
     }
 
 

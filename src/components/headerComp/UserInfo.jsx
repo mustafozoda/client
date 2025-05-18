@@ -1,22 +1,20 @@
-// components/UserInfo.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { UserRoundCog, LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LogoutConfirmationModal from "./LogoutConfirmationModal";
 import UserModal from "./../UserModal";
 import useAuthStore from "../../store/useAuthStore";
-import { fetchUserByUsername } from "../../api/usersApi";
+import { fetchCurrentUser, fetchUserByUsername } from "../../api/usersApi";
 
 const UserInfo = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // logout modal
-  const [isUserModalOpen, setIsUserModalOpen] = useState(false); // user-details modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const dropdownRef = useRef(null);
   const { logout } = useAuthStore();
   const navigate = useNavigate();
 
-  // close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -27,11 +25,17 @@ const UserInfo = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // when Profile is clicked, fetch and open the modal
   const openProfileModal = async () => {
     try {
-      const data = await fetchUserByUsername("bobojon"); // or grab current username
-      setUser(data);
+      const username = await fetchCurrentUser();
+      if (!username) {
+        console.error("No username returned from API");
+        return;
+      }
+      console.log("Resolved username:", username);
+
+      const userData = await fetchUserByUsername(username);
+      setUser(userData);
       setIsUserModalOpen(true);
       setIsDropdownOpen(false);
     } catch (err) {
@@ -87,14 +91,12 @@ const UserInfo = () => {
         </div>
       )}
 
-      {/* logout confirmation */}
       <LogoutConfirmationModal
         isOpen={isModalOpen}
         onClose={cancelLogout}
         onConfirm={confirmLogout}
       />
 
-      {/* user-details modal */}
       <UserModal
         user={user}
         isOpen={isUserModalOpen}

@@ -18,6 +18,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import TaskFilter from "../components/tasksPage/TaskFilter";
 import EditTaskModal from "../components/tasksPage/EditTaskModal";
 import DetailsModal from "../components/machinesPage/DetailsModal";
+import BulkActionMenu from "./BulkActionMenu";
 
 const statusConfig = {
   PENDING: {
@@ -128,13 +129,22 @@ export default function Tasks() {
     });
   };
 
-  const deleteSelected = () => {
-    const [id] = Array.from(selected);
-    deleteTask(id).then(() => {
-      setTasks((prev) => prev.filter((t) => t.id !== id));
-      setFiltered((prev) => prev.filter((t) => t.id !== id));
-      setSelected(new Set());
-    });
+  // const deleteSelected = () => {
+  //   const [id] = Array.from(selected);
+  //   deleteTask(id).then(() => {
+  //     setTasks((prev) => prev.filter((t) => t.id !== id));
+  //     setFiltered((prev) => prev.filter((t) => t.id !== id));
+  //     setSelected(new Set());
+  //   });
+  // };
+
+  const deleteSelected = async () => {
+    const ids = Array.from(selected);
+    if (ids.length < 1) return Promise.resolve();
+    await Promise.all(ids.map((id) => deleteTask(id)));
+    setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
+    setFiltered((prev_1) => prev_1.filter((t_1) => !ids.includes(t_1.id)));
+    setSelected(new Set());
   };
 
   const openEdit = () => {
@@ -190,41 +200,147 @@ export default function Tasks() {
     (a, b) => statusRank[a] - statusRank[b],
   );
 
+  const changeStatusSelected = async (statusKey) => {
+    const ids = Array.from(selected);
+    if (ids.length < 2) return;
+
+    await Promise.all(
+      ids.map((id) => {
+        const original = tasks.find((t) => t.id === id);
+        if (!original) return Promise.resolve();
+
+        const { id: _, assignedTo, ...rest } = original;
+
+        const payload = {
+          taskId: id,
+          ...rest,
+          responsibleUserId: assignedTo ?? rest.responsibleUserId,
+          status: statusKey,
+        };
+
+        return updateTask(payload);
+      }),
+    );
+
+    setTasks((prev) =>
+      prev.map((t) => (ids.includes(t.id) ? { ...t, status: statusKey } : t)),
+    );
+    setFiltered((prev) =>
+      prev.map((t) => (ids.includes(t.id) ? { ...t, status: statusKey } : t)),
+    );
+    setSelected(new Set());
+  };
+
+  const changePrioritySelected = async (priorityKey) => {
+    const ids = Array.from(selected);
+    if (ids.length < 2) return;
+
+    await Promise.all(
+      ids.map((id) => {
+        const original = tasks.find((t) => t.id === id);
+        if (!original) return Promise.resolve();
+
+        const { id: _, ...rest } = original;
+
+        const payload = {
+          taskId: id,
+          ...rest,
+          priority: priorityKey,
+        };
+
+        return updateTask(payload);
+      }),
+    );
+
+    setTasks((prev) =>
+      prev.map((t) =>
+        ids.includes(t.id) ? { ...t, priority: priorityKey } : t,
+      ),
+    );
+    setFiltered((prev) =>
+      prev.map((t) =>
+        ids.includes(t.id) ? { ...t, priority: priorityKey } : t,
+      ),
+    );
+    setSelected(new Set());
+  };
+
+  const assignSelected = async (userId) => {
+    const ids = Array.from(selected);
+    if (ids.length < 1) return;
+
+    await Promise.all(
+      ids.map((id) => {
+        const original = tasks.find((t) => t.id === id);
+        if (!original) return Promise.resolve();
+
+        const { id: _, ...rest } = original;
+
+        const payload = {
+          taskId: id,
+          ...rest,
+          responsibleUserId: userId,
+        };
+
+        return updateTask(payload);
+      }),
+    );
+
+    setTasks((prev) =>
+      prev.map((t) => (ids.includes(t.id) ? { ...t, assignedTo: userId } : t)),
+    );
+    setFiltered((prev) =>
+      prev.map((t) => (ids.includes(t.id) ? { ...t, assignedTo: userId } : t)),
+    );
+    setSelected(new Set());
+  };
+
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
       <Header title="Task Manager" />
       <div className="mx-auto w-[85%] space-y-4 px-6 py-6">
-        <div className="flex items-center justify-between">
-          <TaskFilter search={search} setSearch={setSearch} />
-          <div className="flex items-center gap-2">
-            {selected.size === 1 && (
-              <>
-                <button
-                  onClick={openEdit}
-                  className="flex items-center gap-2 rounded bg-green-600 px-4 py-1 text-white hover:bg-green-700"
-                >
-                  <Edit2 size={18} /> Edit
-                </button>
-                <button
-                  onClick={deleteSelected}
-                  className="flex items-center gap-2 rounded bg-red-600 px-4 py-1 text-white hover:bg-red-700"
-                >
-                  <Trash2 size={18} /> Delete
-                </button>
-              </>
-            )}
-            <button
-              onClick={() => setGroupByStatus((g) => !g)}
-              className="flex items-center gap-2 rounded bg-purple-600 px-4 py-1 text-white hover:bg-purple-700"
-            >
-              <List size={18} /> {groupByStatus ? "Ungroup" : "Group by Status"}
-            </button>
-            <button
-              onClick={() => setFilterOpen(true)}
-              className="flex items-center gap-2 rounded bg-blue-600 px-4 py-1 text-white hover:bg-blue-700"
-            >
-              <SlidersHorizontal size={18} /> Filter
-            </button>
+        <div className="flex w-full items-center justify-between">
+          <div className="flex w-[70%]">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setFilterOpen(true)}
+                className="flex items-center gap-2 rounded bg-blue-600 px-4 py-1 text-white hover:bg-blue-700"
+              >
+                <SlidersHorizontal size={18} /> Filter
+              </button>
+              <button
+                onClick={() => setGroupByStatus((g) => !g)}
+                className="flex min-w-[120px] items-center gap-2 rounded bg-purple-600 px-4 py-1 text-white hover:bg-purple-700"
+              >
+                <List size={18} /> {groupByStatus ? "Ungroup" : "Group"}
+              </button>
+              <BulkActionMenu
+                selectedCount={selected.size}
+                onDelete={deleteSelected}
+                onChangeStatus={changeStatusSelected}
+                onChangePriority={changePrioritySelected}
+                onAssign={assignSelected}
+              />
+              {selected.size === 1 && (
+                <>
+                  <button
+                    onClick={openEdit}
+                    className="flex items-center gap-2 rounded bg-green-600 px-4 py-1 text-white hover:bg-green-700"
+                  >
+                    <Edit2 size={18} /> Edit
+                  </button>
+                  <button
+                    onClick={deleteSelected}
+                    className="flex items-center gap-2 rounded bg-red-600 px-4 py-1 text-white hover:bg-red-700"
+                  >
+                    <Trash2 size={18} /> Delete
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="w-[30%]">
+            <TaskFilter search={search} setSearch={setSearch} />
           </div>
         </div>
 
@@ -368,7 +484,6 @@ export default function Tasks() {
                           onClick={() => setDetailsItem(t)}
                           className="grid cursor-pointer grid-cols-[5%_10%_20%_25%_10%_20%_10%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
                         >
-                          {/* same row markup as above */}
                           <div className="flex justify-center">
                             <button
                               onClick={(e) => {
