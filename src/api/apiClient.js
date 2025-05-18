@@ -32,8 +32,8 @@ export const apiClient = async (endpoint, options = {}) => {
     // console.log(" Response Headers:", response.headers);
 
     if (response.status === 401
-      // ||
-      // response.status === 403
+      ||
+      response.status === 403
     ) {
       console.warn(`${response.status} Error! Logging out user.`);
       sessionStorage.removeItem("authToken");
