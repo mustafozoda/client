@@ -38,6 +38,7 @@ export const apiClient = async (endpoint, options = {}) => {
       localStorage.removeItem("user");
       window.dispatchEvent(new Event("logout"));
       // window.location.reload();
+      // window.location.href = '/login';
       throw new Error("Unauthorized - Token expired or invalid");
     }
 
