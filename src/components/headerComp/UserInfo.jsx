@@ -32,7 +32,7 @@ const UserInfo = () => {
         console.error("No username returned from API");
         return;
       }
-      console.log("Resolved username:", username);
+      // console.log("Resolved username:", username);
 
       const userData = await fetchUserByUsername(username);
       setUser(userData);

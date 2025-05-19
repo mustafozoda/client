@@ -63,7 +63,8 @@ export const apiClient = async (endpoint, options = {}) => {
       return data;
     }
 
-    return null;
+    // return null;
+    return response.text();
   } catch (error) {
     console.error("Network/API request failed:", error.message || error);
     throw error;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { fetchCommentsByTaskId, addComment } from "../../api/commentsApi";
-import { fetchUserByUsername } from "../../api/usersApi";
+import { fetchUserByUsername, fetchCurrentUser } from "../../api/usersApi";
 
 const DetailsModal = ({ item, onClose }) => {
   const isMachine = Object.prototype.hasOwnProperty.call(
@@ -15,9 +15,17 @@ const DetailsModal = ({ item, onClose }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    fetchUserByUsername()
-      .then((user) => setCurrentUser(user))
-      .catch(() => setCurrentUser(null));
+    const fetchUser = async () => {
+      const username = await fetchCurrentUser();
+      if (!username) {
+        console.error("No username returned from API");
+        return;
+      }
+      fetchUserByUsername(username)
+        .then((user) => setCurrentUser(user))
+        .catch(() => setCurrentUser(null));
+    };
+    fetchUser();
   }, []);
 
   useEffect(() => {
@@ -32,7 +40,7 @@ const DetailsModal = ({ item, onClose }) => {
     if (!newComment.trim() || comments.length > 0) return;
     const payload = {
       taskId: item.id,
-      creatorUserId: currentUser?.id || 1, // Replace with actual user ID-------------------------------------------------
+      creatorUserId: currentUser?.id || null, // Replace with actual user ID-------------------------------------------------
       content: newComment.trim(),
     };
     try {
