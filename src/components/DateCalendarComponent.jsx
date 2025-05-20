@@ -132,6 +132,11 @@ export default function DateCalendarComponent({ cusWidth }) {
           renderLoading={() => <DayCalendarSkeleton />}
           slots={{ day: ServerDay }}
           slotProps={{ day: { highlightedDays } }}
+          sx={
+            {
+              // width: 300,
+            }
+          }
           // sx={{
           //   width: cusWidth || { xs: 180, sm: 280, md: 100, lg: 200, xl: 300 },
           //   height: { xs: 240, sm: 10, md: 10, lg: 250, xl: 320 },

@@ -112,10 +112,10 @@ export default function MachineMaintenance() {
           </div>
 
           <div className="m-0 space-y-2">
-            <h3 className="text-center text-2xl text-slate-800 dark:text-white">
+            <h3 className="truncate text-center text-2xl text-slate-800 dark:text-white">
               {currentMachines[0].name}
             </h3>
-            <p className="text-center text-gray-500 dark:text-gray-400">
+            <p className="truncate text-center text-gray-500 dark:text-gray-400">
               {currentMachines[0].description}
             </p>
           </div>
@@ -138,7 +138,7 @@ export default function MachineMaintenance() {
               ) : (
                 <span
                   onClick={() => startEdit("location")}
-                  className="cursor-pointer text-blue-600 underline decoration-dotted hover:opacity-80"
+                  className="cursor-pointer truncate pl-2 text-blue-600 underline decoration-dotted hover:opacity-80"
                 >
                   {currentMachines[0].location}
                 </span>

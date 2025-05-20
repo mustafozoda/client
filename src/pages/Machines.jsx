@@ -24,9 +24,9 @@ const Machines = () => {
           </div>
         </div>
 
-        <div className="right-side flex h-full w-1/3 flex-col gap-[40px] p-5">
+        <div className="right-side flex h-fit w-1/3 flex-col gap-[10px] p-5">
           <MachineMaintenance />
-          <div className="overflow-hidden rounded-[15px] bg-white py-[15px] dark:bg-[#171717]">
+          <div className="h-fit overflow-hidden rounded-[15px] bg-white py-[15px] dark:bg-[#171717]">
             <DateCalendarComponent />
           </div>
         </div>
