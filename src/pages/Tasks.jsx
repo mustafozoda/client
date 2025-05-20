@@ -12,6 +12,7 @@ import {
   Edit2,
   ChevronsUpDown,
   List,
+  Loader,
 } from "lucide-react";
 import FilterModal from "../components/tasksPage/FilterModal";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -19,7 +20,6 @@ import TaskFilter from "../components/tasksPage/TaskFilter";
 import EditTaskModal from "../components/tasksPage/EditTaskModal";
 import DetailsModal from "../components/machinesPage/DetailsModal";
 import BulkActionMenu from "./BulkActionMenu";
-
 const statusConfig = {
   PENDING: {
     label: "Pending",
@@ -29,7 +29,7 @@ const statusConfig = {
   IN_PROGRESS: {
     label: "In Progress",
     color: "bg-yellow-100 text-yellow-700",
-    icon: <Hourglass size={18} />,
+    icon: <Loader size={18} />,
   },
   COMPLETED: {
     label: "Completed",
@@ -128,15 +128,6 @@ export default function Tasks() {
       setEditing(null);
     });
   };
-
-  // const deleteSelected = () => {
-  //   const [id] = Array.from(selected);
-  //   deleteTask(id).then(() => {
-  //     setTasks((prev) => prev.filter((t) => t.id !== id));
-  //     setFiltered((prev) => prev.filter((t) => t.id !== id));
-  //     setSelected(new Set());
-  //   });
-  // };
 
   const deleteSelected = async () => {
     const ids = Array.from(selected);
@@ -419,7 +410,7 @@ export default function Tasks() {
                         {statusConfig[t.status]?.label}
                       </span>
                       {new Date(t.deadline) < new Date() && (
-                        <span className="absolute left-16 top-0 rounded bg-red-100 px-2 py-0.5 text-xs text-red-600">
+                        <span className="absolute left-16 top-0 rounded bg-red-600 px-2 py-0.5 text-xs text-white">
                           Overdue
                         </span>
                       )}
@@ -472,7 +463,12 @@ export default function Tasks() {
                 groupedTasks[status] ? (
                   <React.Fragment key={status}>
                     <div className="px-4 py-2 font-semibold dark:bg-[#171717]">
-                      {statusConfig[status].label}
+                      <span
+                        className={`inline-flex items-center gap-2 rounded px-2 py-0 font-mono ${statusConfig[status].color}`}
+                      >
+                        {statusConfig[status].label}
+                        {statusConfig[status].icon}
+                      </span>
                     </div>
                     {groupedTasks[status]
                       .filter((t) =>

@@ -29,26 +29,27 @@ const App = () => {
     };
   }, [theme, setTheme]);
 
-  useEffect(() => {
-    const preventZoomKeys = (event) => {
-      if (event.ctrlKey && ["=", "-", "0", "+"].includes(event.key)) {
-        event.preventDefault();
-      }
-    };
-    const preventScrollZoom = (event) => {
-      if (event.ctrlKey) {
-        event.preventDefault();
-      }
-    };
+  // useEffect(() => {
+  //   const preventZoomKeys = (event) => {
+  //     if (event.ctrlKey && ["=", "-", "0", "+"].includes(event.key)) {
+  //       event.preventDefault();
+  //     }
+  //   };
+  //   const preventScrollZoom = (event) => {
+  //     if (event.ctrlKey) {
+  //       event.preventDefault();
+  //     }
+  //   };
 
-    document.addEventListener("keydown", preventZoomKeys);
-    document.addEventListener("wheel", preventScrollZoom, { passive: false });
+  //   document.addEventListener("keydown", preventZoomKeys);
+  //   document.addEventListener("wheel", preventScrollZoom, { passive: false });
 
-    return () => {
-      document.removeEventListener("keydown", preventZoomKeys);
-      document.removeEventListener("wheel", preventScrollZoom);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("keydown", preventZoomKeys);
+  //     document.removeEventListener("wheel", preventScrollZoom);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
