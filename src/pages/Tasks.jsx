@@ -13,6 +13,7 @@ import {
   ChevronsUpDown,
   List,
   Loader,
+  MessageCircleWarning,
 } from "lucide-react";
 import FilterModal from "../components/tasksPage/FilterModal";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -20,6 +21,7 @@ import TaskFilter from "../components/tasksPage/TaskFilter";
 import EditTaskModal from "../components/tasksPage/EditTaskModal";
 import DetailsModal from "../components/machinesPage/DetailsModal";
 import BulkActionMenu from "./BulkActionMenu";
+
 const statusConfig = {
   PENDING: {
     label: "Pending",
@@ -49,6 +51,7 @@ const statusRank = {
   CANCELLED: 3,
   COMPLETED: 4,
 };
+
 const priorityRank = {
   HIGH: 0,
   MEDIUM: 1,
@@ -73,13 +76,13 @@ export default function Tasks() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [detailsItem, setDetailsItem] = useState(null);
-
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [groupByStatus, setGroupByStatus] = useState(false);
 
   useEffect(() => {
     fetchTasks().then((r) => {
       setTasks(r.tasks);
+      console.log("Fetched tasks:", r.tasks);
       setFiltered(r.tasks);
     });
   }, []);
@@ -129,13 +132,36 @@ export default function Tasks() {
     });
   };
 
+  // const deleteSelected = async () => {
+  //   const ids = Array.from(selected);
+  //   if (ids.length < 1) return Promise.resolve();
+  //   await Promise.all(ids.map((id) => deleteTask(id)));
+  //   setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
+  //   setFiltered((prev_1) => prev_1.filter((t_1) => !ids.includes(t_1.id)));
+  //   setSelected(new Set());
+  // };
+
   const deleteSelected = async () => {
     const ids = Array.from(selected);
-    if (ids.length < 1) return Promise.resolve();
-    await Promise.all(ids.map((id) => deleteTask(id)));
-    setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
-    setFiltered((prev_1) => prev_1.filter((t_1) => !ids.includes(t_1.id)));
-    setSelected(new Set());
+    console.log("Deleting tasks with IDs:", ids);
+    if (ids.length < 1) return;
+    try {
+      await Promise.all(
+        ids.map(async (id) => {
+          try {
+            console.log(`Deleting task with ID: ${id}`);
+            await deleteTask(id);
+          } catch (e) {
+            console.error(`Unable to delete task ${id}:`, e);
+          }
+        }),
+      );
+      setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
+      setFiltered((prev) => prev.filter((t) => !ids.includes(t.id)));
+      setSelected(new Set());
+    } catch (e) {
+      console.error("Bulk delete failed:", e);
+    }
   };
 
   const openEdit = () => {
@@ -396,7 +422,12 @@ export default function Tasks() {
                         )}
                       </button>
                     </div>
-                    <div>{t.id}</div>
+                    <div className="relative">
+                      {t.id}{" "}
+                      <span className="absolute -top-4 left-5">
+                        <MessageCircleWarning />
+                      </span>
+                    </div>
                     <div className="truncate">
                       <span className="rounded bg-slate-200 px-2 py-1 dark:bg-slate-600">
                         {t.category}
@@ -574,13 +605,10 @@ export default function Tasks() {
             onSave={saveEdit}
           />
         )}
-        {detailsItem && (
-          <DetailsModal
-            item={detailsItem}
-            onClose={() => setDetailsItem(null)}
-          />
-        )}
       </div>
+      {detailsItem && (
+        <DetailsModal item={detailsItem} onClose={() => setDetailsItem(null)} />
+      )}
       {filterOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <FilterModal

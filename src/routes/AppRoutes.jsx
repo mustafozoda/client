@@ -1,12 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import Machines from "../pages/Machines";
-import IssueReports from "../pages/IssueReports";
+import IssueReports from "../pages/Reports";
 import UserManagement from "../pages/UserManagement";
 import Settings from "../pages/Settings";
 import NotFound from "../pages/NotFound";
 import Overview from "../pages/Overview";
 import PrivateRoute from "../auth/PrivateRoute";
 import Tasks from "../pages/Tasks";
+import Reports from "../pages/Reports";
 
 const AppRoutes = () => {
   return (
@@ -31,10 +32,10 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/issue-reports"
+        path="/reports"
         element={
           <PrivateRoute>
-            <IssueReports />
+            <Reports />
           </PrivateRoute>
         }
       />

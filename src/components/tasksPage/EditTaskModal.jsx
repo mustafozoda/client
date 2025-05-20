@@ -11,6 +11,7 @@ export default function EditTaskModal({ task, onClose, onSave }) {
   };
 
   const makeInitialForm = () => ({
+    taskName: task.taskName || "",
     taskId: task.id || 0,
     category: task.category || "",
     description: task.description || "",
@@ -73,11 +74,25 @@ export default function EditTaskModal({ task, onClose, onSave }) {
         </button>
 
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 dark:text-white">
-          Edit Task: {task.category}
+          Edit Task: {task.id}
         </h2>
 
         <div className="rounded-lg bg-gray-100 p-5 shadow-md dark:bg-[#2B2B2B]">
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Task Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                Task Name
+              </label>
+              <input
+                name="taskName"
+                type="text"
+                value={form.taskName}
+                onChange={handleChange}
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
+              />
+            </div>
+
             {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">

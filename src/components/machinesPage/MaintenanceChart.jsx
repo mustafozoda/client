@@ -12,6 +12,8 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import { Skeleton } from "@mui/material";
+import SkeletonLoader from "../SkeletonLoader";
 
 const getColorForMonth = (count) => {
   if (count > 6) return "#e63946";
@@ -82,12 +84,21 @@ const MaintenanceChart = () => {
       });
   }, []);
 
-  if (isLoading) return <p>Loading maintenance data...</p>;
+  if (isLoading)
+    return (
+      <SkeletonLoader
+        hideAvatar={false}
+        hideTitle={false}
+        hideSubheader={false}
+        hideContent={false}
+        hideRect={true}
+      />
+    );
 
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="h-full w-full rounded-xl bg-white shadow-lg dark:bg-[#171717]">
+    <div className="h-[30vh] w-full rounded-xl bg-white shadow-lg dark:bg-[#171717]">
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart
           data={data}

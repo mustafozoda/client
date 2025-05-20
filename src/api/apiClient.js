@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_BASE_API_URL.replace(/\/$/, "");
 
-const getToken = () => sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
+// const getToken = () => sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
 
 export const apiClient = async (endpoint, options = {}) => {
   const token = getToken();
@@ -16,6 +16,7 @@ export const apiClient = async (endpoint, options = {}) => {
     "Content-Type": options.headers?.["Content-Type"] || "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
+
 
   // console.log("API Request Details:");
   // console.log("URL:", `${API_BASE_URL}/${endpoint.replace(/^\//, "")}`);
@@ -38,7 +39,7 @@ export const apiClient = async (endpoint, options = {}) => {
       localStorage.removeItem("user");
       window.dispatchEvent(new Event("logout"));
       // window.location.reload();
-      // window.location.href = '/login';
+      window.location.href = '/login';
       throw new Error("Unauthorized - Token expired or invalid");
       // return
     }
@@ -70,3 +71,6 @@ export const apiClient = async (endpoint, options = {}) => {
     throw error;
   }
 };
+
+export const getToken = () =>
+  sessionStorage.getItem("authToken") || localStorage.getItem("authToken");

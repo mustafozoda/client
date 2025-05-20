@@ -74,13 +74,9 @@ export default function DateCalendarComponent({ cusWidth }) {
     fetchMachines()
       .then((data) => {
         if (Array.isArray(data.machines)) {
-          const maintenanceDays = data.machines.map((machine) => {
-            const maintenanceDate = dayjs(
-              machine.nextMaintenanceDateTime,
-            ).startOf("day");
-            return maintenanceDate;
-          });
-
+          const maintenanceDays = data.machines.map((machine) =>
+            dayjs(machine.nextMaintenanceDateTime).startOf("day"),
+          );
           setHighlightedDays(maintenanceDays);
         } else {
           console.error(
@@ -136,16 +132,39 @@ export default function DateCalendarComponent({ cusWidth }) {
           renderLoading={() => <DayCalendarSkeleton />}
           slots={{ day: ServerDay }}
           slotProps={{ day: { highlightedDays } }}
-          sx={{
-            color: isDarkMode ? "white" : "black",
-            "& .MuiPickersCalendarHeader-root, & .MuiDayCalendar-weekDayLabel":
-              {
-                color: isDarkMode ? "white" : "black",
-              },
-            "& .MuiIconButton-root": {
-              color: isDarkMode ? "white" : "black",
-            },
-          }}
+          // sx={{
+          //   width: cusWidth || { xs: 180, sm: 280, md: 100, lg: 200, xl: 300 },
+          //   height: { xs: 240, sm: 10, md: 10, lg: 250, xl: 320 },
+          //   fontSize: "1rem",
+          //   // "& .MuiCalendar-root": {
+          //   //   // shorthand for both rowGap and columnGap:
+          //   //   // gap: (theme) => theme.spacing(10, 5.5),
+          //   //   // OR separately:
+          //   //   rowGap: (theme) => theme.spacing(10),
+          //   //   // columnGap: (theme) => theme.spacing(1.5),
+          //   // },
+
+          //   "& .MuiPickersCalendarHeader-root, & .MuiDayCalendar-weekDayLabel":
+          //     {
+          //       fontSize: "0.875rem",
+          //       marginBottom: 1,
+          //     },
+
+          //   "& .MuiDayCalendar-root": {
+          //     // width: 400,
+          //     // height: 100,
+          //     // margin: 1,
+          //     // marginBottom: "100px",
+          //     // paddingBottom: "100px",
+          //     fontSize: "1.875rem",
+          //   },
+
+          //   // "& .MuiIconButton-root": {
+          //   //   fontSize: "1.5rem",
+          //   // },
+
+          //   color: isDarkMode ? "white" : "black",
+          // }}
         />
       </LocalizationProvider>
     </ThemeProvider>

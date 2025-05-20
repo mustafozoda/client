@@ -42,7 +42,7 @@ const Sidebar = ({ setDark }) => {
       name: "Reports",
       icon: CircleAlert,
       // color: "#F59E0B",
-      href: "/issue-reports",
+      href: "/reports",
     },
     // {
     //   name: "User Management",

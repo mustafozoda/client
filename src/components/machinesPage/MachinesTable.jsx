@@ -46,7 +46,7 @@ const MachinesTable = () => {
   if (error) return <p>Error loading data</p>;
 
   return (
-    <div className="full flex h-[45vh] flex-col space-y-4">
+    <div className="full flex max-h-[40vh] flex-col space-y-4">
       <div className="hide-scrollbar w-full rounded-lg">
         <div className="flex flex-col">
           <div className="sticky top-0 z-10 mb-[10px] grid grid-cols-[7%_32%_30%_20%_10%] bg-white p-3 shadow-md dark:bg-[#171717]">

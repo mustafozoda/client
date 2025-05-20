@@ -5,6 +5,7 @@ import useTasksStore from "../../store/useTasksStore";
 const TaskForm = () => {
   const { fetchAllTasks } = useTasksStore();
   const [formData, setFormData] = useState({
+    taskName: "",
     description: "",
     createdByUserId: "",
     assignedToUserId: "",
@@ -22,6 +23,7 @@ const TaskForm = () => {
     e.preventDefault();
     try {
       const taskData = {
+        taskName: formData.taskName,
         description: formData.description,
         createdByUserId: parseInt(formData.createdByUserId),
         assignedToUserId: parseInt(formData.assignedToUserId),
@@ -32,9 +34,12 @@ const TaskForm = () => {
       };
 
       await addTask(taskData);
+      console.log("Task added successfully:", taskData);
       await fetchAllTasks();
+
       alert("Task added successfully!");
       setFormData({
+        taskName: "",
         description: "",
         createdByUserId: "",
         assignedToUserId: "",
@@ -57,18 +62,19 @@ const TaskForm = () => {
     >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block font-medium">Task Description</label>
-          <textarea
-            name="description"
-            placeholder="Enter task description"
-            value={formData.description}
+          <label className="block font-medium">Task Name</label>
+          <input
+            type="text"
+            name="taskName"
+            placeholder="Enter task name"
+            value={formData.taskName}
             onChange={handleChange}
             required
             className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
           />
         </div>
         <div>
-          <label className="block font-medium">Created By (User ID)</label>
+          <label className="block font-medium">Created By</label>
           <input
             type="number"
             name="createdByUserId"
@@ -82,7 +88,7 @@ const TaskForm = () => {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block font-medium">Assigned To (User ID)</label>
+          <label className="block font-medium">Assigned To</label>
           <input
             type="number"
             name="assignedToUserId"
@@ -133,16 +139,28 @@ const TaskForm = () => {
           />
         </div>
       </div>
-
-      <div>
-        <label className="block font-medium">Deadline</label>
-        <input
-          type="datetime-local"
-          name="deadline"
-          value={formData.deadline}
-          onChange={handleChange}
-          className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
-        />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div>
+          <label className="block font-medium">Deadline</label>
+          <input
+            type="datetime-local"
+            name="deadline"
+            value={formData.deadline}
+            onChange={handleChange}
+            className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
+          />
+        </div>
+        <div>
+          <label className="block font-medium">Task Description</label>
+          <textarea
+            name="description"
+            placeholder="Enter task description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
+          />
+        </div>
       </div>
 
       <button

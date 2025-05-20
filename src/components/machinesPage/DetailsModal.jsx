@@ -15,37 +15,56 @@ const DetailsModal = ({ item, onClose }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const username = await fetchCurrentUser();
-      if (!username) {
-        console.error("No username returned from API");
-        return;
-      }
-      fetchUserByUsername(username)
-        .then((user) => setCurrentUser(user))
-        .catch(() => setCurrentUser(null));
-    };
-    fetchUser();
-  }, []);
+    if (isMachine) return;
 
-  useEffect(() => {
-    if (!isMachine) {
-      fetchCommentsByTaskId(item.id)
-        .then((res) => setComments(res.comment || []))
-        .catch(() => setComments([]));
-    }
+    const loadAll = async () => {
+      try {
+        const [commentRes, username] = await Promise.all([
+          fetchCommentsByTaskId(item.id),
+          fetchCurrentUser(),
+        ]);
+
+        setComments(commentRes.comment || []);
+
+        if (username) {
+          try {
+            const user = await fetchUserByUsername(username);
+            setCurrentUser(user);
+          } catch {
+            setCurrentUser(null);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load comments or user", err);
+        setComments([]);
+      }
+    };
+
+    loadAll();
   }, [item.id, isMachine]);
 
   const handleAddComment = async () => {
-    if (!newComment.trim() || comments.length > 0) return;
+    const text = newComment.trim();
+    if (!text || comments.length > 0) return;
+
     const payload = {
       taskId: item.id,
-      creatorUserId: currentUser?.id || null, // Replace with actual user ID-------------------------------------------------
-      content: newComment.trim(),
+      creatorUserId: currentUser?.id || null,
+      content: text,
     };
+
     try {
       const created = await addComment(payload);
-      setComments([created]);
+
+      const now = new Date().toISOString();
+      const withMeta = {
+        id: created.id,
+        content: text,
+        commentCreatorUsername: currentUser?.username || "You",
+        createTime: created.createTime || now,
+      };
+
+      setComments([withMeta]);
       setNewComment("");
     } catch (error) {
       console.error("Failed to add comment", error);
@@ -85,6 +104,7 @@ const DetailsModal = ({ item, onClose }) => {
             {!isMachine && item.taskName && (
               <DetailField label="Name" value={item.taskName} />
             )}
+
             {isMachine ? (
               <>
                 <DetailField label="Description" value={item.description} />
@@ -133,12 +153,9 @@ const DetailsModal = ({ item, onClose }) => {
           </div>
         </div>
 
+        {/* Comments Section */}
         {!isMachine && (
           <div className="mt-6 rounded-lg bg-white p-6 shadow-md dark:bg-[#212121]">
-            <h3 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
-              Comment
-            </h3>
-
             <div className="mb-4 max-h-40 space-y-3 overflow-y-auto">
               {comments.length > 0 ? (
                 comments.map((c) => (
@@ -157,7 +174,7 @@ const DetailsModal = ({ item, onClose }) => {
                 ))
               ) : (
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  No comments yet.
+                  {/* No comments yet. */}
                 </p>
               )}
             </div>

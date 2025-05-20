@@ -11,22 +11,22 @@ import MachinesTable from "../components/machinesPage/MachinesTable";
 const Machines = () => {
   // const { openModal } = useModalStore();
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex h-full w-full flex-col overflow-hidden">
       <Header title="Machines" />
-      <div className="z-10 mx-auto flex h-full w-[140vh]">
-        <div className="left-side flex w-2/3 flex-col justify-around p-5">
-          <div className="flex h-2/3 flex-col gap-[10px]">
+      <div className="z-10 mx-auto flex h-full w-[90%] items-start justify-start pb-[10px]">
+        <div className="left-side flex w-2/3 flex-col gap-[40px] p-5">
+          <div className="flex flex-col gap-[10px]">
             <SearchFilter />
             <MachinesTable />
           </div>
-          <div className="h-1/3">
+          <div className="">
             <MaintenanceChart />
           </div>
         </div>
 
-        <div className="right-side flex h-full w-1/3 flex-col justify-start gap-5 p-5">
+        <div className="right-side flex h-full w-1/3 flex-col gap-[40px] p-5">
           <MachineMaintenance />
-          <div className="rounded-[15px] bg-white py-[15px] dark:bg-[#171717]">
+          <div className="overflow-hidden rounded-[15px] bg-white py-[15px] dark:bg-[#171717]">
             <DateCalendarComponent />
           </div>
         </div>

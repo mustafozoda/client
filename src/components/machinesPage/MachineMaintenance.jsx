@@ -98,14 +98,14 @@ export default function MachineMaintenance() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center">
+    <div className="z flex w-full flex-col items-center">
       {currentMachines.length > 0 && (
         <motion.div
           // initial={{ opacity: 0, y: 20 }}
           // animate={{ opacity: 1, y: 0 }}
           // exit={{ opacity: 0, y: -20 }}
           // transition={{ duration: 0.2 }}
-          className="relative h-full w-full transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-transform hover:scale-[1.01] dark:bg-[#171717]"
+          className="relative h-fit w-full transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-transform hover:scale-[1.01] dark:bg-[#171717]"
         >
           <div className="absolute right-4 top-4">
             <BlinkingDot />
@@ -192,7 +192,7 @@ export default function MachineMaintenance() {
             </div>
           </div>
 
-          <div className="absolute bottom-4 right-4 flex gap-3">
+          <div className="absolute bottom-2 right-2 flex gap-3 rounded-md border border-slate-500 bg-slate-300 px-2 py-1 opacity-50 hover:opacity-100 dark:bg-[#212121]">
             <button
               onClick={() => startEdit("location")}
               className="text-blue-600 hover:text-blue-800"
@@ -210,16 +210,19 @@ export default function MachineMaintenance() {
       )}
 
       <div className="mt-4 flex">
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ width: "100%" }}>
           <Pagination
             count={Math.ceil(machines.length / machinesPerPage)}
             shape="rounded"
             page={currentPage}
+            variant="outlined"
+            size="small"
             onChange={handlePageChange}
             color="primary"
             sx={{
               "& .MuiPaginationItem-root": {
                 color: theme === "dark" ? "white" : "black",
+                // fontSize: "20px",
               },
             }}
           />

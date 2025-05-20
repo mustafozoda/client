@@ -201,7 +201,6 @@ const Search = () => {
           )}
         </motion.div>
       )}
-
       {selectedItem && (
         <DetailsModal
           item={selectedItem}
