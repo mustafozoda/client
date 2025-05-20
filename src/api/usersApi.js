@@ -1,6 +1,5 @@
 import { apiClient } from "./apiClient";
 
-// usersApi.js
 export const fetchCurrentUser = async () => {
   const result = await apiClient("/users/getCurrentUser", { method: "POST" });
   if (typeof result === "string") {

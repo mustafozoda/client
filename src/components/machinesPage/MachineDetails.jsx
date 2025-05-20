@@ -55,6 +55,7 @@ const MachineDetails = ({ machine, refetch }) => {
   const handleCloseModal = () => setIsEditModalOpen(false);
 
   const handleSave = (updatedMachine) => {
+    console.log("Updated machine data:", updatedMachine);
     updateMachineMutation.mutate(updatedMachine);
   };
 

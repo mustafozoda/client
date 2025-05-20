@@ -11,6 +11,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
   };
 
   const makeInitialForm = () => ({
+    name: item.name,
     id: item.id ?? 0,
     description: item.description || "",
     location: item.location || "",
@@ -34,6 +35,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
     e.preventDefault();
 
     const payload = {
+      name: formData.name.trim(),
       id: formData.id,
       description: formData.description.trim(),
       location: formData.location.trim(),
@@ -45,7 +47,7 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
         ? new Date(formData.nextMaintenanceDateTime).toISOString()
         : item.nextMaintenanceDateTime,
     };
-
+    console.log("Payload to save:", payload);
     onSave(payload);
     onClose();
   };
@@ -81,6 +83,75 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                Machine Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
+              />
+            </div>
+            <div className="mb-4 grid grid-cols-2 gap-4">
+              <div className="">
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
+                />
+              </div>
+
+              <div className="">
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                  Status
+                </label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-lg border p-[10px] dark:bg-[#333] dark:text-white"
+                >
+                  <option value="OPERATIONAL">OPERATIONAL</option>
+                  <option value="UNDER_MAINTENANCE">UNDER MAINTENANCE</option>
+                  <option value="OUT_OF_SERVICE">OUT OF SERVICE</option>
+                </select>
+              </div>
+            </div>
+            <div className="mb-4 grid grid-cols-2 gap-4">
+              <div className="">
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                  Last Maintenance Date
+                </label>
+                <input
+                  type="date"
+                  name="lastMaintenanceDateTime"
+                  value={formData.lastMaintenanceDateTime}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
+                />
+              </div>
+
+              <div className="">
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                  Next Maintenance Date
+                </label>
+                <input
+                  type="date"
+                  name="nextMaintenanceDateTime"
+                  value={formData.nextMaintenanceDateTime}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
+                />
+              </div>
+            </div>
+            <div className="">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Description
               </label>
               <textarea
@@ -88,61 +159,6 @@ const EditMachineModal = ({ item, onClose, onSave }) => {
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
-                Location
-              </label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
-                Status
-              </label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
-              >
-                <option value="OPERATIONAL">OPERATIONAL</option>
-                <option value="UNDER_MAINTENANCE">UNDER MAINTENANCE</option>
-                <option value="OUT_OF_SERVICE">OUT OF SERVICE</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
-                Last Maintenance Date
-              </label>
-              <input
-                type="date"
-                name="lastMaintenanceDateTime"
-                value={formData.lastMaintenanceDateTime}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
-                Next Maintenance Date
-              </label>
-              <input
-                type="date"
-                name="nextMaintenanceDateTime"
-                value={formData.nextMaintenanceDateTime}
-                onChange={handleChange}
                 className="mt-1 w-full rounded-lg border p-2 dark:bg-[#333] dark:text-white"
               />
             </div>

@@ -4,6 +4,7 @@ import { SlidersHorizontal, X } from "lucide-react";
 import { fetchTasks } from "../api/tasksApi";
 import { fetchMachines } from "../api/machinesApi";
 import { getToken } from "../api/apiClient";
+import DashboardSummary from "../components/DashboardSummary";
 const API_BASE_URL = import.meta.env.VITE_BASE_API_URL.replace(/\/$/, "");
 
 export const downloadReport = async ({ reportType, format, query = "" }) => {
@@ -424,84 +425,89 @@ export default function Reports() {
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
       <Header title="Reports" />
-      <div className="mx-auto w-[85%] space-y-6 px-6 py-6">
-        {/* Tasks Reports */}
-        <section className="space-y-2 rounded bg-white p-6 shadow dark:bg-[#171717]">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Tasks Reports</h2>
-            <button
-              onClick={() => setTaskFilterOpen(true)}
-              className="flex items-center gap-2 rounded bg-blue-600 px-4 py-1 text-white hover:bg-blue-700"
-            >
-              <SlidersHorizontal size={18} /> Filter
-            </button>
-          </div>
-          <div className="flex gap-4 pt-4">
-            <button
-              onClick={() =>
-                downloadReport({
-                  reportType: "tasks",
-                  format: "pdf",
-                  query: taskQuery,
-                })
-              }
-              className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-            >
-              Export PDF
-            </button>
-            <button
-              onClick={() =>
-                downloadReport({
-                  reportType: "tasks",
-                  format: "xls",
-                  query: taskQuery,
-                })
-              }
-              className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-            >
-              Export XLS
-            </button>
-          </div>
-        </section>
+      <div className="mx-auto w-[90%]">
+        <div className="grid grid-cols-2 gap-4 py-4">
+          {/* Tasks Reports */}
+          <section className="space-y-2 rounded bg-white p-6 shadow dark:bg-[#171717]">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Tasks Reports</h2>
+              <button
+                onClick={() => setTaskFilterOpen(true)}
+                className="flex items-center gap-2 rounded bg-blue-600 px-4 py-1 text-white hover:bg-blue-700"
+              >
+                <SlidersHorizontal size={18} /> Filter
+              </button>
+            </div>
+            <div className="flex gap-4 pt-4">
+              <button
+                onClick={() =>
+                  downloadReport({
+                    reportType: "tasks",
+                    format: "pdf",
+                    query: taskQuery,
+                  })
+                }
+                className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+              >
+                Export PDF
+              </button>
+              <button
+                onClick={() =>
+                  downloadReport({
+                    reportType: "tasks",
+                    format: "xls",
+                    query: taskQuery,
+                  })
+                }
+                className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+              >
+                Export XLS
+              </button>
+            </div>
+          </section>
 
-        {/* Machines Reports */}
-        <section className="space-y-2 rounded bg-white p-6 shadow dark:bg-[#171717]">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Machines Reports</h2>
-            <button
-              onClick={() => setMachineFilterOpen(true)}
-              className="flex items-center gap-2 rounded bg-purple-600 px-4 py-1 text-white hover:bg-purple-700"
-            >
-              <SlidersHorizontal size={18} /> Filter
-            </button>
-          </div>
-          <div className="flex gap-4 pt-4">
-            <button
-              onClick={() =>
-                downloadReport({
-                  reportType: "machines",
-                  format: "pdf",
-                  query: machineQuery,
-                })
-              }
-              className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-            >
-              Export PDF
-            </button>
-            <button
-              onClick={() =>
-                downloadReport({
-                  reportType: "machines",
-                  format: "xls",
-                  query: machineQuery,
-                })
-              }
-              className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-            >
-              Export XLS
-            </button>
-          </div>
-        </section>
+          {/* Machines Reports */}
+          <section className="space-y-2 rounded bg-white p-6 shadow dark:bg-[#171717]">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Machines Reports</h2>
+              <button
+                onClick={() => setMachineFilterOpen(true)}
+                className="flex items-center gap-2 rounded bg-purple-600 px-4 py-1 text-white hover:bg-purple-700"
+              >
+                <SlidersHorizontal size={18} /> Filter
+              </button>
+            </div>
+            <div className="flex gap-4 pt-4">
+              <button
+                onClick={() =>
+                  downloadReport({
+                    reportType: "machines",
+                    format: "pdf",
+                    query: machineQuery,
+                  })
+                }
+                className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+              >
+                Export PDF
+              </button>
+              <button
+                onClick={() =>
+                  downloadReport({
+                    reportType: "machines",
+                    format: "xls",
+                    query: machineQuery,
+                  })
+                }
+                className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+              >
+                Export XLS
+              </button>
+            </div>
+          </section>
+        </div>
+        <div className="w-full">
+          <DashboardSummary />
+        </div>
       </div>
 
       {taskFilterOpen && (

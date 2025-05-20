@@ -1,8 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import {
+  X,
+  IdCard,
+  CircleUser,
+  FileText,
+  MapPin,
+  CalendarCheck,
+  CalendarPlus,
+  CalendarDays,
+  Tag,
+  Flag,
+  User,
+  DollarSign,
+  ClipboardList,
+} from "lucide-react";
 import { fetchCommentsByTaskId, addComment } from "../../api/commentsApi";
 import { fetchUserByUsername, fetchCurrentUser } from "../../api/usersApi";
+
+const getIconColor = [
+  "#1976D2", // blue
+  "#E53935", // red
+  "#43A047", // green
+  "#FBC02D", // yellow
+  "#8E24AA", // purple
+  "#00ACC1", // teal
+  "#F57C00", // orange
+  "#3949AB", // indigo
+  "#D81B60", // pink
+  "#00897B", // cyan
+  "#C0CA33", // lime
+  "#6D4C41", // brown
+  "#7E57C2", // deep purple
+];
 
 const DetailsModal = ({ item, onClose }) => {
   const isMachine = Object.prototype.hasOwnProperty.call(
@@ -76,7 +106,7 @@ const DetailsModal = ({ item, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+      className="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50 p-4"
       onClick={onClose}
     >
       <motion.div
@@ -100,53 +130,97 @@ const DetailsModal = ({ item, onClose }) => {
 
         <div className="rounded-lg bg-white p-6 shadow-md dark:bg-[#212121]">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <DetailField label="ID" value={item.id} />
+            <DetailField
+              label="ID"
+              value={item.id}
+              icon={<IdCard color={getIconColor[0]} />}
+            />
             {!isMachine && item.taskName && (
-              <DetailField label="Name" value={item.taskName} />
+              <DetailField
+                label="Name"
+                value={item.taskName}
+                icon={<CircleUser color={getIconColor[1]} />}
+              />
             )}
 
             {isMachine ? (
               <>
-                <DetailField label="Description" value={item.description} />
-                <DetailField label="Status" value={item.status} />
-                <DetailField label="Location" value={item.location} />
+                <DetailField
+                  label="Name"
+                  value={item.name}
+                  icon={<CircleUser color={getIconColor[2]} />}
+                />
+                <DetailField
+                  label="Description"
+                  value={item.description}
+                  icon={<FileText color={getIconColor[3]} />}
+                />
+                <DetailField
+                  label="Status"
+                  value={item.status}
+                  icon={<ClipboardList color={getIconColor[4]} />}
+                />
+                <DetailField
+                  label="Location"
+                  value={item.location}
+                  icon={<MapPin color={getIconColor[5]} />}
+                />
                 <DetailField
                   label="Last Maintenance"
                   value={new Date(
                     item.lastMaintenanceDateTime,
                   ).toLocaleDateString()}
+                  icon={<CalendarCheck color={getIconColor[6]} />}
                 />
                 <DetailField
                   label="Next Maintenance"
                   value={new Date(
                     item.nextMaintenanceDateTime,
                   ).toLocaleDateString()}
+                  icon={<CalendarPlus color={getIconColor[7]} />}
                 />
                 <DetailField
                   label="Date Added"
-                  value={new Date(item.dateAdded).toLocaleDateString()}
+                  value={new Date(item.dateTimeAdded).toLocaleDateString()}
+                  icon={<CalendarDays color={getIconColor[8]} />}
                 />
               </>
             ) : (
               <>
-                <DetailField label="Category" value={item.category} />
-                <DetailField label="Priority" value={item.priority} />
-                <DetailField label="Status" value={item.status} />
+                <DetailField
+                  label="Category"
+                  value={item.category}
+                  icon={<Tag color={getIconColor[9]} />}
+                />
+                <DetailField
+                  label="Priority"
+                  value={item.priority}
+                  icon={<Flag color={getIconColor[10]} />}
+                />
+                <DetailField
+                  label="Status"
+                  value={item.status}
+                  icon={<ClipboardList color={getIconColor[11]} />}
+                />
                 <DetailField
                   label="Deadline"
                   value={new Date(item.deadline).toLocaleDateString()}
+                  icon={<CalendarCheck color={getIconColor[12]} />}
                 />
                 <DetailField
                   label="Assigned To"
                   value={item.responsibleUserId || "N/A"}
+                  icon={<User color={getIconColor[3]} />}
                 />
                 <DetailField
                   label="Created At"
                   value={new Date(item.createDate).toLocaleDateString()}
+                  icon={<CalendarDays color={getIconColor[4]} />}
                 />
                 <DetailField
                   label="Cost"
                   value={item.cost != null ? `$${item.cost.toFixed(2)}` : "N/A"}
+                  icon={<DollarSign color={getIconColor[5]} />}
                 />
               </>
             )}
@@ -155,8 +229,8 @@ const DetailsModal = ({ item, onClose }) => {
 
         {/* Comments Section */}
         {!isMachine && (
-          <div className="mt-6 rounded-lg bg-white p-6 shadow-md dark:bg-[#212121]">
-            <div className="mb-4 max-h-40 space-y-3 overflow-y-auto">
+          <div className="mt-6 rounded-lg bg-white p-4 shadow-md dark:bg-[#212121]">
+            <div className="max-h-40 space-y-3 overflow-y-auto">
               {comments.length > 0 ? (
                 comments.map((c) => (
                   <div
@@ -210,14 +284,19 @@ const DetailsModal = ({ item, onClose }) => {
   );
 };
 
-const DetailField = ({ label, value }) => (
-  <div className="flex flex-col">
-    <span className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
-      {label}
-    </span>
-    <span className="mt-1 text-sm text-gray-800 dark:text-gray-200">
-      {value}
-    </span>
+const DetailField = ({ icon, label, value }) => (
+  <div className="flex items-start justify-start gap-2">
+    <div className="flex items-center justify-center rounded-md bg-[#171717] px-2 py-1">
+      {icon}
+    </div>
+    <div className="flex flex-col">
+      <span className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+        {label}
+      </span>
+      <span className="mt-1 text-sm text-gray-800 dark:text-gray-200">
+        {value}
+      </span>
+    </div>
   </div>
 );
 

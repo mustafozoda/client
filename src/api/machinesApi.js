@@ -10,11 +10,14 @@ export const addMachine = (machine) =>
     body: JSON.stringify(machine),
   });
 
-export const updateMachine = (data) =>
-  apiClient(`/machines/update`, {
+export const updateMachine = (data) => {
+  console.log("API Request Body:", JSON.stringify(data));
+  return apiClient(`/machines/update`, {
     method: "PUT",
+
     body: JSON.stringify(data),
   });
+};
 
 export const deleteMachine = (id) =>
   apiClient(`/machines/delete/${id}`, { method: "DELETE" });
