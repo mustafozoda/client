@@ -4,8 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "../SkeletonLoader";
 import { Copy } from "lucide-react";
 import { copyToClipboard } from "../../utils/copyUtils";
+import { useTranslation } from "react-i18next";
 
 const InActiveCnt = () => {
+  const { t } = useTranslation("overview");
   const {
     data: responseData,
     isLoading,
@@ -48,7 +50,7 @@ const InActiveCnt = () => {
         <div className="flex min-h-full min-w-full flex-col justify-between p-[10px]">
           <div className="flex min-h-full justify-between">
             <div>
-              <h1>Inactive Machines</h1>
+              <h2>{t("inactiveMachines")}</h2>
               <span className="text-[42px] text-blue-500">
                 {machinesInActiveCnt}
               </span>

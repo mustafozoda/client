@@ -87,13 +87,19 @@ export default function DashboardSummary({
           <ResponsiveContainer width="100%" height={150}>
             <BarChart
               data={categoryData}
-              margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" fontSize={10} />
               <YAxis allowDecimals={false} />
               <Tooltip />
-              <Bar dataKey="count" fill="#6366f1" radius={[4, 4, 0, 0]}>
+
+              <Bar
+                dataKey="count"
+                fill="#6366f1"
+                barSize={35}
+                radius={[4, 4, 0, 0]}
+              >
                 <LabelList
                   dataKey="name"
                   position="insideBottomLeft"
@@ -165,7 +171,7 @@ export default function DashboardSummary({
               {visibleUsers.map(({ userId, tasks }) => (
                 <div
                   key={userId}
-                  className="mx-2 flex h-32 w-[30%] flex-shrink-0 flex-col justify-between rounded-lg border bg-gray-50 p-4 shadow-inner dark:border-gray-700 dark:bg-gray-800"
+                  className="mx-2 flex h-32 w-[30%] flex-shrink-0 flex-col justify-between rounded-lg border bg-[#a1abae] p-4 shadow-inner dark:border-gray-700 dark:bg-gray-800"
                 >
                   <div>
                     <div className="mb-2 flex items-center justify-between">

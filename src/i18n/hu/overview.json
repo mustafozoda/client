@@ -1,0 +1,16 @@
+{
+  "inactiveMachines": "Inaktív gépek",
+  "activeMachines": "Aktív gépek",
+  "inactivePercent": "{{value}} inaktív",
+  "activePercent": "{{value}} aktív",
+  "awaitingAction": "Folyamatban lévő feladatok",
+  "inProgress": "Folyamatban",
+  "tasks": "Feladatok",
+  "machines": "Gépek",
+  "low": "ALACSONY",
+  "medium": "KÖZEPES",
+  "high": "MAGAS",
+  "operational": "MŰKÖDŐKÉPES",
+  "underMaintenance": "KARBANTARTÁS ALATT",
+  "outOfService": "ÜZEMEN KÍVÜL"
+}

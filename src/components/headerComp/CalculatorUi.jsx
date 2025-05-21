@@ -33,14 +33,14 @@ const CalculatorUi = () => {
     <div>
       <div
         onClick={toggleCalculator}
-        className="z-500 relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
+        className="relative flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
       >
         <Calculator size={22} />
       </div>
 
       {isCalculatorOpen && (
         <motion.div
-          className="fixed left-[41vw] -translate-x-1/2 -translate-y-1/2 transform shadow-lg"
+          className="fixed left-[41vw] z-50 -translate-x-1/2 -translate-y-1/2 transform shadow-lg"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}

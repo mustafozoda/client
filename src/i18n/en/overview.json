@@ -1,0 +1,16 @@
+{
+  "inactiveMachines": "Inactive Machines",
+  "activeMachines": "Active Machines",
+  "inactivePercent": "{{value}} Inactive",
+  "activePercent": "{{value}} Active",
+  "awaitingAction": "Awaiting Action",
+  "inProgress": "In Progress",
+  "tasks": "Tasks",
+  "machines": "Machines",
+  "low": "LOW",
+  "medium": "MEDIUM",
+  "high": "HIGH",
+  "operational": "OPERATIONAL",
+  "underMaintenance": "UNDER MAINTENANCE",
+  "outOfService": "OUT OF SERVICE"
+}

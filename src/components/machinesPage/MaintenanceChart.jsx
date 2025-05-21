@@ -128,7 +128,7 @@ const MaintenanceChart = () => {
               return null;
             }}
           />
-          <Bar dataKey="count" fill="#457b9d" barSize={1} />
+          <Bar dataKey="count" fill="#457b9d" barSize={2} />
           <Area
             type="monotone"
             dataKey="count"
@@ -140,7 +140,7 @@ const MaintenanceChart = () => {
             type="monotone"
             dataKey="count"
             stroke="green"
-            strokeWidth={1.2}
+            strokeWidth={1.5}
             dot={({ cx, cy, payload }) => (
               <circle
                 key={payload.month}

@@ -21,6 +21,7 @@ import TaskFilter from "../components/tasksPage/TaskFilter";
 import EditTaskModal from "../components/tasksPage/EditTaskModal";
 import DetailsModal from "../components/machinesPage/DetailsModal";
 import BulkActionMenu from "./BulkActionMenu";
+import { useTranslation } from "react-i18next";
 
 const statusConfig = {
   PENDING: {
@@ -68,6 +69,7 @@ const calculateProgress = (dl) => {
 };
 
 export default function Tasks() {
+  const { t } = useTranslation("common");
   const [tasks, setTasks] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState(new Set());
@@ -314,7 +316,7 @@ export default function Tasks() {
 
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
-      <Header title="Task Manager" />
+      <Header title={t("tasks")} />
       <div className="mx-auto w-[85%] space-y-4 px-6 py-6">
         <div className="flex w-full items-center justify-between">
           <div className="flex w-[70%]">

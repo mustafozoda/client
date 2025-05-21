@@ -6,14 +6,16 @@ import WeatherApp from "../components/overviewPage/WeatherApp";
 import ArticleCard from "../components/overviewPage/ArticleCard";
 import Map from "../components/overviewPage/Map";
 // import FloatingButton from "../components/FloatingButton";
+import { useTranslation } from "react-i18next";
 import InActiveCnt from "../components/overviewPage/InActiveCnt";
 import ActiveCnt from "../components/overviewPage/ActiveCnt";
 import TasksStatusCnt from "../components/overviewPage/TasksStatusCnt";
 import InProgressTasksStatusCnt from "../components/overviewPage/InProgressTasksStatusCnt";
 const Overview = () => {
+  const { t } = useTranslation("common");
   return (
     <div className="z-10 flex w-full flex-col overflow-auto">
-      <Header title="Overview" />
+      <Header title={t("overview")} />
 
       <div className="mx-auto flex h-screen w-[80vw] flex-1 flex-col items-center justify-start">
         <div className="flex w-full items-center justify-center gap-7 p-[20px] px-[60px]">

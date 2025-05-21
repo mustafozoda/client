@@ -13,33 +13,33 @@ import {
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-// import ThemeToggle from "../components/ThemeToggle";
-
+import { useTranslation } from "react-i18next";
 const Sidebar = ({ setDark }) => {
+  const { t } = useTranslation("common");
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const SIDEBAR_ITEMS = [
     {
-      name: "Overview",
+      name: t("overview"),
       icon: ChartArea,
       // color: "#6366f1",
       href: "/",
     },
     {
-      name: "Machines",
+      name: t("machines"),
       icon: Cable,
       // color: "#6EE7B7",
       href: "/machines",
     },
     {
-      name: "Tasks",
+      name: t("tasks"),
       icon: ListTodo,
       // color: "#8B5CF6",
       href: "/tasks",
     },
     {
-      name: "Reports",
+      name: t("reports"),
       icon: CircleAlert,
       // color: "#F59E0B",
       href: "/reports",

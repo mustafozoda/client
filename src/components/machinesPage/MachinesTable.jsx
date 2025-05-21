@@ -6,6 +6,7 @@ import { ChevronsUpDown, ChevronsDownUp } from "lucide-react";
 import MachineDetails from "./MachineDetails";
 import useMachineSearchStore from "../../store/useMachineSearchStore";
 import DetailsModal from "./DetailsModal";
+import SkeletonLoader from "../SkeletonLoader";
 
 const MachinesTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
@@ -42,7 +43,8 @@ const MachinesTable = () => {
     setSelectedMachine(null);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  // if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <SkeletonLoader />;
   if (error) return <p>Error loading data</p>;
 
   return (

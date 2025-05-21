@@ -5,6 +5,7 @@ import { fetchTasks } from "../api/tasksApi";
 import { fetchMachines } from "../api/machinesApi";
 import { getToken } from "../api/apiClient";
 import DashboardSummary from "../components/DashboardSummary";
+import { useTranslation } from "react-i18next";
 const API_BASE_URL = import.meta.env.VITE_BASE_API_URL.replace(/\/$/, "");
 
 export const downloadReport = async ({ reportType, format, query = "" }) => {
@@ -366,6 +367,7 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
 }
 
 export default function Reports() {
+  const { t } = useTranslation("common");
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
   const [taskFilterOpen, setTaskFilterOpen] = useState(false);
@@ -424,7 +426,7 @@ export default function Reports() {
 
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
-      <Header title="Reports" />
+      <Header title={t("reports")} />
       <div className="mx-auto w-[90%]">
         <div className="grid grid-cols-2 gap-4 py-4">
           {/* Tasks Reports */}
