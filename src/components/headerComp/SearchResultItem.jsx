@@ -7,7 +7,7 @@ const SearchResultItem = ({ item, onClick }) => {
       onClick={onClick}
     >
       <div className="w-[90%]">
-        <span>Name: {item.description}</span>
+        <span>Name: {item.taskName || item.name}</span>
       </div>
       <div className="w-[10%]">
         <span>ID: {item.id}</span>

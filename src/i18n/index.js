@@ -6,6 +6,8 @@ import enCommon from './en/common.json';
 import huCommon from './hu/common.json';
 import enOverview from './en/overview.json';
 import huOverview from './hu/overview.json';
+import tasksPageEn from './en/tasksPage.json';
+import tasksPageHu from './hu/tasksPage.json';
 
 i18n
   .use(LanguageDetector)
@@ -14,16 +16,18 @@ i18n
     resources: {
       en: {
         common: enCommon,
-        overview: enOverview
+        overview: enOverview,
+        tasksPage: tasksPageEn,
       },
       hu: {
         common: huCommon,
-        overview: huOverview
+        overview: huOverview,
+        tasksPage: tasksPageHu,
       }
     },
     fallbackLng: 'en',
     lng: 'en',
-    ns: ['common', 'overview'], // <--- add this
+    ns: ['common', 'overview', 'tasksPage'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false

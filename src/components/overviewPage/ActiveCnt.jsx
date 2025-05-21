@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import SkeletonLoader from "../SkeletonLoader";
 import { Copy } from "lucide-react";
 import { copyToClipboard } from "../../utils/copyUtils";
-
+import { useTranslation } from "react-i18next";
 const ActiveCnt = () => {
   const {
     data: responseData,
@@ -36,7 +36,7 @@ const ActiveCnt = () => {
   const activePercentage = totalMachines
     ? ((machinesActiveCnt / totalMachines) * 100).toFixed(2)
     : 0;
-
+  const { t } = useTranslation("overview");
   return (
     <div className="h-full w-full">
       {isLoading || error ? (
@@ -53,7 +53,7 @@ const ActiveCnt = () => {
         <div className="flex min-h-full min-w-full flex-col justify-between p-[10px]">
           <div className="flex min-h-full justify-between">
             <div>
-              <h1>Active Machines</h1>
+              <h1>{t("activeMachines")}</h1>
               <span className="text-[42px] text-blue-500">
                 {machinesActiveCnt}
               </span>
@@ -68,7 +68,9 @@ const ActiveCnt = () => {
             </div>
           </div>
           <div className="h-full w-full">
-            <span className="text-green-600">{activePercentage}% Active</span>
+            <span className="text-green-600">
+              {t("activePercent", { value: `${activePercentage}%` })}
+            </span>
           </div>
         </div>
       )}

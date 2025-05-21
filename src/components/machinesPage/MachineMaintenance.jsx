@@ -22,10 +22,6 @@ export default function MachineMaintenance() {
   const [draft, setDraft] = useState({});
   const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = async () => {
     try {
       const data = await fetchMachines();
@@ -43,6 +39,10 @@ export default function MachineMaintenance() {
       console.error("Error fetching machines:", err);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const indexOfLastMachine = currentPage * machinesPerPage;
   const indexOfFirstMachine = indexOfLastMachine - machinesPerPage;
@@ -163,7 +163,7 @@ export default function MachineMaintenance() {
               ) : (
                 <span
                   onClick={() => startEdit("status")}
-                  className={`cursor-pointer rounded-[5px] px-3 py-1 font-bold ${
+                  className={`cursor-pointer truncate rounded-[5px] px-3 py-1 font-bold ${
                     currentMachines[0].status === "OPERATIONAL"
                       ? "bg-green-100 text-green-700"
                       : currentMachines[0].status === "UNDER_MAINTENANCE"
@@ -181,10 +181,10 @@ export default function MachineMaintenance() {
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="d text-gray-700 dark:text-gray-300">
+              <span className="d truncate text-gray-700 dark:text-gray-300">
                 Next Maintenance:
               </span>
-              <span className="text-slate-600 dark:text-slate-300">
+              <span className="truncate text-slate-600 dark:text-slate-300">
                 {new Date(
                   currentMachines[0].nextMaintenanceDateTime,
                 ).toLocaleDateString()}

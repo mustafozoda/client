@@ -1,70 +1,108 @@
-// src/components/headerComp/Setting.jsx
-import React, { useState, useRef, useEffect } from "react";
-import { Settings, Sun, Moon } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {
+  Settings,
+  Sun,
+  Moon,
+  Languages,
+  Check,
+  ChevronDown,
+  Globe,
+} from "lucide-react";
 import useThemeStore from "../../store/useThemeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
 
-const Setting = () => {
+export default function Setting() {
   const { theme, setTheme } = useThemeStore();
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const { language, setLanguage } = useLanguageStore();
 
   return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="flex h-[30px] cursor-pointer items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] transition-colors duration-300 ease-in-out dark:bg-[#212121]"
-      >
-        <Settings size={22} />
-      </button>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="outline-none" asChild>
+        <button className="flex h-[30px] items-center justify-center rounded-md bg-[#a1abae] px-[10px] py-[2px] dark:bg-[#212121]">
+          <Settings size={20} />
+        </button>
+      </DropdownMenu.Trigger>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.2 }}
-            className="absolute left-0 mt-2 w-40 space-y-1 rounded-md bg-white p-2 shadow-lg dark:bg-[#212121]"
-          >
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              className="flex cursor-pointer items-center gap-2 rounded px-3 py-1 hover:bg-blue-600 hover:text-white"
-              onClick={() => {
-                setTheme("light");
-                setOpen(false);
-              }}
-            >
-              <Sun size={16} />
-              <span className="text-sm">Light Mode</span>
-            </motion.div>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          side="bottom"
+          align="start"
+          className="z-50 mt-[10px] min-w-[150px] rounded-md bg-white p-1 shadow-lg dark:bg-[#171717] dark:text-white"
+        >
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger className="z-50 flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm font-medium hover:bg-[#a1abae] dark:hover:bg-[#212121]">
+              <span className="flex items-center gap-2">
+                <Sun size={16} /> Theme
+              </span>
+              <ChevronDown size={16} />
+            </DropdownMenu.SubTrigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.SubContent
+                className="z-50 w-[150px] rounded-md bg-white p-1 shadow-lg dark:bg-[#171717] dark:text-white"
+                sideOffset={7}
+                align="start"
+              >
+                <DropdownMenu.Item
+                  onSelect={() => setTheme("light")}
+                  className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-[#a1abae] dark:hover:bg-[#212121]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Sun size={16} /> Light Mode
+                  </span>
+                  {theme === "light" && <Check size={16} />}
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                  onSelect={() => setTheme("dark")}
+                  className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-[#a1abae] dark:hover:bg-[#212121]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Moon size={16} /> Dark Mode
+                  </span>
+                  {theme === "dark" && <Check size={16} />}
+                </DropdownMenu.Item>
+              </DropdownMenu.SubContent>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Sub>
 
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              className="flex cursor-pointer items-center gap-2 rounded px-3 py-1 hover:bg-blue-600 hover:text-white"
-              onClick={() => {
-                setTheme("dark");
-                setOpen(false);
-              }}
-            >
-              <Moon size={16} />
-              <span className="text-sm">Dark Mode</span>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          <DropdownMenu.Separator className="z-50 my-1 h-px bg-gray-200 dark:bg-gray-700" />
+
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger className="z-50 flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm font-medium hover:bg-[#a1abae] dark:hover:bg-[#212121]">
+              <span className="flex items-center gap-2">
+                <Globe size={16} /> Language
+              </span>
+              <ChevronDown size={16} />
+            </DropdownMenu.SubTrigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.SubContent
+                className="z-50 w-[150px] rounded-md bg-white p-1 shadow-lg dark:bg-[#171717] dark:text-white"
+                sideOffset={7}
+                align="start"
+              >
+                <DropdownMenu.Item
+                  onSelect={() => setLanguage("en")}
+                  className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-[#a1abae] dark:hover:bg-[#212121]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Languages size={16} /> English (EN)
+                  </span>
+                  {language === "en" && <Check size={16} />}
+                </DropdownMenu.Item>
+                <DropdownMenu.Item
+                  onSelect={() => setLanguage("hu")}
+                  className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1 text-sm hover:bg-[#a1abae] dark:hover:bg-[#212121]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Languages size={16} /> Magyar (HU)
+                  </span>
+                  {language === "hu" && <Check size={16} />}
+                </DropdownMenu.Item>
+              </DropdownMenu.SubContent>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Sub>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
-};
-
-export default Setting;
+}

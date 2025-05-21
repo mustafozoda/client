@@ -5,8 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Copy } from "lucide-react";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { motion } from "framer-motion";
-
+import { useTranslation } from "react-i18next";
 const TasksStatusCnt = () => {
+  const { t } = useTranslation("overview");
+
   const {
     data: responseData,
     isLoading,
@@ -47,7 +49,6 @@ const TasksStatusCnt = () => {
   const tasksStatusPending = Array.isArray(responseData?.tasks)
     ? responseData.tasks.filter((task) => task.status === "PENDING").length
     : 0;
-
   return (
     <div className="h-full w-full">
       {isLoading || error ? (
@@ -63,8 +64,9 @@ const TasksStatusCnt = () => {
       ) : (
         <div className="flex min-h-full min-w-full flex-col justify-between p-[10px]">
           <div className="flex min-h-full justify-between">
-            <div>
-              <h1 className="">Awaiting Action</h1>
+            <div className="overflow-hidden">
+              <h1 className="truncate">{t("awaitingAction")}</h1>
+
               <span className="text-[42px] text-blue-500">
                 {tasksStatusPending}
               </span>

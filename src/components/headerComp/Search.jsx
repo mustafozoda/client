@@ -176,7 +176,7 @@ const Search = () => {
                       >
                         <div className="flex items-center justify-center gap-2">
                           <History size={15} />
-                          <span>{item.description || item.title}</span>
+                          <span>{item.name || item.taskName}</span>
                         </div>
                         <button
                           onClick={(e) => {

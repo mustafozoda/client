@@ -1,0 +1,21 @@
+{
+  "tasks": "Tasks",
+  "filter": "Filter",
+  "group": "Group",
+  "ungroup": "Ungroup",
+  "edit": "Edit",
+  "delete": "Delete",
+  "id": "ID",
+  "category": "Category",
+  "status": "Status",
+  "priority": "Priority",
+  "progress": "Progress",
+  "deadline": "Deadline",
+  "pending": "Pending",
+  "inProgress": "In Progress",
+  "completed": "Completed",
+  "cancelled": "Cancelled",
+  "daysLeft": "{{count}} days left",
+  "overdue": "Overdue",
+  "filterPlaceholder": "Search tasks..."
+}

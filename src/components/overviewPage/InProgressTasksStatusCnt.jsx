@@ -5,8 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Copy } from "lucide-react";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { motion } from "framer-motion";
-
+import { useTranslation } from "react-i18next";
 const InProgressTasksStatusCnt = () => {
+  const { t } = useTranslation("overview");
+
   const {
     data: responseData,
     isLoading,
@@ -46,7 +48,6 @@ const InProgressTasksStatusCnt = () => {
   const tasksInProgressCount = Array.isArray(responseData?.tasks)
     ? responseData.tasks.filter((task) => task.status === "IN_PROGRESS").length
     : 0;
-
   return (
     <div className="h-full w-full">
       {isLoading || error ? (
@@ -63,7 +64,8 @@ const InProgressTasksStatusCnt = () => {
         <div className="flex min-h-full min-w-full flex-col justify-between p-[10px]">
           <div className="flex min-h-full justify-between">
             <div>
-              <h1>In Progress</h1>
+              <h1>{t("inProgress")}</h1>
+
               <span className="text-[42px] text-blue-500">
                 {tasksInProgressCount}
               </span>

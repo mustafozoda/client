@@ -20,7 +20,7 @@
     "@mui/x-charts": "^7.28.0",
     "@mui/x-date-pickers": "^7.28.0",
     "@radix-ui/react-dialog": "^1.1.14",
-    "@radix-ui/react-dropdown-menu": "^2.1.6",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@radix-ui/react-slot": "^1.1.2",
     "@react-google-maps/api": "^2.20.6",
     "@shadcn/ui": "^0.0.4",

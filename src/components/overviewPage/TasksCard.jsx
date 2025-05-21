@@ -5,9 +5,11 @@ import { fetchTasks } from "../../api/tasksApi";
 import SkeletonLoader from "../SkeletonLoader";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { Copy } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const TasksCard = () => {
   const [alertVisible, setAlertVisible] = useState(false);
+  const { t } = useTranslation("overview");
 
   const {
     data: responseData,
@@ -28,11 +30,11 @@ const TasksCard = () => {
 
   if (error) {
     console.error("Error loading tasks:", error);
-    return <p>Failed to load tasks. Please try again later.</p>;
+    return <p>{t("errorLoadingTasks")}</p>;
   }
 
   if (!tasks || tasks.length === 0) {
-    return <p>No tasks available.</p>;
+    return <p>{t("noTasksAvailable")}</p>;
   }
 
   const taskCounts = {
@@ -41,13 +43,17 @@ const TasksCard = () => {
     HIGH: tasks.filter((task) => task.priority === "HIGH").length,
   };
 
-  const copiedText = `Low: ${taskCounts.LOW} tasks\nMedium: ${taskCounts.MEDIUM} tasks\nHigh: ${taskCounts.HIGH} tasks`;
+  const copiedText = [
+    t("lowPriority", { count: taskCounts.LOW }),
+    t("mediumPriority", { count: taskCounts.MEDIUM }),
+    t("highPriority", { count: taskCounts.HIGH }),
+  ].join("\n");
 
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Tasks</h1>
+          <h1 className="text-2xl font-semibold">{t("tasks")}</h1>
           <span className="text-4xl font-bold text-blue-500">
             {tasks.length}
           </span>

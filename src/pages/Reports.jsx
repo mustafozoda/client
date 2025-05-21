@@ -425,7 +425,7 @@ export default function Reports() {
   const machineQuery = buildQuery(machineFilters);
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
+    <div className="z-10 flex h-full w-full flex-col overflow-auto bg-[#a1abae] dark:bg-[#212121]">
       <Header title={t("reports")} />
       <div className="mx-auto w-[90%]">
         <div className="grid grid-cols-2 gap-4 py-4">

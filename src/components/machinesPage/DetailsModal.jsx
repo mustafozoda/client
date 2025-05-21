@@ -114,7 +114,7 @@ const DetailsModal = ({ item, onClose }) => {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 200, opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl dark:bg-[#171717]"
+        className="relative w-full max-w-2xl rounded-2xl bg-[#a1abae] p-6 shadow-2xl dark:bg-[#171717]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -235,7 +235,7 @@ const DetailsModal = ({ item, onClose }) => {
                 comments.map((c) => (
                   <div
                     key={c.id}
-                    className="rounded-md border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800"
+                    className="rounded-md border border-gray-200 bg-[#a1abae] p-3 dark:border-gray-700 dark:bg-gray-800"
                   >
                     <p className="text-sm text-gray-900 dark:text-gray-100">
                       {c.content}
@@ -286,7 +286,7 @@ const DetailsModal = ({ item, onClose }) => {
 
 const DetailField = ({ icon, label, value }) => (
   <div className="flex items-start justify-start gap-2">
-    <div className="flex items-center justify-center rounded-md bg-[#171717] px-2 py-1">
+    <div className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-md bg-[#a1abae] dark:bg-[#171717]">
       {icon}
     </div>
     <div className="flex flex-col">

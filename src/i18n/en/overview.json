@@ -10,7 +10,20 @@
   "low": "LOW",
   "medium": "MEDIUM",
   "high": "HIGH",
+  "loadingMachines": "Loading machines...",
+  "errorLoadingMachines": "Error loading machines",
+  "errorLoadingTasks": "Failed to load tasks. Please try again later.",
+  "noMachinesChart": "No machines available for the chart",
+  "noTasksAvailable": "No tasks available.",
   "operational": "OPERATIONAL",
   "underMaintenance": "UNDER MAINTENANCE",
-  "outOfService": "OUT OF SERVICE"
+  "outOfService": "OUT OF SERVICE",
+  "lowPriority": "Low: {{count}} tasks",
+  "mediumPriority": "Medium: {{count}} tasks",
+  "highPriority": "High: {{count}} tasks",
+  "copiedOperational": "Operational: {{count}} machines",
+  "copiedOutOfService": "Out of Service: {{count}} machines",
+  "copiedUnderMaintenance": "Under Maintenance: {{count}} machines",
+  "loadingTasks": "Loading tasks...",
+  "noTasksChart": "No tasks available for the chart"
 }

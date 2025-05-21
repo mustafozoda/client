@@ -2,8 +2,9 @@ import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTasks } from "../../api/tasksApi";
+import { useTranslation } from "react-i18next";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
 const RADIAN = Math.PI / 180;
 
@@ -13,6 +14,12 @@ const priorityMapping = {
   HIGH: 3,
 };
 
+const priorityTranslationMap = {
+  LOW: "low",
+  MEDIUM: "medium",
+  HIGH: "high",
+};
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -20,7 +27,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.45;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -40,6 +46,8 @@ const renderCustomizedLabel = ({
 };
 
 const TasksChart = () => {
+  const { t } = useTranslation("overview");
+
   const {
     data: responseData,
     isLoading,
@@ -51,10 +59,8 @@ const TasksChart = () => {
 
   const tasks = Array.isArray(responseData?.tasks) ? responseData.tasks : [];
 
-  if (isLoading) return <p>Loading tasks...</p>;
-  if (error) return <p>Error loading tasks</p>;
-
-  // console.log("Tasks Data: ", tasks);
+  if (isLoading) return <p>{t("loadingTasks")}</p>;
+  if (error) return <p>{t("errorLoadingTasks")}</p>;
 
   const getPriorityCounts = (tasks) => {
     const counts = { LOW: 0, MEDIUM: 0, HIGH: 0 };
@@ -78,10 +84,10 @@ const TasksChart = () => {
 
   const data = getPriorityCounts(tasks);
 
-  if (data.length === 0) return <p>No tasks available for the chart</p>;
+  if (data.length === 0) return <p>{t("noTasksChart")}</p>;
 
   return (
-    <div style={{ display: "flex", alignItems: "end" }}>
+    <div style={{ display: "flex", position: "relative", alignItems: "end" }}>
       <div style={{ marginRight: "20px", fontSize: "10px" }}>
         {Object.keys(priorityMapping).map((priority, index) => (
           <div
@@ -100,23 +106,26 @@ const TasksChart = () => {
                 marginRight: "10px",
               }}
             ></div>
-            <span>{priority.replace("_", " ")}</span>{" "}
-            {/* Replace underscores with space */}
+            <span>{t(priorityTranslationMap[priority])}</span>
           </div>
         ))}
       </div>
-      <ResponsiveContainer width="100%" height={170}>
-        <PieChart width={400} height={400}>
+      <ResponsiveContainer
+        className={"absolute left-[20%] z-50"}
+        width="100%"
+        height={170}
+      >
+        <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
             labelLine={true}
             label={renderCustomizedLabel}
-            outerRadius={75}
+            outerRadius={"100%"}
             fill="#8884d8"
             dataKey="value"
-            innerRadius={42}
+            innerRadius={"50%"}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />

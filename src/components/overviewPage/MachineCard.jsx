@@ -5,8 +5,9 @@ import { fetchMachines } from "../../api/machinesApi";
 import SkeletonLoader from "../SkeletonLoader";
 import { copyToClipboard } from "../../utils/copyUtils";
 import { Copy } from "lucide-react";
-
+import { useTranslation } from "react-i18next";
 const MachineCard = () => {
+  const { t } = useTranslation("overview");
   const {
     data: responseData,
     isLoading,
@@ -50,13 +51,17 @@ const MachineCard = () => {
     }
   });
 
-  const copiedText = `Operational: ${machineCounts.OPERATIONAL} machines\nOut of Service: ${machineCounts.OUT_OF_SERVICE} machines\nUnder Maintenance: ${machineCounts.UNDER_MAINTENANCE} machines`;
+  const copiedText = [
+    t("copiedOperational", { count: machineCounts.OPERATIONAL }),
+    t("copiedOutOfService", { count: machineCounts.OUT_OF_SERVICE }),
+    t("copiedUnderMaintenance", { count: machineCounts.UNDER_MAINTENANCE }),
+  ].join("\n");
 
   return (
     <div className="flex h-full flex-col justify-between">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Machines</h1>
+          <h1 className="text-2xl font-semibold">{t("machines")}</h1>
           <span className="text-4xl font-bold text-blue-500">
             {machines.length}
           </span>

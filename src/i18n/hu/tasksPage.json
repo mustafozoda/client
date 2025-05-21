@@ -1,0 +1,21 @@
+{
+  "tasks": "Feladatok",
+  "filter": "Szűrés",
+  "group": "Csoportosítás",
+  "ungroup": "Csoportbontás",
+  "edit": "Szerkesztés",
+  "delete": "Törlés",
+  "id": "Azonosító",
+  "category": "Kategória",
+  "status": "Állapot",
+  "priority": "Prioritás",
+  "progress": "Előrehaladás",
+  "deadline": "Határidő",
+  "pending": "Függőben",
+  "inProgress": "Folyamatban",
+  "completed": "Befejezve",
+  "cancelled": "Mégse",
+  "daysLeft": "{{count}} nap hátra",
+  "overdue": "Lejárt",
+  "filterPlaceholder": "Feladatok keresése..."
+}

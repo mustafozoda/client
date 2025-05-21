@@ -65,7 +65,11 @@ const InActiveCnt = () => {
             </div>
           </div>
           <div className="h-full w-full">
-            <span className="text-red-600">{inactivePercentage}% Inactive</span>
+            {/* <span className="text-red-600">{inactivePercentage}% Inactive</span>
+             */}
+            <span className="text-red-600">
+              {t("inactivePercent", { value: `${inactivePercentage}%` })}
+            </span>
           </div>
         </div>
       )}

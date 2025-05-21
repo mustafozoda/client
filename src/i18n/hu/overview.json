@@ -10,7 +10,20 @@
   "low": "ALACSONY",
   "medium": "KÖZEPES",
   "high": "MAGAS",
+  "loadingMachines": "Gépek betöltése...",
+  "errorLoadingMachines": "Hiba történt a gépek betöltésekor",
+  "noMachinesChart": "Nincs elérhető gép a diagramhoz",
   "operational": "MŰKÖDŐKÉPES",
   "underMaintenance": "KARBANTARTÁS ALATT",
-  "outOfService": "ÜZEMEN KÍVÜL"
+  "outOfService": "ÜZEMEN KÍVÜL",
+  "errorLoadingTasks": "Nem sikerült betölteni a feladatokat. Kérlek, próbáld meg újra később.",
+  "noTasksAvailable": "Nincsenek elérhető feladatok.",
+  "lowPriority": "Alacsony: {{count}} feladat",
+  "mediumPriority": "Közepes: {{count}} feladat",
+  "highPriority": "Magas: {{count}} feladat",
+  "copiedOperational": "Működőképes: {{count}} gép",
+  "copiedOutOfService": "Üzemen kívül: {{count}} gép",
+  "copiedUnderMaintenance": "Karbantartás alatt: {{count}} gép",
+  "loadingTasks": "Feladatok betöltése...",
+  "noTasksChart": "Nincs elérhető feladat a diagramhoz"
 }
