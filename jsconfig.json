@@ -5,6 +5,7 @@
     "checkJs": false
   },
   "include": [
-    "src"
+    "src",
+    "scripts"
   ]
 }
