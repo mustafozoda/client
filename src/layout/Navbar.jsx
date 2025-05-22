@@ -71,9 +71,10 @@ const Navbar = () => {
         </div>
         <div className="none">
           <button
-            className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
+            className="rounded bg-[#a1abae] px-[20px] py-[2px] text-[#a1abae] transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-[#212121]"
             onClick={() => toggleDropdown(1)}
             onMouseEnter={() => hasClicked && handleMouseEnter(1)}
+            disabled
           >
             Button
           </button>
@@ -85,9 +86,10 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
+            className="rounded bg-[#a1abae] px-[20px] py-[2px] text-[#a1abae] transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-[#212121]"
             onClick={() => toggleDropdown(2)}
             onMouseEnter={() => hasClicked && handleMouseEnter(2)}
+            disabled
           >
             Button
           </button>
@@ -99,9 +101,10 @@ const Navbar = () => {
         </div>
         <div className="relative">
           <button
-            className="rounded bg-[#a1abae] px-[20px] py-[2px] transition-colors duration-300 ease-in-out hover:bg-[#3B3B3B] dark:bg-[#212121]"
+            className="rounded bg-[#a1abae] px-[20px] py-[2px] text-[#a1abae] transition-colors duration-300 ease-in-out dark:bg-[#212121] dark:text-[#212121]"
             onClick={() => toggleDropdown(3)}
             onMouseEnter={() => hasClicked && handleMouseEnter(3)}
+            disabled
           >
             Button
           </button>

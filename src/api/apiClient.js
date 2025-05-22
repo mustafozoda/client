@@ -1,6 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_BASE_API_URL.replace(/\/$/, "");
 
-// const getToken = () => sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
 export const getToken = () =>
   sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
 
@@ -11,6 +10,7 @@ export const apiClient = async (endpoint, options = {}) => {
     console.log("Using token:", token);
   } else {
     console.warn(" No token found in storage.");
+    window.location.href = '/login';
   }
 
   const headers = {

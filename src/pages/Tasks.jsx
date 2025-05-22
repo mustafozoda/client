@@ -20,7 +20,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import TaskFilter from "../components/tasksPage/TaskFilter";
 import EditTaskModal from "../components/tasksPage/EditTaskModal";
 import DetailsModal from "../components/machinesPage/DetailsModal";
-import BulkActionMenu from "./BulkActionMenu";
+import BulkActionMenu from "../components/tasksPage/BulkActionMenu";
 import { useTranslation } from "react-i18next";
 
 const statusConfig = {
@@ -499,8 +499,8 @@ export default function Tasks() {
                       <span
                         className={`inline-flex items-center gap-2 rounded px-2 py-0 font-mono ${statusConfig[status].color}`}
                       >
-                        {statusConfig[status].label}
                         {statusConfig[status].icon}
+                        {statusConfig[status].label}
                       </span>
                     </div>
                     {groupedTasks[status]
@@ -577,7 +577,7 @@ export default function Tasks() {
                               variant="determinate"
                               value={calculateProgress(t.deadline)}
                               sx={{
-                                height: 8,
+                                height: 80,
                                 borderRadius: 5,
                                 backgroundColor: "#e2e8f0",
                                 "& .MuiLinearProgress-bar": {
