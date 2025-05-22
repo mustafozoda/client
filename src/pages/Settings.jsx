@@ -3,6 +3,7 @@ import Header from "../layout/Header";
 
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../store/useLanguageStore";
+import CustomModal from "../components/CustomModal";
 const Settings = () => {
   const { t } = useTranslation("common");
   const { language, setLanguage } = useLanguageStore();
@@ -13,6 +14,7 @@ const Settings = () => {
         <button onClick={() => setLanguage("hu")}>Magyar</button>
         <button onClick={() => setLanguage("en")}>English</button>
       </div>
+      <CustomModal />
     </div>
   );
 };

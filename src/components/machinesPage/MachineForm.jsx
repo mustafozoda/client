@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { addMachine } from "../../api/machinesApi";
 import useMachineStore from "../../store/useMachineStore";
+import { useLocation } from "react-router-dom";
 
 const MachineForm = () => {
   const { fetchAllMachines } = useMachineStore();
@@ -52,7 +53,7 @@ const MachineForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[5px]-lg mx-auto w-full space-y-6 bg-white p-6 dark:bg-[#212121]"
+      className={`rounded-[5px]-lg mx-auto min-h-[65vh] w-full space-y-6 bg-white p-6 dark:bg-[#212121] ${location.pathname === "/machines" ? "block" : "hidden"} `}
       autoComplete="off"
     >
       {/* <h2 className="text-center text-xl font-semibold">Add New Machine</h2> */}

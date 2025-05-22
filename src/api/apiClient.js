@@ -10,7 +10,8 @@ export const apiClient = async (endpoint, options = {}) => {
     console.log("Using token:", token);
   } else {
     console.warn(" No token found in storage.");
-    window.location.href = '/login';
+    // window.location.href = '/login';
+    // window.location.reload();
   }
 
   const headers = {

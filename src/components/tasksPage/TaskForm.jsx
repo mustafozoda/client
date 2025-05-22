@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { addTask } from "../../api/tasksApi";
 import useTasksStore from "../../store/useTasksStore";
+import { useLocation } from "react-router-dom";
 
 const TaskForm = () => {
   const { fetchAllTasks } = useTasksStore();
@@ -57,7 +58,7 @@ const TaskForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto w-full space-y-6 rounded-lg bg-white p-6 dark:bg-[#212121]"
+      className={`mx-auto min-h-[65vh] w-full space-y-6 rounded-lg bg-white p-6 dark:bg-[#212121] ${location.pathname === "/tasks" ? "block" : "hidden"} `}
       autoComplete="off"
     >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -165,7 +166,7 @@ const TaskForm = () => {
 
       <button
         type="submit"
-        className="w-full rounded bg-blue-500 p-2 font-semibold text-white hover:bg-blue-600"
+        className="w-full justify-end rounded bg-blue-500 p-2 font-semibold text-white hover:bg-blue-600"
       >
         Add Task
       </button>

@@ -14,6 +14,7 @@ import CopyAlertProvider from "./components/logic/CopyAlertProvider";
 import GlobalModal from "./components/GlobalModal";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import CustomModal from "./components/CustomModal";
 
 const App = () => {
   const { theme, setTheme } = useThemeStore();
@@ -76,6 +77,7 @@ const App = () => {
           </main>
           <CopyAlertProvider />
           <GlobalModal />
+          <CustomModal />
         </>
       )}
     </div>
