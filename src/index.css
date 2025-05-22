@@ -2,7 +2,7 @@
 /* @tailwind components; */
 @tailwind utilities;
 
-@layer utilities {
+/* @layer utilities {
   .hide-scrollbar-p::-webkit-scrollbar {
     display: none;
   }
@@ -10,7 +10,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-}
+} */
 
 .hide-scrollbar {
   overflow: auto;
