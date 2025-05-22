@@ -1,5 +1,5 @@
 @tailwind base;
-@tailwind components;
+/* @tailwind components; */
 @tailwind utilities;
 
 @layer utilities {
@@ -32,7 +32,7 @@
   animation: blink 1s infinite;
 }
 
-@keyframes blink {
+/* @keyframes blink {
   0% {
     opacity: 1;
   }
@@ -42,7 +42,7 @@
   100% {
     opacity: 1;
   }
-}
+} */
 /* ::-webkit-scrollbar-thumb {
   background-color: #ff0000;
    border-radius: 40px; 
