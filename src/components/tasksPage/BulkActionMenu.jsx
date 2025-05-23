@@ -175,7 +175,7 @@ export default function BulkActionMenu({
                     );
                     if (userId) handleAction("assign", () => onAssign(userId));
                   }}
-                  className={`${active ? "bg-blue-50" : ""} flex w-full items-center gap-2 rounded-md px-3 py-2 font-medium text-blue-600 transition focus:bg-blue-100 focus:outline-none`}
+                  className={`${active ? "bg-blue-50" : ""} flex w-full items-center gap-2 rounded-md px-3 py-2 font-medium text-blue-600 transition focus:bg-white focus:outline-none`}
                 >
                   <UserPlus size={16} /> Assign To...
                 </button>

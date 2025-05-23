@@ -1,5 +1,23 @@
 @tailwind base;
+
+@layer base {
+  input:-webkit-autofill {
+    @apply transition-all duration-[9999s];
+  }
+
+  :root input:-webkit-autofill {
+    @apply bg-white text-black;
+    -webkit-text-fill-color: black;
+  }
+
+  :root.dark input:-webkit-autofill {
+    @apply bg-[#1f1f1f] text-white;
+    -webkit-text-fill-color: white;
+  }
+}
+
 @tailwind components;
+/*  */
 @tailwind utilities;
 
 @layer utilities {

@@ -85,23 +85,13 @@ const FormContainer = () => {
 
       <div className="relative h-full w-full">
         <motion.div
-          className="absolute h-full w-full"
-          initial={{ x: 0 }}
-          // animate={{
-          //   x: showBox1 ? 0 : -1000,
-          // }}
-          transition={{ duration: 0.5 }}
+          className={`absolute h-full w-full ${showBox1 ? "pointer-events-auto z-10" : "pointer-events-none z-0"}`}
         >
           <MachineForm />
         </motion.div>
 
         <motion.div
-          className="absolute h-full w-full"
-          initial={{ x: 0 }}
-          // animate={{
-          //   x: showBox1 ? 600 : 0,
-          // }}
-          transition={{ duration: 0.5 }}
+          className={`absolute h-full w-full ${!showBox1 ? "pointer-events-auto z-10" : "pointer-events-none z-0"}`}
         >
           <TaskForm />
         </motion.div>

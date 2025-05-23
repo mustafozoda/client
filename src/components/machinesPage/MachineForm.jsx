@@ -34,7 +34,10 @@ const MachineForm = () => {
     console.log("Sending object to backend:", formattedData);
     try {
       await addMachine(formattedData);
-      fetchAllMachines();
+      console.log("Machine added successfully:", formattedData);
+      await fetchAllMachines();
+      alert("Machine added successfully!");
+
       setFormData({
         name: "",
         description: "",
@@ -54,7 +57,7 @@ const MachineForm = () => {
     <form
       onSubmit={handleSubmit}
       className={`rounded-[5px]-lg mx-auto min-h-[65vh] w-full space-y-6 bg-white p-6 dark:bg-[#212121] ${location.pathname === "/machines" ? "block" : "hidden"} `}
-      autoComplete="off"
+      // autoComplete="off"
     >
       {/* <h2 className="text-center text-xl font-semibold">Add New Machine</h2> */}
 

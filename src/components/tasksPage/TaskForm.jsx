@@ -37,8 +37,8 @@ const TaskForm = () => {
       await addTask(taskData);
       console.log("Task added successfully:", taskData);
       await fetchAllTasks();
-
       alert("Task added successfully!");
+
       setFormData({
         taskName: "",
         description: "",
@@ -59,7 +59,7 @@ const TaskForm = () => {
     <form
       onSubmit={handleSubmit}
       className={`mx-auto min-h-[65vh] w-full space-y-6 rounded-lg bg-white p-6 dark:bg-[#212121] ${location.pathname === "/tasks" ? "block" : "hidden"} `}
-      autoComplete="off"
+      // autoComplete="off"
     >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>

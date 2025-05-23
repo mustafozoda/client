@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Header from "../layout/Header";
 import { fetchTasks, updateTask, deleteTask } from "../api/tasksApi";
+import { fetchCommentsByTaskId } from "../api/commentsApi";
 import {
   SlidersHorizontal,
   Hourglass,
@@ -14,6 +15,7 @@ import {
   List,
   Loader,
   MessageCircleWarning,
+  MessagesSquare,
 } from "lucide-react";
 import FilterModal from "../components/tasksPage/FilterModal";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -80,6 +82,18 @@ export default function Tasks() {
   const [detailsItem, setDetailsItem] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [groupByStatus, setGroupByStatus] = useState(false);
+  const formatCountdown = (deadline) => {
+    const now = new Date();
+    const target = new Date(deadline);
+    const diff = target - now;
+    if (diff <= 0) return "Overdue";
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    return `${days}d ${hours}h ${minutes}m`;
+  };
 
   useEffect(() => {
     fetchTasks().then((r) => {
@@ -195,6 +209,12 @@ export default function Tasks() {
         } else if (sortConfig.key === "priority") {
           aVal = priorityRank[aVal];
           bVal = priorityRank[bVal];
+        } else if (sortConfig.key === "progress") {
+          aVal = parseFloat(calculateProgress(a.deadline));
+          bVal = parseFloat(calculateProgress(b.deadline));
+        } else if (sortConfig.key === "comment") {
+          aVal = a.hasComment ? 1 : 0;
+          bVal = b.hasComment ? 1 : 0;
         } else {
           aVal = (aVal || "").toString().toLowerCase();
           bVal = (bVal || "").toString().toLowerCase();
@@ -314,6 +334,24 @@ export default function Tasks() {
     setSelected(new Set());
   };
 
+  useEffect(() => {
+    fetchTasks().then(async (r) => {
+      const tasksWithComments = await Promise.all(
+        r.tasks.map(async (task) => {
+          try {
+            const res = await fetchCommentsByTaskId(task.id);
+            return { ...task, hasComment: res.comment.length > 0 };
+          } catch (e) {
+            console.error("Error fetching comment for task:", task.id, e);
+            return { ...task, hasComment: false };
+          }
+        }),
+      );
+      setTasks(tasksWithComments);
+      setFiltered(tasksWithComments);
+    });
+  }, []);
+
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
       <Header title={t("tasks")} />
@@ -364,8 +402,8 @@ export default function Tasks() {
         </div>
 
         <div className="hide-scrollbar-p h-[70vh] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
-          <div className="sticky top-0 z-20 grid grid-cols-[5%_10%_20%_25%_10%_20%_10%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
-            <div className="flex justify-center">
+          <div className="sticky top-0 z-20 grid grid-cols-[5%_5%_5%_20%_15%_15%_20%_15%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
+            <div className="justify-left flex">
               <button onClick={toggleSelectAll}>
                 {selectAll ? (
                   <SquareCheckBig size={25} className="text-green-500" />
@@ -375,6 +413,7 @@ export default function Tasks() {
               </button>
             </div>
             {[
+              { key: "comment", label: <MessagesSquare size={20} /> },
               { key: "id", label: "ID" },
               { key: "category", label: "Category" },
               { key: "status", label: "Status" },
@@ -388,10 +427,14 @@ export default function Tasks() {
                 className="flex cursor-pointer items-center"
               >
                 <span>{col.label}</span>
+                {/* {col.key === "comment" ? ( */}
+                {/* // "" */}
+                {/* // ) : ( */}
                 <ChevronsUpDown
                   size={16}
                   className={`${sortConfig.key === col.key ? "text-blue-500" : "text-gray-400"} ml-1`}
                 />
+                {/* )} */}
               </div>
             ))}
           </div>
@@ -405,9 +448,9 @@ export default function Tasks() {
                   <div
                     key={t.id}
                     onClick={() => setDetailsItem(t)}
-                    className="grid cursor-pointer grid-cols-[5%_10%_20%_25%_10%_20%_10%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
+                    className="grid cursor-pointer grid-cols-[5%_5%_5%_20%_15%_15%_20%_15%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
                   >
-                    <div className="flex justify-center">
+                    <div className="justify-left flex">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -424,17 +467,22 @@ export default function Tasks() {
                         )}
                       </button>
                     </div>
-                    <div className="relative">
-                      {t.id}{" "}
-                      <span className="absolute -top-4 left-5">
-                        <MessageCircleWarning />
-                      </span>
+                    <div className="justify-left flex">
+                      {t.hasComment && (
+                        <MessageCircleWarning
+                          size={20}
+                          // className="text-blue-500"
+                          title="This task has a comment"
+                        />
+                      )}
                     </div>
+                    <div className="relative">{t.id} </div>
                     <div className="truncate">
                       <span className="rounded bg-slate-200 px-2 py-1 dark:bg-slate-600">
                         {t.category}
                       </span>
                     </div>
+
                     <div className="relative">
                       <span
                         className={`inline-flex items-center gap-2 rounded px-3 py-1 font-medium ${statusConfig[t.status]?.color}`}
@@ -495,9 +543,9 @@ export default function Tasks() {
             : statusesOrder.map((status) =>
                 groupedTasks[status] ? (
                   <React.Fragment key={status}>
-                    <div className="px-4 py-2 font-semibold dark:bg-[#171717]">
+                    <div className="flex px-4 py-2 font-semibold dark:bg-[#171717]">
                       <span
-                        className={`inline-flex items-center gap-2 rounded px-2 py-0 font-mono ${statusConfig[status].color}`}
+                        className={`inline-flex w-full items-center gap-2 rounded px-2 py-0 font-mono ${statusConfig[status].color}`}
                       >
                         {statusConfig[status].icon}
                         {statusConfig[status].label}
@@ -511,9 +559,9 @@ export default function Tasks() {
                         <div
                           key={t.id}
                           onClick={() => setDetailsItem(t)}
-                          className="grid cursor-pointer grid-cols-[5%_10%_20%_25%_10%_20%_10%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
+                          className="grid cursor-pointer grid-cols-[5%_5%_5%_20%_15%_15%_20%_15%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
                         >
-                          <div className="flex justify-center">
+                          <div className="justify-left flex">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -530,12 +578,22 @@ export default function Tasks() {
                               )}
                             </button>
                           </div>
+                          <div className="justify-left flex">
+                            {t.hasComment && (
+                              <MessageCircleWarning
+                                size={20}
+                                // className="text-blue-500"
+                                title="This task has a comment"
+                              />
+                            )}
+                          </div>
                           <div>{t.id}</div>
                           <div className="truncate">
                             <span className="rounded bg-slate-200 px-2 py-1 dark:bg-slate-600">
                               {t.category}
                             </span>
                           </div>
+
                           <div className="relative">
                             <span
                               className={`inline-flex items-center gap-2 rounded px-3 py-1 font-medium ${statusConfig[t.status]?.color}`}
@@ -577,7 +635,7 @@ export default function Tasks() {
                               variant="determinate"
                               value={calculateProgress(t.deadline)}
                               sx={{
-                                height: 80,
+                                height: 8,
                                 borderRadius: 5,
                                 backgroundColor: "#e2e8f0",
                                 "& .MuiLinearProgress-bar": {
