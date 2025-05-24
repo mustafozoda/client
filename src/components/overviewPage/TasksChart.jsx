@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTasks } from "../../api/tasksApi";
 import { useTranslation } from "react-i18next";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
+const COLORS = ["#22c55e", "#fde047", "#ef4444"];
 
 const RADIAN = Math.PI / 180;
 
@@ -75,10 +75,11 @@ const TasksChart = () => {
 
     return Object.entries(counts)
       .filter(([, count]) => count > 0)
+      .sort(([a], [b]) => priorityMapping[a] - priorityMapping[b]) // sort by priority
       .map(([name, value], index) => ({
         name,
         value,
-        color: COLORS[index % COLORS.length],
+        color: COLORS[priorityMapping[name] - 1], // fixed mapping
       }));
   };
 

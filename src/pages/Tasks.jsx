@@ -402,7 +402,7 @@ export default function Tasks() {
         </div>
 
         <div className="hide-scrollbar-p h-[70vh] divide-y-[5px] divide-[#a1abae] overflow-y-scroll rounded-[5px] bg-white shadow dark:divide-[#212121] dark:bg-[#171717]">
-          <div className="sticky top-0 z-20 grid grid-cols-[5%_5%_5%_20%_15%_15%_20%_15%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
+          <div className="sticky top-0 z-20 grid grid-cols-[5%_5%_20%_15%_15%_20%_15%_5%] bg-white px-4 py-2 font-semibold uppercase text-slate-600 dark:bg-[#171717] dark:text-slate-400">
             <div className="justify-left flex">
               <button onClick={toggleSelectAll}>
                 {selectAll ? (
@@ -413,13 +413,13 @@ export default function Tasks() {
               </button>
             </div>
             {[
-              { key: "comment", label: <MessagesSquare size={20} /> },
               { key: "id", label: "ID" },
               { key: "category", label: "Category" },
               { key: "status", label: "Status" },
               { key: "priority", label: "Priority" },
               { key: "progress", label: "Progress" },
               { key: "deadline", label: "Deadline" },
+              { key: "comment", label: <MessagesSquare size={20} /> },
             ].map((col) => (
               <div
                 key={col.key}
@@ -448,7 +448,7 @@ export default function Tasks() {
                   <div
                     key={t.id}
                     onClick={() => setDetailsItem(t)}
-                    className="grid cursor-pointer grid-cols-[5%_5%_5%_20%_15%_15%_20%_15%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
+                    className="grid cursor-pointer grid-cols-[5%_5%_20%_15%_15%_20%_15%_5%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
                   >
                     <div className="justify-left flex">
                       <button
@@ -467,15 +467,7 @@ export default function Tasks() {
                         )}
                       </button>
                     </div>
-                    <div className="justify-left flex">
-                      {t.hasComment && (
-                        <MessageCircleWarning
-                          size={20}
-                          // className="text-blue-500"
-                          title="This task has a comment"
-                        />
-                      )}
-                    </div>
+
                     <div className="relative">{t.id} </div>
                     <div className="truncate">
                       <span className="rounded bg-slate-200 px-2 py-1 dark:bg-slate-600">
@@ -538,6 +530,15 @@ export default function Tasks() {
                     <div className="text-center text-slate-600 dark:text-slate-300">
                       {formatDate(t.deadline)}
                     </div>
+                    <div className="justify-left flex">
+                      {t.hasComment && (
+                        <MessageCircleWarning
+                          size={20}
+                          // className="text-blue-500"
+                          title="This task has a comment"
+                        />
+                      )}
+                    </div>
                   </div>
                 ))
             : statusesOrder.map((status) =>
@@ -559,7 +560,7 @@ export default function Tasks() {
                         <div
                           key={t.id}
                           onClick={() => setDetailsItem(t)}
-                          className="grid cursor-pointer grid-cols-[5%_5%_5%_20%_15%_15%_20%_15%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
+                          className="grid cursor-pointer grid-cols-[5%_5%_20%_15%_15%_20%_15%_5%] items-center px-4 py-4 hover:bg-slate-100 dark:hover:bg-[#2d2d2d]"
                         >
                           <div className="justify-left flex">
                             <button
@@ -578,15 +579,7 @@ export default function Tasks() {
                               )}
                             </button>
                           </div>
-                          <div className="justify-left flex">
-                            {t.hasComment && (
-                              <MessageCircleWarning
-                                size={20}
-                                // className="text-blue-500"
-                                title="This task has a comment"
-                              />
-                            )}
-                          </div>
+
                           <div>{t.id}</div>
                           <div className="truncate">
                             <span className="rounded bg-slate-200 px-2 py-1 dark:bg-slate-600">
@@ -648,6 +641,15 @@ export default function Tasks() {
                           </div>
                           <div className="text-center text-slate-600 dark:text-slate-300">
                             {formatDate(t.deadline)}
+                          </div>
+                          <div className="justify-left flex">
+                            {t.hasComment && (
+                              <MessageCircleWarning
+                                size={20}
+                                // className="text-blue-500"
+                                title="This task has a comment"
+                              />
+                            )}
                           </div>
                         </div>
                       ))}
