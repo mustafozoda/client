@@ -1,29 +1,16 @@
 [
   {
     "source": {
-      "id": "the-next-web",
-      "name": "The Next Web"
+      "id": null,
+      "name": "BBC News"
     },
-    "author": "Siôn Geschwindt",
-    "title": "IQM to install Poland’s first superconducting quantum computer",
-    "description": "Poland is set to power up its first full-stack quantum computer this year, following a deal with Helsinki-based startup IQM. IQM, Europe’s best-funded quantum hardware company, will install the machine at the Wrocław University of Science and Technology (WUST…",
-    "url": "https://thenextweb.com/news/iqm-polands-first-superconducting-quantum-computer",
-    "urlToImage": "https://img-cdn.tnwcdn.com/image/tnw-blurple?filter_last=1&fit=1280%2C640&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2025%2F04%2Fiqm-spark-poland-quantum.jpg&signature=28058aad908866f8b36dea2175067636",
-    "publishedAt": "2025-04-24T10:02:54Z",
-    "content": "Poland is set to power up its first full-stack quantum computer this year, following a deal with Helsinki-based startup IQM.\r\nIQM, Europes best-funded quantum hardware company, will install the machi… [+2308 chars]"
-  },
-  {
-    "source": {
-      "id": "business-insider",
-      "name": "Business Insider"
-    },
-    "author": "Lakshmi Varanasi",
-    "title": "Google Brain founder Andrew Ng's startup wants to use AI agents to redefine teaching. Here's how.",
-    "description": "Kira Learning unveiled a new set of AI agents that will help teachers personalize their approach.",
-    "url": "https://www.businessinsider.com/andrew-ng-startup-wants-to-use-ai-agents-redefine-teaching-2025-4",
-    "urlToImage": "https://i.insider.com/68095c74c6ad288d147efb50?width=1200&format=jpeg",
-    "publishedAt": "2025-04-23T22:50:54Z",
-    "content": "Steve Jennings / Stringer/Getty Images\r\n<ul><li>Kira Learning, chaired by Andrew Ng, launches AI agents to assist teachers in the classroom.</li><li>The platform aims to transform learning by making … [+6364 chars]"
+    "author": null,
+    "title": "AI could already be conscious. Are we ready for it?",
+    "description": "With a leap in the evolution of large language models, some leading thinkers are questioning whether AI might become sentient",
+    "url": "https://www.bbc.com/news/articles/c0k3700zljjo",
+    "urlToImage": "https://ichef.bbci.co.uk/news/1024/branded_news/050b/live/ced6bd60-37ea-11f0-8519-3b5a01ebe413.png",
+    "publishedAt": "2025-05-26T00:38:27Z",
+    "content": "I step into the booth with some trepidation. I am about to be subjected to strobe lighting while music plays as part of a research project trying to understand what makes us truly human.\r\nIt's an exp… [+13224 chars]"
   },
   {
     "source": {
@@ -170,6 +157,19 @@
   },
   {
     "source": {
+      "id": null,
+      "name": "Technicshistory.com"
+    },
+    "author": "View all posts by technicshistory",
+    "title": "The Hobby Computer Culture",
+    "description": "[This post is part of “A Bicycle for the Mind.” The complete series can be found here.] From 1975 through early 1977, the use of personal computers remained almost exclusively the province of …",
+    "url": "https://technicshistory.com/2025/05/24/the-hobby-computer-culture/",
+    "urlToImage": "https://technicshistory.com/wp-content/uploads/2025/05/byte-july-1976.png",
+    "publishedAt": "2025-05-24T14:33:47Z",
+    "content": "[This post is part of A Bicycle for the Mind. The complete series can be found here.]\r\nFrom 1975 through early 1977, the use of personal computers remained almost exclusively the province of hobbyist… [+31367 chars]"
+  },
+  {
+    "source": {
       "id": "business-insider",
       "name": "Business Insider"
     },
@@ -183,15 +183,15 @@
   },
   {
     "source": {
-      "id": "business-insider",
-      "name": "Business Insider"
+      "id": null,
+      "name": "Umich.edu"
     },
-    "author": "Katherine Tangalakis-Lippert",
-    "title": "Quantum computing gears up for its 'ChatGPT Moment' — and a potential talent shortage",
-    "description": "Quantum computing startups are learning from the mistakes of the AI boom and funding training programs to develop the talent the industry needs.",
-    "url": "https://www.businessinsider.com/quantum-startups-learning-from-ai-company-mistakes-finding-recruiting-talent-2025-4",
-    "urlToImage": "https://i.insider.com/680d4c51a466d2b74ab44630?width=1200&format=jpeg",
-    "publishedAt": "2025-04-26T23:59:52Z",
-    "content": "Quantum computing companies are funding university training programs to ensure they have enough new talent to fuel the industry.Marijan Murat/picture alliance via Getty Images\r\n<ul><li>The AI field f… [+4768 chars]"
+    "author": "Kate McAlpine",
+    "title": "The US has a new most powerful laser hitting 2 petawatts",
+    "description": "Hitting 2 petawatts, the NSF-funded ZEUS facility at U-M enables research that could improve medicine, national security, materials science and more.",
+    "url": "https://news.engin.umich.edu/2025/05/the-us-has-a-new-most-powerful-laser/",
+    "urlToImage": "https://news.engin.umich.edu/wp-content/uploads/2025/05/ti-sapph-crystal-2PWLaser.jpg",
+    "publishedAt": "2025-05-21T15:17:10Z",
+    "content": "Experts\r\nKarl Krushelnick\r\nSee full bio\r\nDirector of the Gérard Mourou Center for Ultrafast Optical Science\r\nHenry J Gomberg Collegiate Professor of Engineering\r\nProfessor of Nuclear Engineering and … [+8265 chars]"
   }
 ]
