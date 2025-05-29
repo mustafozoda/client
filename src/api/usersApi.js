@@ -21,3 +21,25 @@ export const fetchUserByUsername = async (username) => {
   });
   return data;
 };
+
+export const resetPassword = async (newPassword, token) => {
+  try {
+    const response = await apiClient("/users/reset-password", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password: newPassword }),
+    });
+
+    if (typeof response === "string") {
+      return response.replace(/^"|"$/g, ""); // clean string if quoted
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Reset password failed:", error);
+    throw error;
+  }
+};

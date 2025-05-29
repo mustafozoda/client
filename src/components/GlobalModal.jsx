@@ -36,7 +36,7 @@ export default function GlobalModal() {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              className="flex h-[100%] w-[45%] flex-col items-center justify-start overflow-hidden rounded-[10px] bg-[#FFFFFF] py-[1%] shadow-xl dark:border-[#212121] dark:bg-[#212121]"
+              className="flex h-[100%] w-[40%] flex-col items-center justify-start overflow-hidden rounded-[10px] bg-[#FFFFFF] py-[1%] shadow-xl dark:border-[#212121] dark:bg-[#212121]"
             >
               <FormContainer />
             </motion.div>
