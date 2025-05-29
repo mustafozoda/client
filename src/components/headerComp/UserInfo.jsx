@@ -69,8 +69,8 @@ const UserInfo = () => {
             <UserRoundCog size={16} className="mr-2 text-white" />
             Profile
           </div>
-          <hr className="border-[#2D2D2D]" />
-          <div
+          {/* <hr className="border-[#2D2D2D]" /> */}
+          {/* <div
             className="flex cursor-pointer items-center rounded-sm px-2 py-1 hover:bg-[#0078D4]"
             onClick={() => {
               setIsDropdownOpen(false);
@@ -79,7 +79,7 @@ const UserInfo = () => {
           >
             <Settings size={16} className="mr-2 text-white" />
             Settings
-          </div>
+          </div> */}
           <hr className="border-[#2D2D2D]" />
           <div
             className="flex cursor-pointer items-center rounded-sm px-2 py-1 hover:bg-[#EF4444]"
