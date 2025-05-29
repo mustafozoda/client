@@ -22,7 +22,6 @@ const UserModal = ({ user, authToken, isOpen, onClose }) => {
       setSuccess("Password updated successfully.");
       setNewPassword("");
       setView("details");
-      onPasswordReset?.();
     } catch (err) {
       console.error("resetPassword error:", err);
       setError(err.message || "Error resetting password.");
@@ -58,6 +57,7 @@ const UserModal = ({ user, authToken, isOpen, onClose }) => {
             onClick={() => {
               setView("details");
               onClose();
+              setSuccess("");
             }}
             className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           >
