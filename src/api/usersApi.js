@@ -34,7 +34,7 @@ export const resetPassword = async (newPassword, token) => {
     });
 
     if (typeof response === "string") {
-      return response.replace(/^"|"$/g, ""); // clean string if quoted
+      return response.replace(/^"|"$/g, "");
     }
 
     return response;

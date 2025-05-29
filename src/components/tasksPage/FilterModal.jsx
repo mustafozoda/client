@@ -48,7 +48,6 @@ const FilterModal = ({ onClose, onApply }) => {
       </h2>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Status Dropdown */}
         <div className="relative">
           <label className="mb-1 text-slate-600 dark:text-slate-300">
             Status
@@ -91,7 +90,6 @@ const FilterModal = ({ onClose, onApply }) => {
           )}
         </div>
 
-        {/* Priority Dropdown */}
         <div className="relative">
           <label className="mb-1 text-slate-600 dark:text-slate-300">
             Priority
@@ -134,7 +132,6 @@ const FilterModal = ({ onClose, onApply }) => {
           )}
         </div>
 
-        {/* Category */}
         <div>
           <label className="mb-1 text-slate-600 dark:text-slate-300">
             Category
@@ -147,7 +144,6 @@ const FilterModal = ({ onClose, onApply }) => {
           />
         </div>
 
-        {/* Deadline */}
         <div>
           <label className="mb-1 text-slate-600 dark:text-slate-300">
             Deadline
@@ -159,7 +155,6 @@ const FilterModal = ({ onClose, onApply }) => {
           />
         </div>
 
-        {/* Assigned To */}
         <div>
           <label className="mb-1 text-slate-600 dark:text-slate-300">
             Assigned To
@@ -172,7 +167,6 @@ const FilterModal = ({ onClose, onApply }) => {
           />
         </div>
 
-        {/* Keyword */}
         <div>
           <label className="mb-1 text-slate-600 dark:text-slate-300">
             Keyword
@@ -186,7 +180,6 @@ const FilterModal = ({ onClose, onApply }) => {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="mt-8 flex justify-end gap-4">
         <button
           onClick={onClose}

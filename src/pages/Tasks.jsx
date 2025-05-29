@@ -98,7 +98,7 @@ export default function Tasks() {
   useEffect(() => {
     fetchTasks().then((r) => {
       setTasks(r.tasks);
-      console.log("Fetched tasks:", r.tasks);
+      // console.log("Fetched tasks:", r.tasks);
       setFiltered(r.tasks);
     });
   }, []);
@@ -514,7 +514,7 @@ export default function Tasks() {
                       </div>
                       <LinearProgress
                         variant="determinate"
-                        value={calculateProgress(t.deadline)}
+                        value={parseFloat(calculateProgress(t.deadline))}
                         sx={{
                           height: 8,
                           borderRadius: 5,

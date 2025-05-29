@@ -89,7 +89,6 @@ export default function CustomModal() {
     <AnimatePresence>
       {isExpandedModalOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             className="fixed inset-0 z-40 bg-black bg-opacity-50"
             initial={{ opacity: 0 }}
@@ -99,7 +98,6 @@ export default function CustomModal() {
             onClick={closeExpandedModal}
           />
 
-          {/* Modal Container */}
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -127,7 +125,6 @@ export default function CustomModal() {
                 />
               </CardHeader>
 
-              {/* Tabs */}
               <div className="flex border-b">
                 <button
                   onClick={() => {
@@ -157,17 +154,14 @@ export default function CustomModal() {
                 </button>
               </div>
 
-              {/* Content */}
               <CardContent className="p-6">
                 {activeTab === "machine" ? <MachineForm /> : <TaskForm />}
               </CardContent>
 
-              {/* Footer buttons */}
               <div className="flex justify-end gap-3 p-4">
                 <Button variant="outline" onClick={closeExpandedModal}>
                   Cancel
                 </Button>
-                {/* Submit button, uncomment if needed */}
                 {/* <Button
                   type="submit"
                   form={activeTab === "machine" ? "machine-form" : "task-form"}

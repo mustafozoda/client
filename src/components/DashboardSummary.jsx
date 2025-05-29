@@ -30,7 +30,6 @@ export default function DashboardSummary({
     fetchMachines().then(({ machines }) => setMachines(machines));
   }, []);
 
-  // Tasks per category
   const categoryCounts = tasks.reduce((acc, t) => {
     acc[t.category] = (acc[t.category] || 0) + 1;
     return acc;
@@ -40,7 +39,6 @@ export default function DashboardSummary({
     count,
   }));
 
-  // Tasks created last 7 days
   const last7days = Array.from({ length: 7 }).map((_, i) => {
     const d = new Date();
     d.setDate(d.getDate() - (6 - i));
@@ -53,7 +51,6 @@ export default function DashboardSummary({
     if (entry) entry.count++;
   });
 
-  // Group by user
   const tasksByUser = Object.entries(
     tasks.reduce((acc, t) => {
       const id = t.createdByUserId;
@@ -63,7 +60,6 @@ export default function DashboardSummary({
     }, {}),
   ).map(([userId, userTasks]) => ({ userId, tasks: userTasks }));
 
-  // Carousel config
   const cardsPerPage = 3;
   const pageCount = Math.ceil(tasksByUser.length / cardsPerPage);
   const start = page * cardsPerPage;
@@ -80,7 +76,6 @@ export default function DashboardSummary({
 
   return (
     <section className="w-full space-y-4">
-      {/* Charts */}
       <div className="grid grid-cols-2 gap-4">
         <div className="rounded-lg bg-white p-6 shadow dark:bg-[#171717]">
           <h3 className="mb-4 text-xl font-semibold">Tasks by Category</h3>
@@ -137,7 +132,6 @@ export default function DashboardSummary({
           </ResponsiveContainer>
         </div>
       </div>
-      {/* User Carousel */}
       <div className="relative rounded-lg bg-white p-4 shadow dark:bg-[#171717]">
         <h3 className="mb-2 text-xl font-semibold">Tasks by User ID</h3>
         {tasksByUser.length > cardsPerPage && (
@@ -207,7 +201,6 @@ export default function DashboardSummary({
           </AnimatePresence>
         </div>
 
-        {/* Modal */}
         {modalUser && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="w-11/12 max-w-md rounded-lg bg-white p-6 dark:bg-gray-800">

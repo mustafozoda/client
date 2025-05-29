@@ -1,10 +1,6 @@
 import {
   PanelLeftClose,
   PanelLeftOpen,
-  // Settings,
-  // Users,
-  // LogOut,
-  // BarChart2,
   Cable,
   ListTodo,
   CircleAlert,
@@ -23,39 +19,23 @@ const Sidebar = ({ setDark }) => {
     {
       name: t("overview"),
       icon: ChartArea,
-      // color: "#6366f1",
       href: "/",
     },
     {
       name: t("machines"),
       icon: Cable,
-      // color: "#6EE7B7",
       href: "/machines",
     },
     {
       name: t("tasks"),
       icon: ListTodo,
-      // color: "#8B5CF6",
       href: "/tasks",
     },
     {
       name: t("reports"),
       icon: CircleAlert,
-      // color: "#F59E0B",
       href: "/reports",
     },
-    // {
-    //   name: "User Management",
-    //   icon: Users,
-    //   // color: "#3B82F6",
-    //   href: "/user-management",
-    // },
-    // {
-    //   name: "Settings",
-    //   icon: Settings,
-    //   // color: "#6EE7B7",
-    //   href: "/settings",
-    // },
   ];
 
   return (

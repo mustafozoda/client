@@ -5,7 +5,6 @@ import MachineCard from "../components/overviewPage/MachineCard";
 import WeatherApp from "../components/overviewPage/WeatherApp";
 import ArticleCard from "../components/overviewPage/ArticleCard";
 import Map from "../components/overviewPage/Map";
-// import FloatingButton from "../components/FloatingButton";
 import { useTranslation } from "react-i18next";
 import InActiveCnt from "../components/overviewPage/InActiveCnt";
 import ActiveCnt from "../components/overviewPage/ActiveCnt";

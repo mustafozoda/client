@@ -222,7 +222,6 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
     <Modal title="Filter Machines" onClose={onClose}>
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          {/* Status */}
           <div>
             <label className="block text-sm font-medium">Status</label>
             <select
@@ -242,7 +241,6 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
             </select>
           </div>
 
-          {/* Location */}
           <div>
             <label className="block text-sm font-medium">Location</label>
             <select
@@ -268,7 +266,6 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
           </div>
         </div>
 
-        {/* Date Added Range */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium">Added From</label>
@@ -292,7 +289,6 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
           </div>
         </div>
 
-        {/* Last Maintenance Range */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium">
@@ -320,7 +316,6 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
           </div>
         </div>
 
-        {/* Next Maintenance Range */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium">
@@ -429,7 +424,6 @@ export default function Reports() {
       <Header title={t("reports")} />
       <div className="mx-auto w-[90%]">
         <div className="grid grid-cols-2 gap-4 py-4">
-          {/* Tasks Reports */}
           <section className="space-y-2 rounded bg-white p-6 shadow dark:bg-[#171717]">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Tasks Reports</h2>
@@ -468,7 +462,6 @@ export default function Reports() {
             </div>
           </section>
 
-          {/* Machines Reports */}
           <section className="space-y-2 rounded bg-white p-6 shadow dark:bg-[#171717]">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Machines Reports</h2>

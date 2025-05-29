@@ -7,14 +7,12 @@ import { useTranslation } from "react-i18next";
 const COLORS = ["#28A745", "#FFC107", "#DC3545"];
 const RADIAN = Math.PI / 180;
 
-// Backend status mapping
 const statusMapping = {
   OPERATIONAL: 0,
   UNDER_MAINTENANCE: 1,
   OUT_OF_SERVICE: 2,
 };
 
-// Translation keys for i18n
 const statusTranslationMap = {
   OPERATIONAL: "operational",
   UNDER_MAINTENANCE: "underMaintenance",

@@ -1,16 +1,12 @@
-// import React from "react";
-// import { SquarePen } from "lucide-react";
 import Header from "../layout/Header";
 import DateCalendarComponent from "../components/DateCalendarComponent";
 import MachineMaintenance from "../components/machinesPage/MachineMaintenance";
 import MaintenanceChart from "../components/machinesPage/MaintenanceChart";
 import SearchFilter from "../components/machinesPage/SearchFilter";
 import MachinesTable from "../components/machinesPage/MachinesTable";
-// import { useModalStore } from "../store/useModalStore";
 import { useTranslation } from "react-i18next";
 const Machines = () => {
   const { t } = useTranslation("common");
-  // const { openModal } = useModalStore();
   return (
     <div className="flex h-full w-full flex-col overflow-hidden">
       <Header title={t("machines")} />

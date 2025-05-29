@@ -75,11 +75,11 @@ const TasksChart = () => {
 
     return Object.entries(counts)
       .filter(([, count]) => count > 0)
-      .sort(([a], [b]) => priorityMapping[a] - priorityMapping[b]) // sort by priority
+      .sort(([a], [b]) => priorityMapping[a] - priorityMapping[b])
       .map(([name, value], index) => ({
         name,
         value,
-        color: COLORS[priorityMapping[name] - 1], // fixed mapping
+        color: COLORS[priorityMapping[name] - 1],
       }));
   };
 

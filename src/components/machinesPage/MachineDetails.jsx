@@ -16,7 +16,7 @@ const MachineDetails = ({ machine, refetch }) => {
 
   if (!machine) return null;
 
-  // Format ISO timestamps to YYYY-MM-DD
+  // YYYY-MM-DD
   const formatDate = (isoString) => {
     if (!isoString) return "-";
     return new Date(isoString).toISOString().split("T")[0];

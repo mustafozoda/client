@@ -8,13 +8,11 @@ const PendingTasksModal = ({ isOpen, onClose, tasks }) => {
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal Container */}
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -22,7 +20,6 @@ const PendingTasksModal = ({ isOpen, onClose, tasks }) => {
         transition={{ duration: 0.2 }}
         className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl bg-[#a1abae] shadow-2xl dark:bg-[#171717]"
       >
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             Pending Tasks{" "}
@@ -36,7 +33,6 @@ const PendingTasksModal = ({ isOpen, onClose, tasks }) => {
           </button>
         </div>
 
-        {/* Task List */}
         <div className="scrollbar-thin hide-scrollbar scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 max-h-[60vh] space-y-4 overflow-y-auto p-6">
           {tasks.map((task) => (
             <motion.div
@@ -46,7 +42,6 @@ const PendingTasksModal = ({ isOpen, onClose, tasks }) => {
               transition={{ duration: 0.3 }}
               className="flex flex-col justify-between rounded-lg bg-gray-50 p-4 transition-shadow hover:shadow-lg dark:bg-[#212121] md:flex-row"
             >
-              {/* Left Section */}
               <div className="flex-1 overflow-hidden">
                 <h3 className="truncate text-lg font-medium text-gray-900 dark:text-gray-100">
                   {task.taskName}
@@ -60,7 +55,6 @@ const PendingTasksModal = ({ isOpen, onClose, tasks }) => {
                 </div>
               </div>
 
-              {/* Right Section */}
               <div className="mt-4 flex flex-col items-start space-y-2 text-sm text-gray-700 dark:text-gray-200 md:mt-0 md:items-end">
                 <div className="flex items-center">
                   <Calendar size={16} className="mr-1" />
@@ -88,7 +82,6 @@ const PendingTasksModal = ({ isOpen, onClose, tasks }) => {
           ))}
         </div>
 
-        {/* Footer */}
         <div className="flex justify-end border-t border-gray-200 px-6 py-4 dark:border-gray-700">
           <button
             onClick={onClose}

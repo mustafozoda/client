@@ -1,4 +1,3 @@
-// components/NotificationBox.jsx
 import React, { useState } from "react";
 import { CalendarClock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -8,16 +7,14 @@ import PendingTasksModal from "./../PendingTasksModal";
 const NotificationBox = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
-  // pull in all tasks (we only use status===PENDING here)
   const { data } = useQuery({
     queryKey: ["tasks"],
     queryFn: fetchTasks,
-    refetchInterval: 600_000, // every 10 minutes
-    refetchOnMount: true, // on mount
-    refetchOnWindowFocus: true, // on focus
+    refetchInterval: 600_000,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
-  // safely extract and count
   const allTasks = Array.isArray(data?.tasks) ? data.tasks : [];
   const pendingTasks = allTasks.filter((t) => t.status === "PENDING");
   const unreadCount = pendingTasks.length;
