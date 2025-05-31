@@ -76,6 +76,7 @@ export default function MachineMaintenance() {
       setIsSaving(true);
       const updated = {
         id: draft.id,
+        name: draft.name,
         description: draft.description,
         location: draft.location,
         status: draft.status,

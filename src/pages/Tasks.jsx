@@ -442,7 +442,7 @@ export default function Tasks() {
           {!groupByStatus
             ? sortedTasks
                 .filter((t) =>
-                  t.status.toLowerCase().includes(search.toLowerCase()),
+                  t.taskName.toLowerCase().includes(search.toLowerCase()),
                 )
                 .map((t) => (
                   <div
@@ -554,7 +554,7 @@ export default function Tasks() {
                     </div>
                     {groupedTasks[status]
                       .filter((t) =>
-                        t.status.toLowerCase().includes(search.toLowerCase()),
+                        t.taskName.toLowerCase().includes(search.toLowerCase()),
                       )
                       .map((t) => (
                         <div
@@ -659,15 +659,14 @@ export default function Tasks() {
 
           <div className="sticky bottom-0 bg-white px-4 py-5 font-semibold uppercase text-slate-600 dark:bg-[#171717]"></div>
         </div>
-
-        {editing && (
-          <EditTaskModal
-            task={editing}
-            onClose={() => setEditing(null)}
-            onSave={saveEdit}
-          />
-        )}
       </div>
+      {editing && (
+        <EditTaskModal
+          task={editing}
+          onClose={() => setEditing(null)}
+          onSave={saveEdit}
+        />
+      )}
       {detailsItem && (
         <DetailsModal item={detailsItem} onClose={() => setDetailsItem(null)} />
       )}

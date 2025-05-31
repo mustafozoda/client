@@ -59,7 +59,7 @@ export default function EditTaskModal({ task, onClose, onSave }) {
       onClick={onClose}
     >
       <motion.div
-        className="relative w-[40vw] max-w-full rounded-2xl bg-white p-6 shadow-2xl dark:bg-[#171717]"
+        className="relative w-[40vw] max-w-full rounded-2xl bg-white p-4 shadow-2xl dark:bg-[#171717]"
         initial={{ y: 750 }}
         animate={{ y: 0 }}
         exit={{ y: 750 }}
@@ -73,12 +73,12 @@ export default function EditTaskModal({ task, onClose, onSave }) {
           <X size={24} />
         </button>
 
-        <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 dark:text-white">
+        <h2 className="mb-2 text-center text-2xl font-bold text-gray-800 dark:text-white">
           Edit Task: {task.id}
         </h2>
 
         <div className="rounded-lg bg-gray-100 p-5 shadow-md dark:bg-[#2B2B2B]">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-2">
             <div>
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Task Name

@@ -25,14 +25,14 @@ const MachinesTable = () => {
   const machines = machinesData.machines || [];
 
   const filteredMachines = machines.filter((machine) => {
-    // const matchesSearch = machine.name
-    //   .toLowerCase()
-    //   .includes(searchTerm.toLowerCase().trim());
+    const matchesSearch = (machine.name ?? "")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase().trim());
+
     const matchesStatus =
       selectedStatuses.length === 0 ||
       selectedStatuses.includes(machine.status);
-    // return matchesSearch && matchesStatus;
-    return matchesStatus;
+    return matchesSearch && matchesStatus;
   });
 
   const handleClick = (machine) => {
