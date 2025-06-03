@@ -6,19 +6,16 @@ import { fetchAllUsers } from "../../api/usersApi";
 export default function EditTaskModal({ task, onClose, onSave }) {
   if (!task) return null;
 
-  // Utility to format ISO strings into YYYY-MM-DD
   const formatDate = (iso) => {
     if (!iso) return "";
     return new Date(iso).toISOString().split("T")[0];
   };
 
-  // Capitalize first letter of a string
   const capitalize = (str) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  // Build the initial form state from the incoming task
   const makeInitialForm = () => ({
     taskName: task.taskName || "",
     taskId: task.id || 0,
@@ -34,16 +31,15 @@ export default function EditTaskModal({ task, onClose, onSave }) {
   const [form, setForm] = useState(makeInitialForm());
   const [users, setUsers] = useState([]);
 
-  // Whenever the task prop changes, reinitialize the form
   useEffect(() => {
     setForm(makeInitialForm());
   }, [task]);
 
-  // On mount, fetch all users for the dropdown
   useEffect(() => {
     fetchAllUsers()
       .then((fetched) => {
         setUsers(fetched);
+        // console.log("Fetched users:", fetched);
       })
       .catch((err) => {
         console.error("Failed to load users:", err);
@@ -68,7 +64,7 @@ export default function EditTaskModal({ task, onClose, onSave }) {
     };
 
     onSave(payload);
-    console.log("Saving task", payload);
+    // console.log("Saving task", payload);
     onClose();
   };
 
@@ -101,7 +97,6 @@ export default function EditTaskModal({ task, onClose, onSave }) {
 
         <div className="rounded-lg bg-gray-100 p-5 shadow-md dark:bg-[#2B2B2B]">
           <form onSubmit={handleSubmit} className="space-y-2">
-            {/* Task Name */}
             <div>
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Task Name
@@ -115,7 +110,6 @@ export default function EditTaskModal({ task, onClose, onSave }) {
               />
             </div>
 
-            {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Category
@@ -129,7 +123,6 @@ export default function EditTaskModal({ task, onClose, onSave }) {
               />
             </div>
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Description
@@ -143,7 +136,6 @@ export default function EditTaskModal({ task, onClose, onSave }) {
               />
             </div>
 
-            {/* Priority & Status */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
@@ -179,7 +171,6 @@ export default function EditTaskModal({ task, onClose, onSave }) {
               </div>
             </div>
 
-            {/* Cost & Responsible User */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
@@ -214,7 +205,6 @@ export default function EditTaskModal({ task, onClose, onSave }) {
               </div>
             </div>
 
-            {/* Deadline */}
             <div>
               <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
                 Deadline

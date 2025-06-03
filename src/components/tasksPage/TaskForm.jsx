@@ -4,7 +4,6 @@ import useTasksStore from "../../store/useTasksStore";
 import { useLocation } from "react-router-dom";
 import { fetchAllUsers } from "../../api/usersApi";
 
-// --- NEW: import Query Client from React Query  ---
 import { useQueryClient } from "@tanstack/react-query";
 
 const TaskForm = () => {
@@ -12,7 +11,6 @@ const TaskForm = () => {
   const location = useLocation();
   const [users, setUsers] = useState([]);
 
-  // --- NEW: get a React Query client instance ---
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
@@ -57,10 +55,8 @@ const TaskForm = () => {
       await addTask(taskData);
       console.log("Task added successfully:", taskData);
 
-      // --- NEW: invalidate the React Query key so Tasks.jsx refetches ---
       await queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
 
-      // Keep the existing fetchAllTasks call in case other parts of your app rely on it
       await fetchAllTasks();
 
       alert("Task added successfully!");

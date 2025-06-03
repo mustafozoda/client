@@ -31,7 +31,6 @@ export default function DashboardSummary({
     let isCancelled = false;
 
     async function loadAll() {
-      // 1) Fetch tasks and machines as before
       const [{ tasks: fetchedTasks }, { machines: fetchedMachines }] =
         await Promise.all([fetchTasks(), fetchMachines()]);
       if (isCancelled) return;
@@ -39,7 +38,6 @@ export default function DashboardSummary({
       setTasks(fetchedTasks);
       setMachines(fetchedMachines);
 
-      // 2) Build a unique list of user IDs from `createdByUserId` in tasks
       const uniqueIds = Array.from(
         new Set(
           fetchedTasks
@@ -48,7 +46,6 @@ export default function DashboardSummary({
         ),
       );
 
-      // 3) For each unique ID, call fetchUserById(id) to get { id, username, ... }
       const fetches = uniqueIds.map(async (uid) => {
         const userObj = await fetchUserById(uid);
         return userObj ? [uid, userObj.username] : [uid, null];
@@ -56,7 +53,6 @@ export default function DashboardSummary({
       const entries = await Promise.all(fetches);
       if (isCancelled) return;
 
-      // 4) Build a Map<userId, username> (fall back to “User {id}” if username is missing)
       const map = new Map();
       entries.forEach(([uid, uname]) => {
         map.set(uid, uname || `User ${uid}`);

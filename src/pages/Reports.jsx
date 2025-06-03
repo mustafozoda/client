@@ -83,15 +83,14 @@ function TaskFilterModal({ categories, filters, onApply, onClose }) {
       status: [],
       priority: [],
       category: [],
-      // dateFrom: "",
-      // dateTo: "",
+      dateFrom: "",
+      dateTo: "",
     });
 
   return (
     <Modal title="Filter Tasks" onClose={onClose}>
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          {/* Status */}
           <div>
             <label className="block text-sm font-medium">Status</label>
             <select
@@ -112,7 +111,6 @@ function TaskFilterModal({ categories, filters, onApply, onClose }) {
             </select>
           </div>
 
-          {/* Priority */}
           <div>
             <label className="block text-sm font-medium">Priority</label>
             <select
@@ -136,7 +134,6 @@ function TaskFilterModal({ categories, filters, onApply, onClose }) {
           </div>
         </div>
         <div className="grid grid-cols-2 items-start justify-center gap-4">
-          {/* Category */}
           <div>
             <label className="block text-sm font-medium">Category</label>
             <select
@@ -161,7 +158,6 @@ function TaskFilterModal({ categories, filters, onApply, onClose }) {
             </select>
           </div>
 
-          {/* Created Date Range */}
           <div className="grid grid-rows-2 gap-2">
             <div>
               <label className="block text-sm font-medium">Created From</label>
@@ -210,12 +206,12 @@ function MachineFilterModal({ locations, filters, onApply, onClose }) {
     setLocal({
       status: [],
       location: [],
-      // addedFrom: "",
-      // addedTo: "",
-      // lastMaintenanceFrom: "",
-      // lastMaintenanceTo: "",
-      // nextMaintenanceFrom: "",
-      // nextMaintenanceTo: "",
+      addedFrom: "",
+      addedTo: "",
+      lastMaintenanceFrom: "",
+      lastMaintenanceTo: "",
+      nextMaintenanceFrom: "",
+      nextMaintenanceTo: "",
     });
 
   return (

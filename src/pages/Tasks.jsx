@@ -29,7 +29,6 @@ import DetailsModal from "../components/machinesPage/DetailsModal";
 import BulkActionMenu from "../components/tasksPage/BulkActionMenu";
 import { useTranslation } from "react-i18next";
 
-// --- NEW: import React Query hooks + client ---
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const statusConfig = {
@@ -162,7 +161,7 @@ export default function Tasks() {
 
   const deleteSelected = async () => {
     const ids = Array.from(selected);
-    console.log("Deleting tasks with IDs:", ids);
+    // console.log("Deleting tasks with IDs:", ids);
     if (ids.length < 1) return;
     try {
       await Promise.all(

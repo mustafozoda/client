@@ -1,6 +1,19 @@
 [
   {
     "source": {
+      "id": "wired",
+      "name": "Wired"
+    },
+    "author": "Will Knight, Lauren Goode, Kate Knibbs, Louise Matsakis",
+    "title": "Trump's Crackdown on Foreign Student Visas Could Derail Critical AI Research",
+    "description": "The US says it will \"aggressively revoke\" Chinese student visas and has paused interviews for all student visa applicants. Experts warn the moves could weaken American leadership in STEM.",
+    "url": "https://www.wired.com/story/trump-administration-foreign-student-visa-brain-drain/",
+    "urlToImage": "https://media.wired.com/photos/68362ed67854ee198fdf8bcb/191:100/w_1280,c_limit/Trump-STEM-Visas-Business-2217166890.jpg",
+    "publishedAt": "2025-05-29T19:42:30Z",
+    "content": "At some US colleges, international students make up the majority of doctoral students in departments like computer science. At the University of Chicago, for example, foreign nationals accounted for … [+3684 chars]"
+  },
+  {
+    "source": {
       "id": null,
       "name": "BBC News"
     },
@@ -180,18 +193,5 @@
     "urlToImage": "https://i.insider.com/681239ecc6ad288d147f8e1e?width=1200&format=jpeg",
     "publishedAt": "2025-05-05T17:29:25Z",
     "content": "Goldman Sachs' Melissa GoldmanGoldman Sachs; Alyssa Powell/BI\r\n<ul><li>Melissa Goldman is the global head of engineering for global banking and markets at Goldman Sachs.</li><li>She previously worked… [+5861 chars]"
-  },
-  {
-    "source": {
-      "id": null,
-      "name": "Umich.edu"
-    },
-    "author": "Kate McAlpine",
-    "title": "The US has a new most powerful laser hitting 2 petawatts",
-    "description": "Hitting 2 petawatts, the NSF-funded ZEUS facility at U-M enables research that could improve medicine, national security, materials science and more.",
-    "url": "https://news.engin.umich.edu/2025/05/the-us-has-a-new-most-powerful-laser/",
-    "urlToImage": "https://news.engin.umich.edu/wp-content/uploads/2025/05/ti-sapph-crystal-2PWLaser.jpg",
-    "publishedAt": "2025-05-21T15:17:10Z",
-    "content": "Experts\r\nKarl Krushelnick\r\nSee full bio\r\nDirector of the Gérard Mourou Center for Ultrafast Optical Science\r\nHenry J Gomberg Collegiate Professor of Engineering\r\nProfessor of Nuclear Engineering and … [+8265 chars]"
   }
 ]
