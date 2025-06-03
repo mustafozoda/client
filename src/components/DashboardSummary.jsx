@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchTasks } from "../api/tasksApi";
 import { fetchMachines } from "../api/machinesApi";
+import { fetchUserById } from "../api/usersApi";
 import {
   BarChart,
   Bar,
@@ -24,10 +25,52 @@ export default function DashboardSummary({
   const [machines, setMachines] = useState([]);
   const [page, setPage] = useState(0);
   const [modalUser, setModalUser] = useState(null);
+  const [userMap, setUserMap] = useState(new Map());
 
   useEffect(() => {
-    fetchTasks().then(({ tasks }) => setTasks(tasks));
-    fetchMachines().then(({ machines }) => setMachines(machines));
+    let isCancelled = false;
+
+    async function loadAll() {
+      // 1) Fetch tasks and machines as before
+      const [{ tasks: fetchedTasks }, { machines: fetchedMachines }] =
+        await Promise.all([fetchTasks(), fetchMachines()]);
+      if (isCancelled) return;
+
+      setTasks(fetchedTasks);
+      setMachines(fetchedMachines);
+
+      // 2) Build a unique list of user IDs from `createdByUserId` in tasks
+      const uniqueIds = Array.from(
+        new Set(
+          fetchedTasks
+            .map((t) => t.createdByUserId)
+            .filter((id) => id !== null && id !== undefined),
+        ),
+      );
+
+      // 3) For each unique ID, call fetchUserById(id) to get { id, username, ... }
+      const fetches = uniqueIds.map(async (uid) => {
+        const userObj = await fetchUserById(uid);
+        return userObj ? [uid, userObj.username] : [uid, null];
+      });
+      const entries = await Promise.all(fetches);
+      if (isCancelled) return;
+
+      // 4) Build a Map<userId, username> (fall back to “User {id}” if username is missing)
+      const map = new Map();
+      entries.forEach(([uid, uname]) => {
+        map.set(uid, uname || `User ${uid}`);
+      });
+      setUserMap(map);
+    }
+
+    loadAll().catch((err) => {
+      console.error("Error loading tasks/machines/users:", err);
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   const categoryCounts = tasks.reduce((acc, t) => {
@@ -133,7 +176,7 @@ export default function DashboardSummary({
         </div>
       </div>
       <div className="relative rounded-lg bg-white p-4 shadow dark:bg-[#171717]">
-        <h3 className="mb-2 text-xl font-semibold">Tasks by User ID</h3>
+        <h3 className="mb-2 text-xl font-semibold">Tasks by User</h3>
         {tasksByUser.length > cardsPerPage && (
           <>
             <button
@@ -170,8 +213,9 @@ export default function DashboardSummary({
                   <div>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-                        User {userId}
+                        {userMap.get(Number(userId)) || `User ${userId}`}
                       </span>
+
                       <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400">
                         {tasks.length} {tasks.length === 1 ? "task" : "tasks"}
                       </span>
@@ -205,8 +249,11 @@ export default function DashboardSummary({
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="w-11/12 max-w-md rounded-lg bg-white p-6 dark:bg-gray-800">
               <h4 className="mb-4 text-lg font-semibold">
-                User {modalUser.userId} Tasks
+                {userMap.get(Number(modalUser.userId)) ||
+                  `User ${modalUser.userId}`}{" "}
+                Tasks
               </h4>
+
               <ul className="mb-4 max-h-64 divide-y divide-gray-200 overflow-y-auto dark:divide-gray-700">
                 {modalUser.tasks.map((t) => (
                   <li
@@ -273,7 +320,10 @@ export function UserTasksModal({ modalUser, setModalUser }) {
                   as="h3"
                   className="text-lg font-semibold text-gray-900 dark:text-gray-100"
                 >
-                  User {modalUser?.userId} Tasks
+                  {" "}
+                  {userMap.get(Number(modalUser?.userId)) ||
+                    `User ${modalUser?.userId}`}{" "}
+                  Tasks{" "}
                 </Dialog.Title>
                 <button
                   onClick={() => setModalUser(null)}

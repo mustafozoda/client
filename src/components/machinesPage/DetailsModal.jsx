@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { fetchUserById } from "../../api/usersApi";
+
 import {
   X,
   IdCard,
@@ -43,6 +45,7 @@ const DetailsModal = ({ item, onClose }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [assignedUser, setAssignedUser] = useState(null);
 
   useEffect(() => {
     if (isMachine) return;
@@ -72,6 +75,34 @@ const DetailsModal = ({ item, onClose }) => {
 
     loadAll();
   }, [item.id, isMachine]);
+  useEffect(() => {
+    if (isMachine) return;
+    if (!item.responsibleUserId) {
+      setAssignedUser(null);
+      return;
+    }
+
+    let isCancelled = false;
+    const loadAssignedUser = async () => {
+      try {
+        const userObj = await fetchUserById(item.responsibleUserId);
+        if (!isCancelled) {
+          setAssignedUser(userObj || null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch assigned user", error);
+        if (!isCancelled) {
+          setAssignedUser(null);
+        }
+      }
+    };
+
+    loadAssignedUser();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [item.responsibleUserId, isMachine]);
 
   const handleAddComment = async () => {
     const text = newComment.trim();
@@ -209,9 +240,10 @@ const DetailsModal = ({ item, onClose }) => {
                 />
                 <DetailField
                   label="Assigned To"
-                  value={item.responsibleUserId || "N/A"}
+                  value={assignedUser?.username || "N/A"}
                   icon={<User color={getIconColor[3]} />}
                 />
+
                 <DetailField
                   label="Created At"
                   value={new Date(item.createDate).toLocaleDateString()}

@@ -1,6 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import Header from "../layout/Header";
-import { fetchTasks, updateTask, deleteTask } from "../api/tasksApi";
+import {
+  fetchTasks as fetchTasksApi,
+  updateTask,
+  deleteTask,
+} from "../api/tasksApi";
 import { fetchCommentsByTaskId } from "../api/commentsApi";
 import {
   SlidersHorizontal,
@@ -24,6 +28,9 @@ import EditTaskModal from "../components/tasksPage/EditTaskModal";
 import DetailsModal from "../components/machinesPage/DetailsModal";
 import BulkActionMenu from "../components/tasksPage/BulkActionMenu";
 import { useTranslation } from "react-i18next";
+
+// --- NEW: import React Query hooks + client ---
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const statusConfig = {
   PENDING: {
@@ -72,7 +79,8 @@ const calculateProgress = (dl) => {
 
 export default function Tasks() {
   const { t } = useTranslation("common");
-  const [tasks, setTasks] = useState([]);
+  const queryClient = useQueryClient();
+
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
@@ -82,28 +90,38 @@ export default function Tasks() {
   const [detailsItem, setDetailsItem] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [groupByStatus, setGroupByStatus] = useState(false);
-  const formatCountdown = (deadline) => {
-    const now = new Date();
-    const target = new Date(deadline);
-    const diff = target - now;
-    if (diff <= 0) return "Overdue";
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const {
+    data: tasksWithComments = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["tasksWithComments"],
+    queryFn: async () => {
+      const resp = await fetchTasksApi();
+      const tasks = resp.tasks;
 
-    return `${days}d ${hours}h ${minutes}m`;
-  };
+      const enhanced = await Promise.all(
+        tasks.map(async (task) => {
+          try {
+            const cRes = await fetchCommentsByTaskId(task.id);
+            return { ...task, hasComment: cRes.comment.length > 0 };
+          } catch (e) {
+            console.error("Error fetching comment for task:", task.id, e);
+            return { ...task, hasComment: false };
+          }
+        }),
+      );
+      return enhanced;
+    },
+    refetchInterval: 60000,
+  });
 
-  useEffect(() => {
-    fetchTasks().then((r) => {
-      setTasks(r.tasks);
-      // console.log("Fetched tasks:", r.tasks);
-      setFiltered(r.tasks);
-    });
-  }, []);
+  React.useEffect(() => {
+    setFiltered(tasksWithComments);
+  }, [JSON.stringify(tasksWithComments)]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setSelectAll(filtered.length > 0 && selected.size === filtered.length);
   }, [filtered, selected]);
 
@@ -122,7 +140,7 @@ export default function Tasks() {
   };
 
   const applyFilters = (filters) => {
-    const out = tasks.filter((t) => {
+    const out = tasksWithComments.filter((t) => {
       const okStatus =
         !filters.status.length || filters.status.includes(t.status);
       const okPriority =
@@ -137,25 +155,10 @@ export default function Tasks() {
 
   const saveEdit = (updated) => {
     updateTask(updated).then(() => {
-      const idKey = updated.taskId;
-      setTasks((prev) =>
-        prev.map((t) => (t.id === idKey ? { ...t, ...updated, id: idKey } : t)),
-      );
-      setFiltered((prev) =>
-        prev.map((t) => (t.id === idKey ? { ...t, ...updated, id: idKey } : t)),
-      );
+      queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
       setEditing(null);
     });
   };
-
-  // const deleteSelected = async () => {
-  //   const ids = Array.from(selected);
-  //   if (ids.length < 1) return Promise.resolve();
-  //   await Promise.all(ids.map((id) => deleteTask(id)));
-  //   setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
-  //   setFiltered((prev_1) => prev_1.filter((t_1) => !ids.includes(t_1.id)));
-  //   setSelected(new Set());
-  // };
 
   const deleteSelected = async () => {
     const ids = Array.from(selected);
@@ -166,14 +169,13 @@ export default function Tasks() {
         ids.map(async (id) => {
           try {
             console.log(`Deleting task with ID: ${id}`);
-            await deleteTask(id);
+            return deleteTask(id);
           } catch (e) {
             console.error(`Unable to delete task ${id}:`, e);
           }
         }),
       );
-      setTasks((prev) => prev.filter((t) => !ids.includes(t.id)));
-      setFiltered((prev) => prev.filter((t) => !ids.includes(t.id)));
+      await queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
       setSelected(new Set());
     } catch (e) {
       console.error("Bulk delete failed:", e);
@@ -182,7 +184,7 @@ export default function Tasks() {
 
   const openEdit = () => {
     const [id] = Array.from(selected);
-    const task = tasks.find((t) => t.id === id);
+    const task = tasksWithComments.find((t) => t.id === id);
     setEditing(task);
   };
 
@@ -245,28 +247,20 @@ export default function Tasks() {
 
     await Promise.all(
       ids.map((id) => {
-        const original = tasks.find((t) => t.id === id);
+        const original = tasksWithComments.find((t) => t.id === id);
         if (!original) return Promise.resolve();
-
         const { id: _, assignedTo, ...rest } = original;
-
         const payload = {
           taskId: id,
           ...rest,
           responsibleUserId: assignedTo ?? rest.responsibleUserId,
           status: statusKey,
         };
-
         return updateTask(payload);
       }),
     );
 
-    setTasks((prev) =>
-      prev.map((t) => (ids.includes(t.id) ? { ...t, status: statusKey } : t)),
-    );
-    setFiltered((prev) =>
-      prev.map((t) => (ids.includes(t.id) ? { ...t, status: statusKey } : t)),
-    );
+    await queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
     setSelected(new Set());
   };
 
@@ -276,31 +270,19 @@ export default function Tasks() {
 
     await Promise.all(
       ids.map((id) => {
-        const original = tasks.find((t) => t.id === id);
+        const original = tasksWithComments.find((t) => t.id === id);
         if (!original) return Promise.resolve();
-
         const { id: _, ...rest } = original;
-
         const payload = {
           taskId: id,
           ...rest,
           priority: priorityKey,
         };
-
         return updateTask(payload);
       }),
     );
 
-    setTasks((prev) =>
-      prev.map((t) =>
-        ids.includes(t.id) ? { ...t, priority: priorityKey } : t,
-      ),
-    );
-    setFiltered((prev) =>
-      prev.map((t) =>
-        ids.includes(t.id) ? { ...t, priority: priorityKey } : t,
-      ),
-    );
+    await queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
     setSelected(new Set());
   };
 
@@ -310,47 +292,41 @@ export default function Tasks() {
 
     await Promise.all(
       ids.map((id) => {
-        const original = tasks.find((t) => t.id === id);
+        const original = tasksWithComments.find((t) => t.id === id);
         if (!original) return Promise.resolve();
-
         const { id: _, ...rest } = original;
-
         const payload = {
           taskId: id,
           ...rest,
           responsibleUserId: userId,
         };
-
         return updateTask(payload);
       }),
     );
 
-    setTasks((prev) =>
-      prev.map((t) => (ids.includes(t.id) ? { ...t, assignedTo: userId } : t)),
-    );
-    setFiltered((prev) =>
-      prev.map((t) => (ids.includes(t.id) ? { ...t, assignedTo: userId } : t)),
-    );
+    await queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
     setSelected(new Set());
   };
 
-  useEffect(() => {
-    fetchTasks().then(async (r) => {
-      const tasksWithComments = await Promise.all(
-        r.tasks.map(async (task) => {
-          try {
-            const res = await fetchCommentsByTaskId(task.id);
-            return { ...task, hasComment: res.comment.length > 0 };
-          } catch (e) {
-            console.error("Error fetching comment for task:", task.id, e);
-            return { ...task, hasComment: false };
-          }
-        }),
-      );
-      setTasks(tasksWithComments);
-      setFiltered(tasksWithComments);
-    });
-  }, []);
+  if (isLoading) {
+    return (
+      <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
+        <Header title={t("tasks")} />
+        <div className="mx-auto w-[85%] py-6 text-center">Loading tasks…</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
+        <Header title={t("tasks")} />
+        <div className="mx-auto w-[85%] py-6 text-center text-red-600">
+          Error loading tasks.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full w-full flex-col bg-[#a1abae] dark:bg-[#212121]">
@@ -427,14 +403,14 @@ export default function Tasks() {
                 className="flex cursor-pointer items-center"
               >
                 <span>{col.label}</span>
-                {/* {col.key === "comment" ? ( */}
-                {/* // "" */}
-                {/* // ) : ( */}
                 <ChevronsUpDown
                   size={16}
-                  className={`${sortConfig.key === col.key ? "text-blue-500" : "text-gray-400"} ml-1`}
+                  className={`${
+                    sortConfig.key === col.key
+                      ? "text-blue-500"
+                      : "text-gray-400"
+                  } ml-1`}
                 />
-                {/* )} */}
               </div>
             ))}
           </div>
@@ -534,7 +510,6 @@ export default function Tasks() {
                       {t.hasComment && (
                         <MessageCircleWarning
                           size={20}
-                          // className="text-blue-500"
                           title="This task has a comment"
                         />
                       )}
@@ -646,7 +621,6 @@ export default function Tasks() {
                             {t.hasComment && (
                               <MessageCircleWarning
                                 size={20}
-                                // className="text-blue-500"
                                 title="This task has a comment"
                               />
                             )}

@@ -22,6 +22,27 @@ export const fetchUserByUsername = async (username) => {
   return data;
 };
 
+
+export const fetchUserById = async (id) => {
+  if (!id && id !== 0) {
+    console.error("fetchUserById called with empty or invalid id");
+    return null;
+  }
+  const encodedId = encodeURIComponent(id);
+  const data = await apiClient(`/users/get-by-id/${encodedId}`, {
+    method: "GET",
+  });
+  return data;
+};
+
+
+export const fetchAllUsers = async () => {
+  const data = await apiClient("/users/get-all-user", {
+    method: "GET",
+  });
+  return data;
+};
+
 export const resetPassword = async (newPassword, token) => {
   try {
     const response = await apiClient("/users/reset-password", {

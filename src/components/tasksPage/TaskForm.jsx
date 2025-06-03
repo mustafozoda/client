@@ -1,10 +1,20 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { addTask } from "../../api/tasksApi";
 import useTasksStore from "../../store/useTasksStore";
 import { useLocation } from "react-router-dom";
+import { fetchAllUsers } from "../../api/usersApi";
+
+// --- NEW: import Query Client from React Query  ---
+import { useQueryClient } from "@tanstack/react-query";
 
 const TaskForm = () => {
   const { fetchAllTasks } = useTasksStore();
+  const location = useLocation();
+  const [users, setUsers] = useState([]);
+
+  // --- NEW: get a React Query client instance ---
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     taskName: "",
     description: "",
@@ -15,6 +25,16 @@ const TaskForm = () => {
     cost: "",
     deadline: "",
   });
+
+  useEffect(() => {
+    fetchAllUsers()
+      .then((fetchedUsers) => {
+        setUsers(fetchedUsers);
+      })
+      .catch((err) => {
+        console.error("Failed to load users:", err);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +56,13 @@ const TaskForm = () => {
 
       await addTask(taskData);
       console.log("Task added successfully:", taskData);
+
+      // --- NEW: invalidate the React Query key so Tasks.jsx refetches ---
+      await queryClient.invalidateQueries({ queryKey: ["tasksWithComments"] });
+
+      // Keep the existing fetchAllTasks call in case other parts of your app rely on it
       await fetchAllTasks();
+
       alert("Task added successfully!");
 
       setFormData({
@@ -55,11 +81,17 @@ const TaskForm = () => {
     }
   };
 
+  const capitalize = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
-      className={`mx-auto min-h-[65vh] w-full space-y-6 rounded-lg bg-white p-6 dark:bg-[#212121] ${location.pathname === "/tasks" ? "block" : "hidden"} `}
-      // autoComplete="off"
+      className={`mx-auto min-h-[65vh] w-full space-y-6 rounded-lg bg-white p-6 dark:bg-[#212121] ${
+        location.pathname === "/tasks" ? "block" : "hidden"
+      } `}
     >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
@@ -76,28 +108,40 @@ const TaskForm = () => {
         </div>
         <div>
           <label className="block font-medium">Created By</label>
-          <input
-            type="number"
+          <select
             name="createdByUserId"
-            placeholder="Enter creator user ID"
             value={formData.createdByUserId}
             onChange={handleChange}
-            className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
-          />
+            required
+            className="w-full rounded-[5px] border-none bg-[#a1abae] p-[10px] transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors focus:outline-none focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:placeholder:text-gray-300 dark:focus:ring-[#2B2B2B]"
+          >
+            <option value="">Select creator</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {capitalize(user.username)}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
           <label className="block font-medium">Assigned To</label>
-          <input
-            type="number"
+          <select
             name="assignedToUserId"
-            placeholder="Enter assigned user ID"
             value={formData.assignedToUserId}
             onChange={handleChange}
-            className="w-full rounded-[5px] border-none bg-[#a1abae] p-2 transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 placeholder:transition-colors placeholder:duration-300 focus:outline-none focus:ring-black dark:bg-[#171717] dark:placeholder:text-gray-300 placeholder:dark:text-opacity-50 dark:focus:ring-[#2B2B2B]"
-          />
+            required
+            className="w-full rounded-[5px] border-none bg-[#a1abae] p-[10px] text-black transition-all duration-300 placeholder:text-black placeholder:text-opacity-50 focus:outline-none focus:ring-black dark:bg-[#171717] dark:text-gray-300 dark:placeholder:text-gray-300 dark:focus:ring-[#2B2B2B]"
+          >
+            <option value="">Select assignee</option>
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {capitalize(user.username)}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="block font-medium">Category</label>
