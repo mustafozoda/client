@@ -7,7 +7,7 @@ export const apiClient = async (endpoint, options = {}) => {
   const token = getToken();
 
   if (token) {
-    console.log("Success - Token found in storage.");
+    // console.log("Success - Token found in storage.");
   } else {
     console.warn(" No token found in storage.");
     // window.location.href = '/login';

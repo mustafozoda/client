@@ -15,11 +15,15 @@ const MachinesTable = () => {
 
   const {
     data: machinesData = {},
-
     isLoading,
     error,
     refetch,
-  } = useQuery({ queryKey: ["machines"], queryFn: fetchMachines });
+  } = useQuery({
+    queryKey: ["machines"],
+    queryFn: fetchMachines,
+    refetchInterval: 1000,
+  });
+
   // console.log(machinesData);
 
   const machines = machinesData.machines || [];

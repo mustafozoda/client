@@ -10,7 +10,7 @@ const NotificationBox = () => {
   const { data } = useQuery({
     queryKey: ["tasks"],
     queryFn: fetchTasks,
-    refetchInterval: 600_000,
+    refetchInterval: 1000,
     refetchOnMount: true,
     refetchOnWindowFocus: true,
   });

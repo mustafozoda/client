@@ -16,6 +16,7 @@ const TasksStatusCnt = () => {
   } = useQuery({
     queryKey: ["tasks"],
     queryFn: fetchTasks,
+    refetchInterval: 1000,
   });
 
   const [taskNames, setTaskNames] = useState([]);

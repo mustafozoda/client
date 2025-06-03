@@ -15,6 +15,7 @@ const MachineCard = () => {
   } = useQuery({
     queryKey: ["machines"],
     queryFn: fetchMachines,
+    refetchInterval: 1000,
   });
 
   const machines = Array.isArray(responseData?.machines)

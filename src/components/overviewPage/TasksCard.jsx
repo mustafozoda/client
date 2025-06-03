@@ -18,6 +18,7 @@ const TasksCard = () => {
   } = useQuery({
     queryKey: ["tasks"],
     queryFn: fetchTasks,
+    refetchInterval: 1000,
   });
 
   const tasks = Array.isArray(responseData?.tasks) ? responseData.tasks : [];

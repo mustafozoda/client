@@ -15,6 +15,7 @@ const InActiveCnt = () => {
   } = useQuery({
     queryKey: ["machines"],
     queryFn: fetchMachines,
+    refetchInterval: 1000,
   });
 
   if (error) {
