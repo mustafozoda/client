@@ -89,13 +89,13 @@ const UserModal = ({ user, authToken, isOpen, onClose }) => {
               </div>
 
               <div className="mt-6 flex justify-end">
-                <button
+                {/* <button
                   onClick={() => setView("reset")}
                   className="inline-flex items-center rounded-[5px] bg-blue-600 px-6 py-2 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   <Key size={16} className="mr-2" />
                   Reset Password
-                </button>
+                </button> */}
               </div>
             </>
           ) : (
